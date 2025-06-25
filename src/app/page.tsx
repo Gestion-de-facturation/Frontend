@@ -1,5 +1,11 @@
+"use client"
+
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 export default function Home() {
-  return (
-    <h1>Gestion de facturation</h1>
-  );
+  const router = useRouter();
+  useEffect(() => {
+    router.push('/login')
+  }, [router]);
 }
