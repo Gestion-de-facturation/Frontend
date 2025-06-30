@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CircleUserRound } from 'lucide-react';
 import bcrypt from 'bcryptjs';
 
 export default function LoginPage() {
@@ -30,16 +31,18 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl mb-4">Connexion admin</h2>
+    <main className="p-6 max-w-md mx-auto mt-10">
+      <h1 className='text-3xl place-self-center'><strong className='text-[#14446c]'>Best</strong><strong className='text-[#f18c08]'>place</strong>.mg</h1>
+      <div><CircleUserRound size={64} className='place-self-center'/></div>
+      <h2 className="text-xl mt-2 place-self-center">Connexion admin</h2>
       <input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="border p-2 w-full"
+        className="border p-2 w-full mt-2"
         placeholder="Mot de passe"
       />
-      <button onClick={handleLogin} className="mt-4 bg-blue-600 text-white p-2 w-full">
+      <button onClick={handleLogin} className="mt-4 bg-[#14446c] hover:bg-[#f18c08] text-white p-2 w-full cursor-pointer">
         Se connecter
       </button>
       {error && <p className="text-red-500 mt-2">{error}</p>}
