@@ -4,6 +4,7 @@ import {
   getFilteredRowModel,
   useReactTable,
   flexRender,
+  getPaginationRowModel,
 } from '@tanstack/react-table';
 
 
@@ -34,6 +35,11 @@ export default function ProductsList() {
     const [produitsCommandes, setProduitsCommandes] = useState<ProduitCommande[]>([]);
     const [adresseLivraison, setAdresseLivraison] = useState('');
     const [adresseFacturation, setAdresseFacturation] = useState('');
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 5, 
+        });
+
 
     useEffect(() => {
         axios.get(`http://localhost:3001/api/products`).then((res) => {
@@ -139,10 +145,13 @@ export default function ProductsList() {
         columns,
         state: {
             globalFilter,
+            pagination
         },
         onGlobalFilterChange: setGlobalFilter,
+        onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
         globalFilterFn: 'includesString',
     });
 
@@ -239,6 +248,26 @@ export default function ProductsList() {
                         ))}
                     </tbody>
                 </table>
+                <div className="flex justify-between items-center mt-4">
+                    <button
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                        className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                    >
+                        Précédent
+                    </button>
+                    <span>
+                        Page {table.getState().pagination.pageIndex + 1} sur {table.getPageCount()}
+                    </span>
+                    <button
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                        className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                    >
+                        Suivant
+                    </button>
+                </div>
+
         </div>
     );
 }
