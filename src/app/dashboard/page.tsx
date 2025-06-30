@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import ProductsList from '@/components/tables/ProductsList';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -19,16 +20,7 @@ export default function Dashboard() {
 
   return (
     <main className="p-6">
-      <h1 className="text-2xl mb-4">Tableau de bord</h1>
-      <button
-        className="bg-red-500 text-white p-2"
-        onClick={() => {
-          localStorage.removeItem('isLoggedIn');
-          router.push('/login');
-        }}
-      >
-        Déconnexion
-      </button>
+      <ProductsList />
     </main>
   );
 }
