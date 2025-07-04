@@ -39,10 +39,11 @@ export default function ProductsList() {
         pageIndex: 0,
         pageSize: 5, 
         });
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/api/products`).then((res) => {
+        axios.get(`${API_URL}/products`).then((res) => {
             setData(res.data);
         });
     }, []);
@@ -95,7 +96,7 @@ export default function ProductsList() {
                 }))
             };
 
-            const res = await axios.post(`http://localhost:3001/api/orders/order`, body);
+            const res = await axios.post(`${API_URL}/orders/order`, body);
             alert('Commande passée avec succès !' + res.data.id);
 
             setProduitsCommandes([]);
