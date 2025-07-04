@@ -52,7 +52,7 @@ export default function ProductsList() {
 
   const order = async () => {
     if (!adresseLivraison || !adresseFacturation || produitsCommandes.length === 0) {
-      alert('Veuillez remplir toutes les informations nécessaires et ajouter au moins un produit');
+      toast.error('Veuillez remplir toutes les informations nécessaires et ajouter au moins un produit');
       return;
     }
 
@@ -65,7 +65,7 @@ export default function ProductsList() {
       };
 
       const res = await axios.post(`${API_URL}/orders/order`, body);
-      alert('Commande passée avec succès ! ' + res.data.id);
+      toast.success('Commande passée avec succès ! ' + res.data.orderId);
 
       setProduitsCommandes([]);
       setAdresseLivraison('');
