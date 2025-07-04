@@ -1,5 +1,6 @@
 import { ProduitCommande } from '@/utils/types/productList';
 import { MdRemoveCircleOutline } from 'react-icons/md';
+import '@/styles/order.css'
 
 type Props = {
   produitsCommandes: ProduitCommande[];
@@ -11,7 +12,7 @@ export default function CommandeTable({ produitsCommandes, removeProduct }: Prop
 
   return (
     <div className="mb-6 mts">
-      <h3 className="font-semibold mb-2">Produits sélectionnés</h3>
+      <h3 className="font-semibold mbs">Produits sélectionnés</h3>
       {produitsCommandes.length === 0 ? (
         <p className="text-gray-500">Aucun produit ajouté</p>
       ) : (
@@ -19,7 +20,7 @@ export default function CommandeTable({ produitsCommandes, removeProduct }: Prop
           {produitsCommandes.map((produit) => (
             <li
               key={produit.idProduit}
-              className="grid grid-cols-3 gap-8 items-center border-b py-2"
+              className="grid grid-cols-3 gap-8 items-center border-b pls"
             >
               <div>
                 <p className="font-medium">{produit.nom}</p>

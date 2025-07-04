@@ -7,6 +7,14 @@
     margin-top: 2vh;
 }
 
+.mbs {
+    margin-bottom: 2vh;
+}
+
+.pls {
+    padding-left: 1vw;
+}
+
 .input-padding {
     padding-left: 2vw;
     padding-top: 1vh;
@@ -26,6 +34,9 @@
 
 .order-table {
     margin-right: 1vw;
+    height: max-content;
+    padding-bottom: 2vh;
+    padding-inline: 1.5vw;
 }
 
 .table-element-p {
@@ -38,6 +49,11 @@
 
 .productlist-section {
     width: 50vw;
-    height: 70vh;
+    height: max-content;
     padding-inline: 2vw;
+    padding-bottom: 2vh;
+}
+
+.order-btn{
+    margin-left: 80%;
 }

@@ -7,6 +7,7 @@ import ProductTable from './ProductTable';
 import CommandeTable from './OrderTable';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { MdListAlt, MdAdd } from "react-icons/md";
 import '@/styles/order.css';
 
 export default function ProductsList() {
@@ -77,8 +78,10 @@ export default function ProductsList() {
 
   return (
     <div className="flex flex-row-reverse gap-8 order">
-        <div className='order-table mts'>
-            <h2 className="text-2xl font-bold mb-4 place-self-center">Ajouter une commande</h2>
+        <div className='order-table border border-[#cccccc] rounded-lg hover:shadow-md'>
+            <h2 className="flex flex-row justify-between text-2xl font-bold  mts">
+              Ajouter une commande <MdAdd className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]'/>
+            </h2>
 
             <div className="grid grid-cols-2 gap-4 mts">
                 <textarea
@@ -99,14 +102,16 @@ export default function ProductsList() {
 
             <button
                 onClick={order}
-                className="bg-[#f18c08] text-white text-lg rounded-md w-36 h-12 mts cursor-pointer"
+                className="bg-[#f18c08] text-white text-md rounded-md w-24 h-12 mts cursor-pointer self-end order-btn"
             >
                 Commander
             </button>
         </div>
       
         <div className='border border-[#cccccc] rounded-lg hover:shadow-md productlist-section'>
-            <h2 className="text-2xl font-bold mb-4 mts place-self-center">Liste des produits</h2>
+            <h2 className="flex flex-row justify-between text-2xl font-bold mb-4 mts r">
+              Liste des produits<MdListAlt className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]' />
+            </h2>
 
             <ProductTable
                 data={data}
