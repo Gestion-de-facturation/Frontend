@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CircleUserRound } from 'lucide-react';
+import toast from 'react-hot-toast';
 import bcrypt from 'bcryptjs';
 
 export default function LoginPage() {
@@ -9,24 +10,31 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-    useEffect(() => {
-     const hash = bcrypt.hashSync('bestplaceadmin', 10);
-     localStorage.setItem('bestplaceAdminPasswordHash', hash);
-   }, []);
+  useEffect(() => {
+    const hash = bcrypt.hashSync('bestplaceadmin', 10);
+    const toastId = toast.loading('Chargement de la page de connexion');
+
+    localStorage.setItem('bestplaceAdminPasswordHash', hash);
+
+    setTimeout(() => {
+      toast.dismiss(toastId)
+    }, 1500);
+  }, []);
 
   const handleLogin = () => {
     const hash = localStorage.getItem('bestplaceAdminPasswordHash');
     if (!hash) {
-      setError("Mot de passe non défini.");
+      toast.error("Mot de passe non défini.");
       return;
     }
 
     const isValid = bcrypt.compareSync(password, hash);
     if (isValid) {
+      toast.success('Connexion réussie!')
       localStorage.setItem('isLoggedIn', 'true');
-      router.push('/dashboard');
+      setTimeout(() => router.push('/dashboard'), 1000);
     } else {
-      setError("Mot de passe incorrect.");
+      toast.error("Mot de passe incorrect.");
     }
   };
 
