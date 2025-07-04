@@ -9,6 +9,18 @@
 
 .sidebar-links {
     margin-block: 2.5vh;
+    width: 14vw;
+    height: 7vh;
+    padding-top: 1vh;
+    margin-top: 0;
+}
+
+.side-bar-content {
+    margin-left: 2vw;
+}
+
+.mt-link {
+    margin-top: 2vh;
 }
 
 .logout-btn-container {
@@ -18,4 +30,8 @@
 
 .disconnect-btn {
     margin-inline: 2vw;
+}
+
+.link-icon {
+    margin-top: 0.5vh;
 }
