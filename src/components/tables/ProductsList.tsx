@@ -10,7 +10,7 @@ import {
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd,  MdRemoveCircleOutline } from 'react-icons/md';
 import '@/styles/order.css';
 import toast from 'react-hot-toast';
 
@@ -77,6 +77,10 @@ export default function ProductsList() {
             duration: 3000,
             icon: "✅",
         });
+    };
+
+    const removeProduct = (idProduit: string) => {
+        setProduitsCommandes(prev=> prev.filter(p => p.idProduit !== idProduit));
     };
 
     const order = async () => {
@@ -182,7 +186,7 @@ export default function ProductsList() {
                     {produitsCommandes.map((produit) => (
                         <li
                         key={produit.idProduit}
-                        className="flex justify-between items-center border-b py-2"
+                        className="grid grid-cols-3 gap-4 items-center border-b py-2"
                         >
                         <div>
                             <p className="font-medium">{produit.nom}</p>
@@ -193,6 +197,9 @@ export default function ProductsList() {
                         <p className="font-semibold">
                             {(produit.quantite * produit.prixUnitaire).toLocaleString()} Ar
                         </p>
+                        <button onClick={() => removeProduct(produit.idProduit)} className='flex justify-evenly cursor-pointer text-center text-red-600 hover:text-red-800'>
+                             Supprimer
+                        </button>
                         </li>
                     ))}
                     </ul>
