@@ -1,25 +1,38 @@
+'use client';
+
 import {
   ColumnDef,
   getCoreRowModel,
   getFilteredRowModel,
   useReactTable,
   getPaginationRowModel,
-  flexRender
+  flexRender,
 } from '@tanstack/react-table';
+import { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 import { Produit } from '@/utils/types/productList';
-import '@/styles/order.css';
+import '@/styles/order.css'
 
 type Props = {
   data: Produit[];
   globalFilter: string;
   setGlobalFilter: (val: string) => void;
-  addProduct: (p: Produit) => void;
+  addProduct: (produit: Produit, quantite: number) => void;
   pagination: { pageIndex: number; pageSize: number };
   setPagination: (val: any) => void;
 };
 
-export default function ProductTable({ data, globalFilter, setGlobalFilter, addProduct, pagination, setPagination }: Props) {
+export default function ProductTable({
+  data,
+  globalFilter,
+  setGlobalFilter,
+  addProduct,
+  pagination,
+  setPagination,
+}: Props) {
+  const [quantiteInput, setQuantiteInput] = useState<{ [id: string]: number }>({});
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+
   const columns: ColumnDef<Produit>[] = [
     { header: 'Référence', accessorKey: 'id' },
     { header: 'Nom', accessorKey: 'nom' },
@@ -28,16 +41,48 @@ export default function ProductTable({ data, globalFilter, setGlobalFilter, addP
     { header: 'Catégorie', accessorKey: 'categorie.nom' },
     {
       header: 'Action',
-      cell: ({ row }) => (
-        <button
-          onClick={() => addProduct(row.original)}
-          className="cursor-pointer ml-8 addBtn"
-          title="Ajouter à la commande"
-        >
-          <MdAdd className="w-4 h-4 text-[#f18c08] addIcon" />
-        </button>
-      )
-    }
+      cell: ({ row }) => {
+        const produit = row.original;
+
+        if (selectedProductId === produit.id) {
+          return (
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                min={0}
+                value={quantiteInput[produit.id] || 0}
+                onChange={(e) =>
+                  setQuantiteInput((prev) => ({
+                    ...prev,
+                    [produit.id]: Number(e.target.value),
+                  }))
+                }
+                className="w-16 px-2 py-1 border rounded"
+              />
+              <button
+                onClick={() => {
+                  addProduct(produit, quantiteInput[produit.id] || 0);
+                  setSelectedProductId(null);
+                }}
+                className="text-white px-2 py-1 rounded hover:bg-blue-600"
+              >
+                <MdAdd className="w-5 h-5 text-[#f18c08]" />
+              </button>
+            </div>
+          );
+        }
+
+        return (
+          <button
+            onClick={() => setSelectedProductId(produit.id)}
+            className="cursor-pointer ml-4"
+            title="Ajouter à la commande"
+          >
+            <MdAdd className="w-5 h-5 text-[#f18c08]" />
+          </button>
+        );
+      },
+    },
   ];
 
   const table = useReactTable({
@@ -49,7 +94,7 @@ export default function ProductTable({ data, globalFilter, setGlobalFilter, addP
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    globalFilterFn: 'includesString'
+    globalFilterFn: 'includesString',
   });
 
   return (
@@ -64,9 +109,9 @@ export default function ProductTable({ data, globalFilter, setGlobalFilter, addP
 
       <table className="border w-full mts">
         <thead className="bg-gray">
-          {table.getHeaderGroups().map(headerGroup => (
+          {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map(header => (
+              {headerGroup.headers.map((header) => (
                 <th key={header.id} className="p-2 border">
                   {flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
@@ -75,9 +120,9 @@ export default function ProductTable({ data, globalFilter, setGlobalFilter, addP
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map(row => (
+          {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
-              {row.getVisibleCells().map(cell => (
+              {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className="p-2 border">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
@@ -95,7 +140,9 @@ export default function ProductTable({ data, globalFilter, setGlobalFilter, addP
         >
           Précédent
         </button>
-        <span>Page {table.getState().pagination.pageIndex + 1} sur {table.getPageCount()}</span>
+        <span>
+          Page {table.getState().pagination.pageIndex + 1} sur {table.getPageCount()}
+        </span>
         <button
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}

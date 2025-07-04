@@ -18,29 +18,32 @@ export default function ProductsList() {
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  const addProduct = (produit: Produit) => {
-    const exist = produitsCommandes.find(p => p.idProduit === produit.id);
+  const addProduct = (produit: Produit, quantite: number) => {
+  const exist = produitsCommandes.find(p => p.idProduit === produit.id);
 
-    if (exist) {
-      toast.error(`${produit.nom} est déjà ajouté`);
-      return;
-    }
+  if (exist) {
+    toast.error(`${produit.nom} est déjà dans la commande`);
+    return;
+  }
 
-    const quantite = parseInt(prompt(`Quantité pour ${produit.nom}`) || '1', 10);
-    if (isNaN(quantite) || quantite <= 0) {
-      toast.error('Quantité invalide');
-      return;
-    }
+  if (!quantite || quantite <= 0) {
+    toast.error("Quantité invalide");
+    return;
+  }
 
-    setProduitsCommandes(prev => [...prev, {
+  setProduitsCommandes(prev => [
+    ...prev,
+    {
       idProduit: produit.id,
       nom: produit.nom,
       quantite,
       prixUnitaire: produit.prixUnitaire
-    }]);
+    }
+  ]);
 
-    toast.success(`${quantite} ${produit.nom} ajouté à la commande`);
-  };
+  toast.success(`${quantite} ${produit.nom} ajouté à la commande`);
+};
+
 
   const removeProduct = (idProduit: string) => {
     setProduitsCommandes(prev => prev.filter(p => p.idProduit !== idProduit));
