@@ -37,7 +37,6 @@ export default function ProductTable({
     { header: 'Référence', accessorKey: 'id' },
     { header: 'Nom', accessorKey: 'nom' },
     { header: 'Prix Unitaire (AR)', accessorKey: 'prixUnitaire' },
-    { header: 'Fournisseur', accessorKey: 'fournisseur.nom' },
     { header: 'Catégorie', accessorKey: 'categorie.nom' },
     {
       header: 'Action',
@@ -64,7 +63,7 @@ export default function ProductTable({
                   addProduct(produit, quantiteInput[produit.id] || 0);
                   setSelectedProductId(null);
                 }}
-                className="text-white px-2 py-1 rounded hover:bg-blue-600"
+                className="text-white px-2 py-1 rounded"
               >
                 <MdAdd className="w-5 h-5 text-[#f18c08]" />
               </button>

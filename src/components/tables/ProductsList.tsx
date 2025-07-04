@@ -76,43 +76,47 @@ export default function ProductsList() {
   };
 
   return (
-    <div className="p-6 max-w-5xl order">
-      <h2 className="text-2xl font-bold mb-4 place-self-center">Ajouter une commande</h2>
+    <div className="flex flex-row-reverse gap-8 order">
+        <div className='order-table mts'>
+            <h2 className="text-2xl font-bold mb-4 place-self-center">Ajouter une commande</h2>
 
-      <div className="grid grid-cols-2 gap-4 mts">
-        <textarea
-          className="border p-2 rounded input-padding"
-          placeholder="Adresse de livraison"
-          value={adresseLivraison}
-          onChange={(e) => setAdresseLivraison(e.target.value)}
-        />
-        <textarea
-          className="border p-2 rounded input-padding"
-          placeholder="Adresse de facturation"
-          value={adresseFacturation}
-          onChange={(e) => setAdresseFacturation(e.target.value)}
-        />
-      </div>
+            <div className="grid grid-cols-2 gap-4 mts">
+                <textarea
+                className="border p-2 rounded input-padding"
+                placeholder="Adresse de livraison"
+                value={adresseLivraison}
+                onChange={(e) => setAdresseLivraison(e.target.value)}
+                />
+                <textarea
+                className="border p-2 rounded input-padding"
+                placeholder="Adresse de facturation"
+                value={adresseFacturation}
+                onChange={(e) => setAdresseFacturation(e.target.value)}
+                />
+            </div>
 
-      <CommandeTable produitsCommandes={produitsCommandes} removeProduct={removeProduct} />
+            <CommandeTable produitsCommandes={produitsCommandes} removeProduct={removeProduct} />
 
-      <button
-        onClick={order}
-        className="bg-[#f18c08] text-white text-lg rounded-md w-36 h-12 mts cursor-pointer"
-      >
-        Commander
-      </button>
+            <button
+                onClick={order}
+                className="bg-[#f18c08] text-white text-lg rounded-md w-36 h-12 mts cursor-pointer"
+            >
+                Commander
+            </button>
+        </div>
+      
+        <div>
+            <h2 className="text-2xl font-bold mb-4 mts place-self-center">Liste des produits</h2>
 
-      <h2 className="text-2xl font-bold mb-4 mts place-self-center">Liste des produits</h2>
-
-      <ProductTable
-        data={data}
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-        addProduct={addProduct}
-        pagination={pagination}
-        setPagination={setPagination}
-      />
-    </div>
+            <ProductTable
+                data={data}
+                globalFilter={globalFilter}
+                setGlobalFilter={setGlobalFilter}
+                addProduct={addProduct}
+                pagination={pagination}
+                setPagination={setPagination}
+            />
+            </div>
+        </div>
   );
 }

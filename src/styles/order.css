@@ -1,6 +1,6 @@
 .order {
     margin-top: 4vh;
-    margin-left: 4vw;
+    margin-left: 1vw;
 }
 
 .mts {
@@ -22,4 +22,8 @@
 
 .product-search-input {
     padding-left: 2vw;
+}
+
+.order-table {
+    margin-right: 1vw;
 }
