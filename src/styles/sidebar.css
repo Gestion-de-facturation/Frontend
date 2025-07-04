@@ -2,11 +2,20 @@
     margin-top: 2vh;
 }
 
+.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
 .sidebar-links {
     margin-block: 2.5vh;
 }
 
+.logout-btn-container {
+    margin-top: auto;
+    margin-bottom: 4vh;
+}
+
 .disconnect-btn {
     margin-inline: 2vw;
-    margin-top: auto;
 }
