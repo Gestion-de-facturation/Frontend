@@ -5,6 +5,7 @@ import { useProducts } from '@/utils/hooks/useProducts';
 import { Produit, ProduitCommande } from '@/utils/types/productList';
 import ProductTable from './ProductTable';
 import CommandeTable from './OrderTable';
+import UserInfo from '../user/UserInfo';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { MdListAlt, MdAdd } from "react-icons/md";
