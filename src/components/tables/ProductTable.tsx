@@ -74,7 +74,7 @@ export default function ProductTable({
         return (
           <button
             onClick={() => setSelectedProductId(produit.id)}
-            className="cursor-pointer ml-4"
+            className="cursor-pointer .add-icon"
             title="Ajouter à la commande"
           >
             <MdAdd className="w-5 h-5 text-[#f18c08]" />
@@ -122,7 +122,7 @@ export default function ProductTable({
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="p-2 border">
+                <td key={cell.id} className="p-2 border table-element-p">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -131,7 +131,7 @@ export default function ProductTable({
         </tbody>
       </table>
 
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex justify-between items-center mts">
         <button
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}

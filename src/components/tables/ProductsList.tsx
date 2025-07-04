@@ -105,7 +105,7 @@ export default function ProductsList() {
             </button>
         </div>
       
-        <div>
+        <div className='border border-[#cccccc] rounded-lg hover:shadow-md productlist-section'>
             <h2 className="text-2xl font-bold mb-4 mts place-self-center">Liste des produits</h2>
 
             <ProductTable

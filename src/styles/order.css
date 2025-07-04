@@ -27,3 +27,17 @@
 .order-table {
     margin-right: 1vw;
 }
+
+.table-element-p {
+    padding-left: 1vw;
+}
+
+.add-icon {
+    margin-left: 1vw;
+}
+
+.productlist-section {
+    width: 50vw;
+    height: 70vh;
+    padding-inline: 2vw;
+}
