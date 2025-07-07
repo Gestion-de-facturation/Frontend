@@ -10,7 +10,7 @@ export default function Sidebar() {
     const router = useRouter();
 
     return (
-        <aside className="flex flex-col w-48 bg-gray-100 text-white h-screen p-4 border-r-1 border-[#CCCCCC] inset-shadow-sm inset-shadow-[#CCCCCC]">
+        <aside className="flex flex-col w-48 bg-gray-100 text-white h-screen p-4 border-r-1 border-[#CCCCCC] side-bar-container">
             <div className='border-b-1 border-[#CCCCCC] h-16'>
                 <h2 className="text-3xl font-semibold place-self-center logo">
                     <strong className='text-[#14446c]'>Best</strong>
@@ -22,7 +22,7 @@ export default function Sidebar() {
                     <li><a href="/dashboard" className="flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08]"><MdReceipt className='w-5 h-5 link-icon'/>Commander</a></li>
                 </div>
                 <div className='sidebar-links'>
-                    <li><a href="/orders" className=" flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08]"><MdReceiptLong className='w-5 h-5 link-icon'/>Commandes</a></li>
+                    <li><a href="/dashboard/invoices" className=" flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08]"><MdReceiptLong className='w-5 h-5 link-icon'/>Factures</a></li>
                 </div>
                 <div className='sidebar-links'>
                     <li><a href="/customers" className="flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08]"> <MdPerson className='w-5 h-5 link-icon'/> Clients</a></li>

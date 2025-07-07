@@ -41,6 +41,7 @@
 
 .table-element-p {
     padding-left: 1vw;
+    padding-right: 1vw;
 }
 
 .add-icon {
@@ -56,4 +57,9 @@
 
 .order-btn{
     margin-left: 80%;
+}
+
+.invoice-container{
+    margin-left: 2vw;
+    width: 82vw;
 }
