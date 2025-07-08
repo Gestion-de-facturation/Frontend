@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react';
 import {
     ColumnDef,
     getCoreRowModel,
@@ -11,6 +12,7 @@ import {
 import { Order } from '@/utils/types/orderList';
 import { LiaEye } from "react-icons/lia";
 import { MdDownloadForOffline } from "react-icons/md";
+import OrderDetails from '../orders/OrderDetails';
 import '@/styles/order.css';
 
 type Props = {
@@ -28,16 +30,21 @@ export default function InvoiceTable({
     pagination,
     setPagination,
 }: Props) {
+    const [selectedCommandeId, setSelectedCommandeId] = useState<string | null>(null);
+
     const columns: ColumnDef<Order>[] = [
         { header: 'Référence', accessorKey: 'id' },
         { header: 'Adresse Livraison', accessorKey: 'adresse_livraison' },
         { header: 'Adresse Facturation', accessorKey: 'adresse_facturation' },
         { header: 'Date', accessorKey: 'date' },
-        { header: 'Total', accessorKey: 'total' },
+        { header: 'Total (Ar)', accessorKey: 'total' },
         { header: 'Actions',
             cell: ({ row }) => (
                 <div className="flex items-center gap-3 justify-center">
-                    <button title='Voir'>
+                    <button 
+                    onClick={() => setSelectedCommandeId(row.original.id)}
+                    title='Voir'
+                    >
                         <LiaEye className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer'/>
                     </button>
                     <button title='Télécharger'>
@@ -114,6 +121,9 @@ export default function InvoiceTable({
                     Suivant
                 </button>
             </div>
+            {selectedCommandeId && (
+                <OrderDetails orderId={selectedCommandeId} onClose={() => setSelectedCommandeId(null)} />
+            )}
         </div>
     );
 }
