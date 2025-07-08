@@ -10,6 +10,7 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
+import { GiCheckMark } from "react-icons/gi";
 import { Produit } from '@/utils/types/productList';
 import '@/styles/order.css'
 
@@ -65,7 +66,7 @@ export default function ProductTable({
                 }}
                 className="text-white px-2 py-1 rounded"
               >
-                <MdAdd className="w-5 h-5 text-[#f18c08]" />
+                <GiCheckMark className="w-5 h-5 text-[#f18c08]" />
               </button>
             </div>
           );
@@ -111,7 +112,7 @@ export default function ProductTable({
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} className="p-2 border">
+                <th key={header.id} className="pil border">
                   {flexRender(header.column.columnDef.header, header.getContext())}
                 </th>
               ))}

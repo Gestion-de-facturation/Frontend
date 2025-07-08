@@ -15,6 +15,14 @@
     padding-left: 1vw;
 }
 
+.pil {
+    padding-inline: 1vw;
+}
+
+.pg {
+    padding: 1rem;
+}
+
 .input-padding {
     padding-left: 2vw;
     padding-top: 1vh;
