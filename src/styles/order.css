@@ -58,3 +58,11 @@
 .order-btn{
     margin-left: 80%;
 }
+
+.invoice-container {
+    margin-inline: 1.5vw;
+}
+
+.panel-content {
+    margin-bottom: 2vh;
+}
