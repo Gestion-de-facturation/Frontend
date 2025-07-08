@@ -99,7 +99,7 @@ export default function OrderEditor({
                 />
                 <button
                 onClick={fetchCommande}
-                className=" px-4 py-2 rounded"
+                className=" px-4 py-2 rounded  hover:text-[#f18c08]"
                 title="Rechercher"
                 >
                     <FaSearch className="w-5 h-5"/>
