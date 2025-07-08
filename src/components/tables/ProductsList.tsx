@@ -17,6 +17,7 @@ export default function ProductsList() {
   const [produitsCommandes, setProduitsCommandes] = useState<ProduitCommande[]>([]);
   const [adresseLivraison, setAdresseLivraison] = useState('');
   const [adresseFacturation, setAdresseFacturation] = useState('');
+  const [fraisDeLivraison, setFraisDeLivraison] = useState<number>(0);
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -61,16 +62,19 @@ export default function ProductsList() {
       const body = {
         adresse_livraison: adresseLivraison,
         adresse_facturation: adresseFacturation,
+        frais_de_livraison: Number(fraisDeLivraison),
         date: new Date().toISOString(),
         produits: produitsCommandes.map(p => ({ idProduit: p.idProduit, quantite: p.quantite }))
       };
 
       const res = await axios.post(`${API_URL}/orders/order`, body);
+      console.log("Commande envoyée :", body);
       toast.success('Commande passée avec succès ! ' + res.data.orderId);
 
       setProduitsCommandes([]);
       setAdresseLivraison('');
       setAdresseFacturation('');
+      setFraisDeLivraison(0);
     } catch (err) {
       console.error(err);
       alert('Erreur lors de la commande. Veuillez réessayer.');
@@ -99,7 +103,8 @@ export default function ProductsList() {
                 />
             </div>
 
-            <CommandeTable produitsCommandes={produitsCommandes} removeProduct={removeProduct} />
+            <CommandeTable produitsCommandes={produitsCommandes} removeProduct={removeProduct}   fraisDeLivraison={fraisDeLivraison}
+                  setFraisDeLivraison={setFraisDeLivraison}/>
 
             <button
                 onClick={order}

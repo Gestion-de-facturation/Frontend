@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react';
 import { ProduitCommande } from '@/utils/types/productList';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import '@/styles/order.css'
@@ -5,10 +8,18 @@ import '@/styles/order.css'
 type Props = {
   produitsCommandes: ProduitCommande[];
   removeProduct: (idProduit: string) => void;
+  fraisDeLivraison: number;
+  setFraisDeLivraison: (val: number) => void;
 };
 
-export default function CommandeTable({ produitsCommandes, removeProduct }: Props) {
-  const total = produitsCommandes.reduce((acc, p) => acc + p.quantite * p.prixUnitaire, 0);
+export default function CommandeTable({ produitsCommandes, removeProduct, fraisDeLivraison, setFraisDeLivraison }: Props) {
+
+  const totalProduits = produitsCommandes.reduce(
+    (acc, p) => acc + p.quantite * p.prixUnitaire,
+    0
+  );
+
+  const totalGlobal = totalProduits + fraisDeLivraison;
 
   return (
     <div className="mb-6 mts">
@@ -41,7 +52,23 @@ export default function CommandeTable({ produitsCommandes, removeProduct }: Prop
           ))}
         </ul>
       )}
-      <div className="text-right font-bold text-lg">Total : {total.toLocaleString()} Ar</div>
+      <div className='flex justify-between'>
+        <div className='flex gap-2 mts'>
+          <p>Frais de livraison: </p>
+          <input 
+          id="frais"
+          type="number" 
+          min={0}
+          className='border border-[#14446cab] w-24 h-6 rounded'
+          value={fraisDeLivraison}
+          onChange={(e) => {
+            const value = e.target.value;
+            setFraisDeLivraison(value === '' ? 0 : Number(value));
+          }}
+          />
+        </div>
+        <div className="text-right font-bold text-lg mts">Total : {totalGlobal.toLocaleString()} Ar</div>
+      </div>
     </div>
   );
 }
