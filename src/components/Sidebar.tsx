@@ -24,9 +24,6 @@ export default function Sidebar() {
                 <div className='sidebar-links'>
                     <li><a href="/dashboard/invoices" className=" flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08]"><MdReceiptLong className='w-5 h-5 link-icon'/>Factures</a></li>
                 </div>
-                <div className='sidebar-links'>
-                    <li><a href="/customers" className="flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08]"> <MdPerson className='w-5 h-5 link-icon'/> Clients</a></li>
-                </div>
             </ul>
             <div className='logout-btn-container'>
                 <button
