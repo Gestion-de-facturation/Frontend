@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react';
+import axios from 'axios';
 import {
     ColumnDef,
     getCoreRowModel,
@@ -32,6 +33,34 @@ export default function InvoiceTable({
 }: Props) {
     const [selectedCommandeId, setSelectedCommandeId] = useState<string | null>(null);
 
+    const handleDownload = async (order: any) => {
+        try {
+            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}`);
+
+            const produits = data.commandeProduits.map((item: any) => ({
+                id: item.idProduit,
+                nom: item.produit.nom,
+                quantite: item.quantite,
+                prixUnitaire: item.produit.prixUnitaire
+            }));
+
+            const factureBody = {
+                id: data.id,
+                date: data.date,
+                adresseLivraison: data.adresse_livraison,
+                adresseFacturation: data.adresse_facturation,
+                fraisDeLivraison: data.frais_de_livraison,
+                produits,
+            };
+
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/invoice/create`, factureBody);
+            window.open(`${process.env.NEXT_PUBLIC_API_URL}/invoice/${order.id}/download`);
+        } catch (err) {
+            console.error("Erreur de téléchargement: ", err);
+            
+        };
+    }
+
     const columns: ColumnDef<Order>[] = [
         { header: 'Référence', accessorKey: 'id' },
         { header: 'Adresse Livraison', accessorKey: 'adresse_livraison' },
@@ -47,7 +76,10 @@ export default function InvoiceTable({
                     >
                         <LiaEye className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer'/>
                     </button>
-                    <button title='Télécharger'>
+                    <button 
+                    title='Télécharger'
+                    onClick={() => handleDownload(row.original)}
+                    >
                         <MdDownloadForOffline className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer'/>
                     </button>
                 </div>
