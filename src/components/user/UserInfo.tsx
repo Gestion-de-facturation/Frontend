@@ -22,7 +22,7 @@ export default function UserInfo() {
   if (!isLoggedIn) return null;
 
   return (
-    <div className="flex items-center justify-end gap-2 text-sm text-gray-700 user-info">
+    <div className="flex items-center justify-end gap-2 text-sm text-gray-700 user-info sticky top-0">
       <CircleUserRound className="w-5 h-5 text-[#14446c]" />
       <span className="text-[#14446c] font-semibold">Connecté en tant qu’admin</span>
     </div>

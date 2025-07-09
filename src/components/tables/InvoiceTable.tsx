@@ -145,7 +145,7 @@ export default function InvoiceTable({
                 className='border border-gray-300 h-8 mb-4 w-full rounded product-search-input mts'
             />
 
-            <table className='border w-full mts'>
+            <table className='border w-full mts h-64'>
                 <thead className='bg-gray'>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>

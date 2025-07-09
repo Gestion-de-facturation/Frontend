@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react';
 import { ProduitCommande } from '@/utils/types/productList';
 import { MdRemoveCircleOutline } from 'react-icons/md';
 import '@/styles/order.css'
