@@ -46,7 +46,7 @@ export default function InvoiceTable({
 
             const factureBody = {
                 id: data.id,
-                date: data.date,
+                date: data.date.substring(0, 10),
                 adresseLivraison: data.adresse_livraison,
                 adresseFacturation: data.adresse_facturation,
                 fraisDeLivraison: data.frais_de_livraison,
@@ -65,7 +65,14 @@ export default function InvoiceTable({
         { header: 'Référence', accessorKey: 'id' },
         { header: 'Adresse Livraison', accessorKey: 'adresse_livraison' },
         { header: 'Adresse Facturation', accessorKey: 'adresse_facturation' },
-        { header: 'Date', accessorKey: 'date' },
+        { header: 'Date', accessorKey: 'date',
+            cell: ({ getValue }) => {
+                const dateStr = getValue<string>();
+                const dateOnly = new Date(dateStr).toLocaleDateString('fr-FR');
+
+                return dateOnly;
+            }
+         },
         { header: 'Total (Ar)', accessorKey: 'total' },
         { header: 'Actions',
             cell: ({ row }) => (
