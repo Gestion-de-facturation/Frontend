@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useOrders } from "@/utils/hooks/useOrders";
+import { useOrdersSwr } from "@/utils/hooks/useOrdersSwr";
 import InvoiceTable from "./InvoiceTable";
 import { FaFileInvoice } from "react-icons/fa";
 import '@/styles/order.css';
@@ -10,6 +11,9 @@ export default function InvoicesList() {
     const data = useOrders();
     const [globalFilter, setGlobalFilter] = useState('');
     const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
+    const { data: orders, isLoading, mutate } = useOrdersSwr();
+
+    if (isLoading) return <p>Chargement ... </p>;
 
     return (
         <div className="invoice-container mts border border-[#ccccc] pg rounded-lg hover:shadow-lg">
@@ -19,7 +23,8 @@ export default function InvoicesList() {
 
             <div>
                 <InvoiceTable 
-                    data={data}
+                    data={orders}
+                    mutate={mutate}
                     globalFilter={globalFilter}
                     setGlobalFilter={setGlobalFilter}
                     pagination={pagination}

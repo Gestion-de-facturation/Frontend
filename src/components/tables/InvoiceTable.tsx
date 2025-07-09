@@ -12,12 +12,15 @@ import {
 } from '@tanstack/react-table';
 import { Order } from '@/utils/types/orderList';
 import { LiaEye } from "react-icons/lia";
-import { MdDownloadForOffline } from "react-icons/md";
+import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import OrderDetails from '../orders/OrderDetails';
+import ConfirmModal from '../modals/ConfirmModal';
+import toast from 'react-hot-toast';
 import '@/styles/order.css';
 
 type Props = {
     data: Order[];
+    mutate: () => void;
     globalFilter: string;
     setGlobalFilter: (val: string) => void;
     pagination: { pageIndex: number; pageSize: number };
@@ -26,12 +29,29 @@ type Props = {
 
 export default function InvoiceTable({
     data,
+    mutate,
     globalFilter,
     setGlobalFilter,
     pagination,
     setPagination,
 }: Props) {
     const [selectedCommandeId, setSelectedCommandeId] = useState<string | null>(null);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [deleteId, setDeleteId] = useState<string | null>(null);
+
+    const handleDeleteConfirm = async() => {
+        if (!deleteId) return ;
+        try {
+            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/orders/${deleteId}`);
+            toast.success('Commande supprimée');
+            mutate();
+        } catch (err) {
+            toast.error('Erreur lors de la suppression');
+        } finally {
+            setShowConfirm(false);
+            setDeleteId(null);
+        }
+    }
 
     const handleDownload = async (order: any) => {
         try {
@@ -87,7 +107,16 @@ export default function InvoiceTable({
                     title='Télécharger'
                     onClick={() => handleDownload(row.original)}
                     >
-                        <MdDownloadForOffline className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer'/>
+                        <MdOutlineFileDownload className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer'/>
+                    </button>
+                    <button 
+                    title='Supprimer'
+                    onClick={() => {
+                        setDeleteId(row.original.id);
+                        setShowConfirm(true);
+                    }}
+                    >
+                        <MdOutlineDeleteOutline className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer'/>
                     </button>
                 </div>
             )
@@ -162,6 +191,17 @@ export default function InvoiceTable({
             </div>
             {selectedCommandeId && (
                 <OrderDetails orderId={selectedCommandeId} onClose={() => setSelectedCommandeId(null)} />
+            )}
+            {showConfirm && (
+                <ConfirmModal
+                    title="Confirmer la suppression"
+                    message="Voulez-vous vraiment supprimer cette commande ?"
+                    onConfirm={handleDeleteConfirm}
+                    onCancel={() => {
+                    setShowConfirm(false);
+                    setDeleteId(null);
+                    }}
+                />
             )}
         </div>
     );
