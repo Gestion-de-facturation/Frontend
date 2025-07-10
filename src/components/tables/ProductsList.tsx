@@ -154,7 +154,7 @@ export default function ProductsList() {
               </div>
             )}
           </div>
-          <div className='order-table border border-[#cccccc] rounded-lg hover:shadow-md panel-content max-h-[71vh] overflow-y-auto scrollbar-hide overflow-x-hidden'>     
+          <div className='order-table border border-[#cccccc] rounded-lg hover:shadow-md panel-content max-h-[71vh] overflow-y-auto scrollbar-hide overflow-x-hidden hover:overflow-y-scroll'>     
               <h2 className="flex flex-row justify-between text-2xl font-bold  mts cursor-pointer"
               onClick={() => setActivePanel(activePanel === 'edit' ? null : 'edit')}>
                 Modifier une commande <MdOutlineEdit className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]'/>
