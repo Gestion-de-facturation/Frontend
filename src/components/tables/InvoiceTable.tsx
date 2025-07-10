@@ -161,7 +161,7 @@ export default function InvoiceTable({
                     {table.getRowModel().rows.map((row) => (
                         <tr key={row.id}> 
                         {row.getVisibleCells().map((cell) => (
-                            <td key={cell.id} className='p-2 border table-element-p'>
+                            <td key={cell.id} className='p-2 border table-element-p h-8'>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                         ))}

@@ -107,7 +107,7 @@ export default function ProductTable({
         className="border border-gray-300 h-8 mb-4 w-full rounded product-search-input mts"
       />
 
-      <table className="border w-full mts h-64">
+      <table className="border w-full mts h-[50vh]">
         <thead className="bg-gray">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -123,7 +123,7 @@ export default function ProductTable({
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="p-2 border table-element-p">
+                <td key={cell.id} className="p-2 border table-element-p h-[4vh]">
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
