@@ -55,7 +55,7 @@ export default function OrderDetails({ orderId, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-start z-50 p-6 overflow-y-auto">
-      <div className="bg-[#ffffffbe] rounded-lg shadow-lg p-6 w-full max-w-3xl relative details-container">
+      <div className="bg-[#ffffffbe] rounded-lg shadow-lg p-6 w-full max-w-3xl relative details-container max-h-[80vh] overflow-y-auto scrollbar-hide">
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-600 hover:text-red-500"
