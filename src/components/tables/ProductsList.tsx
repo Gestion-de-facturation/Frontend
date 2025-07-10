@@ -116,7 +116,7 @@ export default function ProductsList() {
   return (
     <div className="flex flex-row-reverse gap-8 order">
       <div className="flex-col panel">
-          <div className='order-table border border-[#cccccc] rounded-lg hover:shadow-md panel-content'>
+          <div className='order-table border border-[#cccccc] rounded-lg hover:shadow-md panel-content max-h-[71vh] overflow-y-auto overflow-x-hidden'>
               <h2 className="flex flex-row justify-between text-2xl font-bold  mts  cursor-pointer"
                onClick={() => setActivePanel(activePanel === 'create' ? null : 'create')}>
                 Ajouter une commande <MdAdd className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]'/>
@@ -154,7 +154,7 @@ export default function ProductsList() {
               </div>
             )}
           </div>
-          <div className='order-table border border-[#cccccc] rounded-lg hover:shadow-md panel-content'>     
+          <div className='order-table border border-[#cccccc] rounded-lg hover:shadow-md panel-content max-h-[71vh] overflow-y-auto overflow-x-hidden'>     
               <h2 className="flex flex-row justify-between text-2xl font-bold  mts cursor-pointer"
               onClick={() => setActivePanel(activePanel === 'edit' ? null : 'edit')}>
                 Modifier une commande <MdOutlineEdit className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]'/>
