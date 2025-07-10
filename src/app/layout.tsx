@@ -5,6 +5,9 @@ import { Toaster } from "react-hot-toast";
 export const metadata: Metadata = {
   title: "Bestplace.mg facturation",
   description: "Gestion de facturation pour Bestplace.mg",
+  icons: {
+    icon: '/favicon.ico'
+  }
 };
 
 export default function RootLayout({
