@@ -136,7 +136,7 @@ export default function InvoiceTable({
     });
 
     return (
-        <div>
+        <div className='invoices'>
             <input 
                 type="text" 
                 value={globalFilter}

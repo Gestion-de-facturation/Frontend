@@ -7,10 +7,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className="flex">
       <Sidebar />
       <main className="flex-1 bg-gray-100">
-        <div className="flex justify-end border-b-1 border-[#cccccc] h-16 shadow-md">
+        <div className="flex justify-end border-b-1 border-[#cccccc] h-16 shadow-md sticky top-0 z-40">
           <UserInfo />
         </div>
-        {children}
+        <div className='dashboard'>
+          {children}
+        </div>
       </main>
     </div>
   );

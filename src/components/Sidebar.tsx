@@ -10,7 +10,7 @@ export default function Sidebar() {
     const router = useRouter();
 
     return (
-        <aside className="flex flex-col w-48 bg-gray-100 text-white h-screen p-4 border-r-1 border-[#CCCCCC] side-bar-container sticky">
+        <aside className="flex flex-col w-48 bg-gray-100 text-white h-screen p-4 border-r-1 border-[#CCCCCC] side-bar-container fixed top-0 left-0 z-50">
             <div className='border-b-1 border-[#CCCCCC] h-16'>
                 <h2 className="text-3xl font-semibold place-self-center logo">
                     <strong className='text-[#14446c]'>Best</strong>
