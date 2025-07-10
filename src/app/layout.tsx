@@ -3,7 +3,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "Bestplace.mg facturation",
+  title: "Bestplace facturation",
   description: "Gestion de facturation pour Bestplace.mg",
   icons: {
     icon: '/favicon.ico'
