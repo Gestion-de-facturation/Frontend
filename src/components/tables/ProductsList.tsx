@@ -66,7 +66,7 @@ export default function ProductsList() {
         adresse_livraison: adresseLivraison,
         adresse_facturation: adresseFacturation,
         frais_de_livraison: Number(fraisDeLivraison),
-        date: new Date().toISOString(),
+        date: new Date(),
         produits: produitsCommandesCreate.map(p => ({ idProduit: p.idProduit, quantite: p.quantite }))
       };
 

@@ -34,6 +34,7 @@ export default function OrderEditor({
     const [commandeData, setCommandeData] = useState<any>(null);
     const [adresseLivraison, setAdresseLivraison] = useState('');
     const [adresseFacturation, setAdresseFacturation] = useState('');
+    const [date, setDate] = useState<string>('');
     const [fraisDeLivraison, setFraisDeLivraison] = useState(0);
 
     const fetchCommande = async () => {
@@ -44,6 +45,7 @@ export default function OrderEditor({
             setAdresseLivraison(data.adresse_livraison);
             setAdresseFacturation(data.adresse_facturation);
             setFraisDeLivraison(data.frais_de_livraison || 0);
+            setDate(data.date.split('T')[0]);
             setProduitsCommandes(
                 data.commandeProduits.map((item: any) => ({
                     idProduit: item.idProduit,
@@ -59,8 +61,8 @@ export default function OrderEditor({
     };
 
     const updateCommande = async () => {
-        if (!adresseLivraison || !adresseFacturation || produitsCommandes.length === 0) {
-            toast.error('Vauillez remplir toutes les informations nécessaires.');
+        if (!adresseLivraison || !adresseFacturation || !date || produitsCommandes.length === 0) {
+            toast.error('Veuillez remplir toutes les informations nécessaires.');
             return ;
         }
         try {
@@ -68,6 +70,7 @@ export default function OrderEditor({
                 adresse_livraison: adresseLivraison,
                 adresse_facturation: adresseFacturation,
                 frais_de_livraison: Number(fraisDeLivraison),
+                date: date,
                 produits: produitsCommandes.map((p) => ({
                     idProduit: p.idProduit,
                     quantite: p.quantite,
@@ -121,6 +124,15 @@ export default function OrderEditor({
                         value={adresseFacturation}
                         onChange={(e) => setAdresseFacturation(e.target.value)}
                         />
+                        <div className="date-container flex gap-4">
+                            <label className="date-label font-semibold">Date: </label>
+                            <input 
+                            type="date" 
+                            className="border p-2 rounded h-8"
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                            />
+                        </div>
                     </div>
 
                     <CommandeTable 

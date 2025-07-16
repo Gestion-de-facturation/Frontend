@@ -67,7 +67,7 @@ export default function OrderDetails({ orderId, onClose }: Props) {
 
         <div className="mb-4 space-y-1 mts">
           <p><strong>Référence :</strong> {order.id}</p>
-          <p><strong>Date :</strong> {new Date(order.date).toLocaleString()}</p>
+          <p><strong>Date :</strong> {new Date(order.date).toLocaleDateString('fr-FR')}</p>
           <p><strong>Adresse de livraison :</strong> {order.adresse_livraison}</p>
           <p><strong>Adresse de facturation :</strong> {order.adresse_facturation}</p>
         </div>
