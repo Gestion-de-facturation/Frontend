@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Produit } from '@/utils/types/create';
 import { toast } from 'react-hot-toast';
 import { MdAddShoppingCart } from "react-icons/md";
+import { FaMinus } from "react-icons/fa";
 import '@/styles/form.css';
 import '@/styles/order.css';
 
@@ -54,21 +55,39 @@ export default function OrderForm() {
   const addProduct = () => {
     const lastProduct = produits[produits.length - 1];
 
-    const prix = parseFloat(lastProduct?.prixUnitaire);
-    const quantiteInt = parseInt(lastProduct?.quantite);
-
-    const isValid = lastProduct && 
-      lastProduct.nom.trim() !== '' &&
-      !isNaN(prix) && prix > 0 &&
-      !isNaN(quantiteInt) && quantiteInt > 0
-
-    if(!isValid) {
-      toast.error("Veuillez remplir correctement le dernier produit avant d'en ajouter un autre");
-      return ;
+    if (!lastProduct) {
+      toast.error("Produit invalide.");
+      return;
     }
 
-    setProduits([...produits,{nom: '', prixUnitaire: '', quantite: ''}])
-  }
+    const nom = lastProduct.nom?.trim();
+    const prix = parseFloat(lastProduct.prixUnitaire);
+    const quantite = parseInt(lastProduct.quantite);
+
+    const isValid =
+      nom !== '' &&
+      !isNaN(prix) && prix > 0 &&
+      !isNaN(quantite) && quantite > 0;
+
+    if (!isValid) {
+      toast.error("Veuillez remplir correctement le dernier produit avant d'en ajouter un autre.");
+      return;
+    }
+
+    // Vérifie si ce nom existe déjà dans un produit autre que le dernier
+    const existeDeja = produits.slice(0, -1).some(
+      (p) => p.nom.trim().toLowerCase() === nom.toLowerCase()
+    );
+
+    if (existeDeja) {
+      toast.error("Ce produit a déjà été ajouté à la commande.");
+      return;
+    }
+
+    // Ajouter un nouveau champ vide
+    setProduits([...produits, { nom: '', prixUnitaire: '', quantite: '' }]);
+  };
+
 
   const totalProduits = produits.reduce((sum, p) => {
   const prix = parseFloat(p.prixUnitaire || '0');
@@ -79,6 +98,27 @@ export default function OrderForm() {
 
   const handleSubmit = async () => {
     try {
+      // Vérification des champs et doublons
+      const nomsProduits = new Set<string>();
+
+      for (const produit of produits) {
+        const nom = produit.nom?.trim().toLowerCase();
+        const prix = parseFloat(produit.prixUnitaire);
+        const quantite = parseInt(produit.quantite);
+
+        if (!nom || isNaN(prix) || prix <= 0 || isNaN(quantite) || quantite <= 0) {
+          toast.error(`Produit invalide : "${produit.nom}"`);
+          return;
+        }
+
+        if (nomsProduits.has(nom)) {
+          toast.error(`Produit en double détecté : "${produit.nom}"`);
+          return;
+        }
+
+        nomsProduits.add(nom);
+      }
+
       const produitsEnBase = await Promise.all(
         produits.map(async (p) => {
           try {
@@ -106,7 +146,6 @@ export default function OrderForm() {
 
               return { id: creation.data.id, ...p };
             } else {
-              console.error ('Erreur inconnue produit', p.nom, error);
               toast.error(`Erreur lors de la création du produit ${p.nom}. Veuillez réessayer.`);
             }
           }
@@ -134,11 +173,15 @@ export default function OrderForm() {
       setAdresseFacturation('');
       setFraisDeLivraison('');
     } catch (error) {
-      console.error('Erreur: ', error);
       toast.error('Erreur lors de la commande. Veuillez réessayer.');
     }
   };
   
+  const removeProduct = (index: number) => {
+    setProduits((prev) => prev.filter((_, i) => i !== index));
+  };
+
+
   return (
     <div className="add-form-container max-w-3xl mx-auto p-6 border border-[#cccccc] rounded-md shadow-lg place-self-center mts">
         <h2 className="flex flex-row justify-between text-2xl font-bold  add-form-content">
@@ -169,13 +212,13 @@ export default function OrderForm() {
       <div className="mb-4 form-content-mt">
         <label className="block font-medium mb-2">Produits</label>
         {produits.map((p, index) => (
-          <div key={index} className="grid grid-cols-4 gap-2 mb-2 mts">
+          <div key={index} className="grid grid-cols-6 gap-2 mb-2 mts">
             <input 
             type="text" 
             placeholder="Nom du produit" 
             value={p.nom}
             onChange = {(e) => handleProductChange(index, e.target.value)}
-            className="border p-1 rounded col-span-1 h-8" />
+            className="border p-1 rounded col-span-2 h-8" />
             {suggestions[index]?.length > 0 && (
               <ul className='absolute suggestion-mt bg-white border w-96 max-h-40 overflow-auto z-10'>
                 {suggestions[index].map((s) => (
@@ -196,7 +239,7 @@ export default function OrderForm() {
             onChange={(e) => setProduits((prev) =>
                         prev.map((item, i) => i === index ? { ...item, prixUnitaire: e.target.value } : item)
                       )}
-            className="border p-1 rounded" />
+            className="border p-1 rounded h-8" />
             <input 
             type="number" 
             placeholder="Quantité" 
@@ -204,7 +247,7 @@ export default function OrderForm() {
             onChange={(e) => setProduits((prev) =>
                         prev.map((item, i) => i === index ? { ...item, quantite: e.target.value } : item)
                       )}
-            className="border p-1 rounded" />
+            className="border p-1 rounded h-8" />
             <input 
             type="text" 
             value={`${
@@ -213,7 +256,15 @@ export default function OrderForm() {
                   : parseInt(String(p.quantite || '0')) * parseFloat(p.prixUnitaire)
               } Ar`} 
             readOnly 
-            className="border p-1 rounded font-semibold" />
+            className="border p-1 rounded font-semibold h-8" />
+            <button 
+            type='button'
+            onClick={() => removeProduct(index)}
+            className='flex gap-2 cursor-pointer text-red-600 h-8 hover:text-red-500'
+            >
+              <FaMinus className='delete-icon-color'/>
+              <span className='delete-span'>Supprimer</span>
+            </button>
           </div>
         ))}
 
@@ -238,9 +289,9 @@ export default function OrderForm() {
       </div>
 
       {/* Total */}
-      <div className="mb-4 form-content-mt">
-        <label className="block font-medium mb-1">Total </label>
-        <input type="text" value={`${total} Ar`} readOnly className="w-64 h-8 bg-gray-100 p-2 rounded text-gray-700 mts font-semibold" />
+      <div className="flex mb-4 form-content-mt gap-2 w-64 h-10 mts">
+        <label className="block font-medium mb-1 mts">Total:  </label>
+        <p className="w-64 h-8  p-2 rounded  mts font-semibold">{total} Ar</p>
       </div>
 
       {/* Boutons */}
@@ -248,7 +299,7 @@ export default function OrderForm() {
         <button className="px-4 py-2 border rounded bg-gray-100 cursor-pointer w-24 h-8 font-semibold">Annuler</button>
         <button 
         onClick={handleSubmit}
-        className="px-4 py-2 border rounded bg-[#14446c] text-white cursor-pointer w-24 h-8 font-semibold">
+        className="px-4 py-2 border rounded bg-[#14446c] text-white cursor-pointer w-24 h-8 font-semibold hover:bg-[#f18c08]">
           Commander
         </button>
       </div>
