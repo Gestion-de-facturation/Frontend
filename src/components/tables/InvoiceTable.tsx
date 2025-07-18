@@ -141,7 +141,7 @@ export default function InvoiceTable({
                 type="text" 
                 value={globalFilter}
                 onChange={(e) => setGlobalFilter(e.target.value)}
-                placeholder="Rechercher une facture..."
+                placeholder="Rechercher une commande..."
                 className='border border-gray-300 h-8 mb-4 w-full rounded product-search-input mts'
             />
 

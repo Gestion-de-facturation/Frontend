@@ -3,8 +3,7 @@
 import { useRouter } from 'next/navigation';
 import '@/styles/sidebar.css'
 import { LogOut } from 'lucide-react';
-import { MdReceipt, MdReceiptLong, MdPerson  } from "react-icons/md";
-
+import { MdReceipt, MdReceiptLong, MdOutlineAddBox  } from "react-icons/md";
 
 export default function Sidebar() {
     const router = useRouter();
@@ -19,10 +18,13 @@ export default function Sidebar() {
             </div>
             <ul className="place-self-center">
                 <div className='sidebar-links mt-link'>
-                    <li><a href="/dashboard" className="flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08]"><MdReceipt className='w-5 h-5 link-icon'/>Commander</a></li>
+                    <li><a href="/dashboard" className="flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08]"><MdReceipt className='w-5 h-5 link-icon'/>Opérations</a></li>
                 </div>
                 <div className='sidebar-links'>
-                    <li><a href="/dashboard/invoices" className=" flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08]"><MdReceiptLong className='w-5 h-5 link-icon'/>Factures</a></li>
+                    <li><a href="/dashboard/invoices" className=" flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08]"><MdReceiptLong className='w-5 h-5 link-icon'/>Commandes</a></li>
+                </div>
+                <div className='sidebar-links'>
+                    <li><a href="/dashboard/forms" className=" flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08]"><MdOutlineAddBox className='w-5 h-5 link-icon'/>Formulaire</a></li>
                 </div>
             </ul>
             <div className='logout-btn-container'>

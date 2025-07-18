@@ -18,7 +18,7 @@ export default function InvoicesList() {
     return (
         <div className="invoice-container mts border border-[#ccccc] pg rounded-lg hover:shadow-lg">
             <h2 className="flex flex-row justify-between text-2xl font-bold  mts">
-                Liste des factures <FaFileInvoice className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]'/>
+                Liste des commandes <FaFileInvoice className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]'/>
             </h2>
 
             <div>

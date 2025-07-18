@@ -119,7 +119,7 @@ export default function ProductsList() {
           <div className='order-table border border-[#cccccc] rounded-lg hover:shadow-md panel-content max-h-[71vh] overflow-y-auto scrollbar-hide overflow-x-hidden'>
               <h2 className="flex flex-row justify-between text-2xl font-bold  mts  cursor-pointer"
                onClick={() => setActivePanel(activePanel === 'create' ? null : 'create')}>
-                Ajouter une commande <MdAdd className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]'/>
+                Ajouter une commande <MdAdd className='w-8 h-8 text-[#14446c]'/>
               </h2>
 
 
@@ -157,7 +157,7 @@ export default function ProductsList() {
           <div className='order-table border border-[#cccccc] rounded-lg hover:shadow-md panel-content max-h-[71vh] overflow-y-auto scrollbar-hide overflow-x-hidden hover:overflow-y-scroll'>     
               <h2 className="flex flex-row justify-between text-2xl font-bold  mts cursor-pointer"
               onClick={() => setActivePanel(activePanel === 'edit' ? null : 'edit')}>
-                Modifier une commande <MdOutlineEdit className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]'/>
+                Modifier une commande <MdOutlineEdit className='w-8 h-8 text-[#14446c]'/>
               </h2>
               {activePanel === 'edit' && (
                 <OrderEditor  
@@ -175,7 +175,7 @@ export default function ProductsList() {
       
         <div className='border border-[#cccccc] rounded-lg hover:shadow-md productlist-section'>
             <h2 className="flex flex-row justify-between text-2xl font-bold mb-4 mts r">
-              Liste des produits<MdListAlt className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]' />
+              Liste des produits<MdListAlt className='w-8 h-8 text-[#14446c]' />
             </h2>
             <ProductTable
                 data={data}
