@@ -165,8 +165,8 @@ export default function OrderForm() {
           }))
       };
 
-      await axios.post(`${API_URL}/orders/order`, order);
-      toast.success('Commande passée avec succès !');
+      const res = await axios.post(`${API_URL}/orders/order`, order);
+      toast.success(`Commande n°${res.data.orderId} passée avec succès !`);
       setSuggestions({}); 
       setProduits([{ nom: '', prixUnitaire: '', quantite: '' }]);      
       setAdresseLivraison('');
