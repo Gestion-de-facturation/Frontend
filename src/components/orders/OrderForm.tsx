@@ -168,7 +168,7 @@ export default function OrderForm() {
       await axios.post(`${API_URL}/orders/order`, order);
       toast.success('Commande passée avec succès !');
       setSuggestions({}); 
-      setProduits([]);      
+      setProduits([{ nom: '', prixUnitaire: '', quantite: '' }]);      
       setAdresseLivraison('');
       setAdresseFacturation('');
       setFraisDeLivraison('');
@@ -178,8 +178,15 @@ export default function OrderForm() {
   };
   
   const removeProduct = (index: number) => {
-    setProduits((prev) => prev.filter((_, i) => i !== index));
+    if (produits.length === 1) {
+      setProduits([{ nom: '', prixUnitaire: '', quantite: '' }]);
+    } else {
+      const updated = [...produits];
+      updated.splice(index, 1);
+      setProduits(updated);
+    }
   };
+
 
 
   return (
