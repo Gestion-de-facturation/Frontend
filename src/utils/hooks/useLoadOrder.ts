@@ -1,0 +1,34 @@
+import axios from "axios";
+import { Produit } from "../types/create";
+
+type LoadOrderResult = {
+    produits: Produit[];
+    adresseLivraison: string;
+    adresseFacturation: string;
+    fraisDeLivrason: string;
+    date: string;
+};
+
+export const loadOrderById = async (idCommande: string):Promise<LoadOrderResult | null> => {
+    try {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL;
+        const res = await axios.get(`${API_URL}/orders/${idCommande}`);
+
+        const order = res.data;
+
+        return {
+            produits: order.commandeProduits.map((p: any) => ({
+                nom: p.produit.nom,
+                prixUnitaire: p.produit.prixUnitaire.toString(),
+                quantite: p.quantite.toString(),
+            })),
+            adresseLivraison: order.adresse_livraison,
+            adresseFacturation: order.adresse_facturation,
+            fraisDeLivrason: order.frais_de_livraison.toString(),
+            date: order.date,
+        };
+    } catch (error) {
+        console.error("Errue lors du changement de la commande :", error);
+        return null;
+    }
+};

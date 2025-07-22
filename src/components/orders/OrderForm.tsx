@@ -1,12 +1,10 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Produit } from '@/utils/types/create';
 import { BaseOrderParams } from '@/utils/types/BaseOrderParams';
-import { SubmitOrderParams } from '@/utils/types/SubmitOrderParams';
 import { useProductSuggestions } from '@/utils/products/useProductSuggestion';
 import { validateProductBeforeAdd } from '@/utils/products/validateProductBeforeAdd';
-import { handleSubmitOrder } from '@/utils/handlers/handleSubmitOrder';
 import { removeProduct as removeProductFn } from '@/utils/products/removeProduct';
 import OrderAddresses from './OrderAddresses';
 import OrderDeliveryCost from './OrderDeliveryCost';
@@ -17,6 +15,7 @@ import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
 import { MdAddShoppingCart } from "react-icons/md";
 import '@/styles/form.css';
 import '@/styles/order.css';
+import { loadOrderById } from '@/utils/hooks/useLoadOrder';
 
 type OrderFormProps<T extends BaseOrderParams> = {
   onSubmit: (params: T) => void;
@@ -39,7 +38,7 @@ export default function OrderForm<T extends BaseOrderParams>({
   const [produits, setProduits] = useState<Produit[]>(initialValues.produits || [{ nom: '', prixUnitaire: '', quantite: ''}]);
 
   const [idCommande, setIdCommande] = useState(initialValues?.idCommande || '');
-  const [date, setDate] = useState(initialValues?.date || new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(initialValues?.date?.split('T')[0] ?? '');
 
   const { 
     suggestions,
@@ -53,6 +52,22 @@ export default function OrderForm<T extends BaseOrderParams>({
     onConfirm: () => {},
     onCancel: () => {},
   });
+
+  useEffect(() => {
+    if (mode === "update" && idCommande) {
+      const fetchOrder = async () => {
+        const data = await loadOrderById(idCommande);
+        if (data) {
+          setProduits(data.produits);
+          setAdresseLivraison(data.adresseLivraison);
+          setAdresseFacturation(data.adresseFacturation);
+          setFraisDeLivraison(data.fraisDeLivrason);
+          setDate(data.date?.split('T')[0] || '');
+        }
+      };
+      fetchOrder();
+    }
+  }, [idCommande]);
 
   const addProduct = () => {
     const isValid = validateProductBeforeAdd(produits);
@@ -100,6 +115,7 @@ export default function OrderForm<T extends BaseOrderParams>({
             {title} <MdAddShoppingCart className='w-8 h-8 text-[#14446c]'/>
         </h2>
 
+        {/**Si c'est update alors ajouter les champs référence et date */}
         {mode === 'update' && (
           <div className="flex justify-between items-center gap-4 mts">
             <div className="flex flex-col w-1/2">
@@ -109,7 +125,7 @@ export default function OrderForm<T extends BaseOrderParams>({
                 className="border border-gray-300 h-8 rounded mts"
                 value={idCommande}
                 onChange={(e) => setIdCommande(e.target.value)}
-                placeholder="Ex: CMD20250720120000"
+                placeholder="Ex: FA20250720120000"
               />
             </div>
 

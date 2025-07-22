@@ -15,7 +15,7 @@ export default function OrderButton ({
         <button 
         onClick={handleSubmit}
         className="px-4 py-2 border rounded bg-[#14446c] text-white cursor-pointer w-24 h-8 font-semibold hover:bg-[#f18c08]">
-            Commander
+            Enregistrer
         </button>
     </div>
     )
