@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Produit } from '@/utils/types/create';
+import { BaseOrderParams } from '@/utils/types/BaseOrderParams';
 import { SubmitOrderParams } from '@/utils/types/SubmitOrderParams';
 import { useProductSuggestions } from '@/utils/products/useProductSuggestion';
 import { validateProductBeforeAdd } from '@/utils/products/validateProductBeforeAdd';
@@ -17,28 +18,28 @@ import { MdAddShoppingCart } from "react-icons/md";
 import '@/styles/form.css';
 import '@/styles/order.css';
 
-type OrderFormProps = {
-  initialProduits?: Produit[];
-  initialAdresseLivraison?: string;
-  initialAdresseFacturation?: string;
-  initialFraisDeLivraison?: string;
-  onSubmit: (params: SubmitOrderParams) => void;
-  title?: string;
-}
+type OrderFormProps<T extends BaseOrderParams> = {
+  onSubmit: (params: T) => void;
+  mode: 'create' | 'update';
+  initialValues?: Partial<T> & { produits?: Produit[] } & {
+    idCommande?: string;
+    date?: string;
+  };
+};
 
-export default function OrderForm({
-  initialProduits = [{ nom: '', prixUnitaire: '', quantite: '' }],
-  initialAdresseLivraison = '',
-  initialAdresseFacturation = '',
-  initialFraisDeLivraison = '',
+export default function OrderForm<T extends BaseOrderParams>({
   onSubmit,
-  title = 'Ajouter une commande'
-} : OrderFormProps) {
+  mode,
+  initialValues={}
+} : OrderFormProps<T>) {
 
-  const [adresseLivraison, setAdresseLivraison] = useState(initialAdresseLivraison);
-  const [adresseFacturation, setAdresseFacturation] = useState(initialAdresseFacturation);
-  const [fraisDeLivraison, setFraisDeLivraison] = useState(initialFraisDeLivraison);
-  const [produits, setProduits] = useState<Produit[]>(initialProduits);
+  const [adresseLivraison, setAdresseLivraison] = useState(initialValues.adresseLivraison || '');
+  const [adresseFacturation, setAdresseFacturation] = useState(initialValues.adresseFacturation || '');
+  const [fraisDeLivraison, setFraisDeLivraison] = useState(initialValues.fraisDeLivraison || '');
+  const [produits, setProduits] = useState<Produit[]>(initialValues.produits || [{ nom: '', prixUnitaire: '', quantite: ''}]);
+
+  const [idCommande, setIdCommande] = useState(initialValues?.idCommande || '');
+  const [date, setDate] = useState(initialValues?.date || new Date().toISOString().split("T")[0]);
 
   const { 
     suggestions,
@@ -69,6 +70,7 @@ export default function OrderForm({
 
   const handleSubmit = () => {
     onSubmit({
+      ...initialValues,
       produits,
       adresseLivraison,
       adresseFacturation,
@@ -80,8 +82,9 @@ export default function OrderForm({
         setAdresseFacturation('');
         setFraisDeLivraison('');
       },
-      setConfirmModal
-    });
+      setConfirmModal,
+      ...(mode === 'update' && { idCommande, date })
+    } as T);
 };
   
   const removeProduct = (index: number) => {
@@ -89,11 +92,38 @@ export default function OrderForm({
     setProduits(updated);
   };
 
+  const title = mode === 'create' ? 'Ajouter une commande' : 'Modifier une commande';
+
   return (
     <div className="add-form-container max-w-3xl mx-auto p-6 border border-[#cccccc] rounded-md shadow-lg place-self-center mts">
         <h2 className="flex flex-row justify-between text-2xl font-bold  add-form-content">
             {title} <MdAddShoppingCart className='w-8 h-8 text-[#14446c]'/>
         </h2>
+
+        {mode === 'update' && (
+          <div className="flex justify-between items-center gap-4 mts">
+            <div className="flex flex-col w-1/2">
+              <label className="block font-medium mb-1">Référence de la commande</label>
+              <input
+                type="text"
+                className="border border-gray-300 h-8 rounded mts"
+                value={idCommande}
+                onChange={(e) => setIdCommande(e.target.value)}
+                placeholder="Ex: CMD20250720120000"
+              />
+            </div>
+
+            <div className="flex flex-col w-1/2">
+              <label className="block font-medium mb-1">Date de la commande</label>
+              <input
+                type="date"
+                className="border border-gray-300 h-8  rounded mts"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
 
         <OrderAddresses 
           adresseLivraison={adresseLivraison}
