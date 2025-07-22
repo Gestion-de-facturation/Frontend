@@ -6,18 +6,16 @@ import { Produit } from '@/utils/types/create';
 import { useProductSuggestions } from '@/utils/products/useProductSuggestion';
 import { validateProductBeforeAdd } from '@/utils/products/validateProductBeforeAdd';
 import { handleSubmitOrder } from '@/utils/handlers/handleSubmitOrder';
+import { removeProduct as removeProductFn } from '@/utils/products/removeProduct';
 import OrderAddresses from './OrderAddresses';
 import OrderDeliveryCost from './OrderDeliveryCost';
 import OrderProductInputs from './OrderProductInputs';
 import OrderButton from './OrderButton';
 import ConfirmModal from '../modals/ProductConfirmModal';
 import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
-import { toast } from 'react-hot-toast';
 import { MdAddShoppingCart } from "react-icons/md";
 import '@/styles/form.css';
 import '@/styles/order.css';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function OrderForm() {
   const [adresseLivraison, setAdresseLivraison] = useState('');
@@ -67,16 +65,9 @@ export default function OrderForm() {
 };
   
   const removeProduct = (index: number) => {
-    if (produits.length === 1) {
-      setProduits([{ nom: '', prixUnitaire: '', quantite: '' }]);
-    } else {
-      const updated = [...produits];
-      updated.splice(index, 1);
-      setProduits(updated);
-    }
+    const updated = removeProductFn(index, produits);
+    setProduits(updated);
   };
-
-
 
   return (
     <div className="add-form-container max-w-3xl mx-auto p-6 border border-[#cccccc] rounded-md shadow-lg place-self-center mts">
