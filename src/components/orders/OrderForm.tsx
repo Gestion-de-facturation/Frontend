@@ -3,6 +3,10 @@
 import React, {useState, useEffect } from 'react';
 import axios from 'axios';
 import { Produit } from '@/utils/types/create';
+import { detectUpdatedProduct } from '@/utils/products/validateUpdatedProduct';
+import { handleSubmitOrder } from '@/utils/handlers/handleSubmitOrder';
+import ConfirmModal from '../modals/ProductConfirmModal';
+import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
 import { toast } from 'react-hot-toast';
 import { MdAddShoppingCart } from "react-icons/md";
 import { FaMinus } from "react-icons/fa";
@@ -17,6 +21,13 @@ export default function OrderForm() {
   const [fraisDeLivraison, setFraisDeLivraison] = useState('');
   const [produits, setProduits] = useState<Produit[]>([{nom: '', prixUnitaire: '', quantite: ''}]);
   const [suggestions, setSuggestions] = useState<Record<number, any[]>>({});
+
+  const [confirmModal, setConfirmModal] = useState<ConfirmModalState>({
+    open: false,
+    message: '',
+    onConfirm: () => {},
+    onCancel: () => {},
+  });
 
   //Gérer les suggestions de produits à chaque frappe
   const handleProductChange = async (index: number, nom: string) => {
@@ -96,86 +107,22 @@ export default function OrderForm() {
   }, 0);
   const total = totalProduits + Number(fraisDeLivraison);
 
-  const handleSubmit = async () => {
-    try {
-      // Vérification des champs et doublons
-      const nomsProduits = new Set<string>();
-
-      for (const produit of produits) {
-        const nom = produit.nom?.trim().toLowerCase();
-        const prix = parseFloat(produit.prixUnitaire);
-        const quantite = parseInt(produit.quantite);
-
-        if (!nom || isNaN(prix) || prix <= 0 || isNaN(quantite) || quantite <= 0) {
-          toast.error(`Produit invalide : "${produit.nom}"`);
-          return;
-        }
-
-        if (nomsProduits.has(nom)) {
-          toast.error(`Produit en double détecté : "${produit.nom}"`);
-          return;
-        }
-
-        nomsProduits.add(nom);
-      }
-
-      const produitsEnBase = await Promise.all(
-        produits.map(async (p) => {
-          try {
-            const res = await axios.get(`${API_URL}/products/product?name=${encodeURIComponent(p.nom)}`);
-            const existant = res.data.find((item: any) => item.nom === p.nom);
-            if (existant) return { id: existant.id, ...p };
-
-            const creation = await axios.post(`${API_URL}/products/product`, {
-              nom: p.nom,
-              prixUnitaire: p.prixUnitaire,
-              idFournisseur: "SUP20250627-153508",
-              idCategorie: "CAT20250627-153441"
-            });
-
-            return { id: creation.data.id, ...p};
-
-          } catch (error) {
-            if (axios.isAxiosError(error) && error.response?.status === 404) {
-              const creation = await axios.post(`${API_URL}/products/product`, {
-                nom: p.nom,
-                prixUnitaire: parseFloat(p.prixUnitaire),
-                idFournisseur: "SUP20250627-153508",
-                idCategorie: "CAT20250627-153441"
-              });
-
-              return { id: creation.data.id, ...p };
-            } else {
-              toast.error(`Erreur lors de la création du produit ${p.nom}. Veuillez réessayer.`);
-            }
-          }
-        })
-      );
-
-      const order = {
-        adresse_livraison: adresseLivraison,
-        adresse_facturation: adresseFacturation,
-        frais_de_livraison: Number(fraisDeLivraison || 0),
-        date: new Date().toISOString().split("T")[0], // pour envoyer la date du jour
-        produits: produitsEnBase
-          .filter((p): p is NonNullable<typeof p> => p !== undefined)
-          .map((p) => ({
-            idProduit: p.id, 
-            quantite: parseInt(String(p.quantite || '0'))
-          }))
-      };
-
-      const res = await axios.post(`${API_URL}/orders/order`, order);
-      toast.success(`Commande n°${res.data.orderId} passée avec succès !`);
-      setSuggestions({}); 
-      setProduits([{ nom: '', prixUnitaire: '', quantite: '' }]);      
-      setAdresseLivraison('');
-      setAdresseFacturation('');
-      setFraisDeLivraison('');
-    } catch (error) {
-      toast.error('Erreur lors de la commande. Veuillez réessayer.');
-    }
-  };
+  const handleSubmit = () => {
+    handleSubmitOrder({
+      produits,
+      adresseLivraison,
+      adresseFacturation,
+      fraisDeLivraison,
+      setProduits,
+      setSuggestions,
+      resetChampsAdresse: () => {
+        setAdresseLivraison('');
+        setAdresseFacturation('');
+        setFraisDeLivraison('');
+      },
+      setConfirmModal
+    });
+};
   
   const removeProduct = (index: number) => {
     if (produits.length === 1) {
@@ -310,6 +257,14 @@ export default function OrderForm() {
           Commander
         </button>
       </div>
+
+      {/*Confirm Modal*/}
+      <ConfirmModal
+      open={confirmModal.open}
+      message={confirmModal.message}
+      onConfirm={confirmModal.onConfirm}
+      onCancel={confirmModal.onCancel}
+      />
     </div>
   );
 }
