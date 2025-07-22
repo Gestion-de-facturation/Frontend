@@ -1,8 +1,8 @@
 'use client'
 
-import React, {useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { Produit } from '@/utils/types/create';
+import { SubmitOrderParams } from '@/utils/types/SubmitOrderParams';
 import { useProductSuggestions } from '@/utils/products/useProductSuggestion';
 import { validateProductBeforeAdd } from '@/utils/products/validateProductBeforeAdd';
 import { handleSubmitOrder } from '@/utils/handlers/handleSubmitOrder';
@@ -17,15 +17,35 @@ import { MdAddShoppingCart } from "react-icons/md";
 import '@/styles/form.css';
 import '@/styles/order.css';
 
-export default function OrderForm() {
-  const [adresseLivraison, setAdresseLivraison] = useState('');
-  const [adresseFacturation, setAdresseFacturation] = useState('');
-  const [fraisDeLivraison, setFraisDeLivraison] = useState('');
-  const [produits, setProduits] = useState<Produit[]>([{nom: '', prixUnitaire: '', quantite: ''}]);
+type OrderFormProps = {
+  initialProduits?: Produit[];
+  initialAdresseLivraison?: string;
+  initialAdresseFacturation?: string;
+  initialFraisDeLivraison?: string;
+  onSubmit: (params: SubmitOrderParams) => void;
+  title?: string;
+}
 
-  const { suggestions,setSuggestions, handleProductChange, handleSelectedSuggestion } =
-  useProductSuggestions(produits, setProduits);
+export default function OrderForm({
+  initialProduits = [{ nom: '', prixUnitaire: '', quantite: '' }],
+  initialAdresseLivraison = '',
+  initialAdresseFacturation = '',
+  initialFraisDeLivraison = '',
+  onSubmit,
+  title = 'Ajouter une commande'
+} : OrderFormProps) {
 
+  const [adresseLivraison, setAdresseLivraison] = useState(initialAdresseLivraison);
+  const [adresseFacturation, setAdresseFacturation] = useState(initialAdresseFacturation);
+  const [fraisDeLivraison, setFraisDeLivraison] = useState(initialFraisDeLivraison);
+  const [produits, setProduits] = useState<Produit[]>(initialProduits);
+
+  const { 
+    suggestions,
+    setSuggestions, 
+    handleProductChange, 
+    handleSelectedSuggestion } = useProductSuggestions(produits, setProduits);
+  
   const [confirmModal, setConfirmModal] = useState<ConfirmModalState>({
     open: false,
     message: '',
@@ -48,7 +68,7 @@ export default function OrderForm() {
   const total = totalProduits + Number(fraisDeLivraison);
 
   const handleSubmit = () => {
-    handleSubmitOrder({
+    onSubmit({
       produits,
       adresseLivraison,
       adresseFacturation,
@@ -72,7 +92,7 @@ export default function OrderForm() {
   return (
     <div className="add-form-container max-w-3xl mx-auto p-6 border border-[#cccccc] rounded-md shadow-lg place-self-center mts">
         <h2 className="flex flex-row justify-between text-2xl font-bold  add-form-content">
-            Ajouter une commande <MdAddShoppingCart className='w-8 h-8 text-[#14446c]'/>
+            {title} <MdAddShoppingCart className='w-8 h-8 text-[#14446c]'/>
         </h2>
 
         <OrderAddresses 

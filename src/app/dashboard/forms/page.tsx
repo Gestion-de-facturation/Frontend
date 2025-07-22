@@ -1,12 +1,12 @@
 'use client'
 
-import OrderForm from "@/components/orders/OrderForm";
+import CreateOrderForm from "@/components/orders/CreateOrderForm";
 import UpdateOrderForm from "@/components/orders/UpdateOrderForm";
 
 export default function Invoices() {
     return(
         <div>
-            <OrderForm />
+            <CreateOrderForm />
             <UpdateOrderForm />
         </div>
     )
