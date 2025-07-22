@@ -7,6 +7,7 @@ import { detectUpdatedProduct } from '@/utils/products/validateUpdatedProduct';
 import { handleSubmitOrder } from '@/utils/handlers/handleSubmitOrder';
 import OrderAddresses from './OrderAddresses';
 import OrderDeliveryCost from './OrderDeliveryCost';
+import OrderButton from './OrderButton';
 import ConfirmModal from '../modals/ProductConfirmModal';
 import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
 import { toast } from 'react-hot-toast';
@@ -233,14 +234,9 @@ export default function OrderForm() {
       </div>
 
       {/* Boutons */}
-      <div className="flex justify-end gap-3 form-content-mt">
-        <button className="px-4 py-2 border rounded bg-gray-100 cursor-pointer w-24 h-8 font-semibold">Annuler</button>
-        <button 
-        onClick={handleSubmit}
-        className="px-4 py-2 border rounded bg-[#14446c] text-white cursor-pointer w-24 h-8 font-semibold hover:bg-[#f18c08]">
-          Commander
-        </button>
-      </div>
+      <OrderButton 
+        handleSubmit={handleSubmit}
+      />
 
       {/*Confirm Modal*/}
       <ConfirmModal
