@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Produit } from "../types/create";
+import toast from 'react-hot-toast';
 
 type LoadOrderResult = {
     produits: Produit[];
@@ -28,7 +29,7 @@ export const loadOrderById = async (idCommande: string):Promise<LoadOrderResult 
             date: order.date,
         };
     } catch (error) {
-        console.error("Errue lors du changement de la commande :", error);
+        toast.error("La commande n'existe pas");
         return null;
     }
 };

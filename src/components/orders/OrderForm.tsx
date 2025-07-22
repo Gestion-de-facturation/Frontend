@@ -11,6 +11,7 @@ import OrderDeliveryCost from './OrderDeliveryCost';
 import OrderProductInputs from './OrderProductInputs';
 import OrderButton from './OrderButton';
 import ConfirmModal from '../modals/ProductConfirmModal';
+import toast from 'react-hot-toast';
 import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
 import { MdAddShoppingCart } from "react-icons/md";
 import '@/styles/form.css';
@@ -53,22 +54,6 @@ export default function OrderForm<T extends BaseOrderParams>({
     onCancel: () => {},
   });
 
-  useEffect(() => {
-    if (mode === "update" && idCommande) {
-      const fetchOrder = async () => {
-        const data = await loadOrderById(idCommande);
-        if (data) {
-          setProduits(data.produits);
-          setAdresseLivraison(data.adresseLivraison);
-          setAdresseFacturation(data.adresseFacturation);
-          setFraisDeLivraison(data.fraisDeLivrason);
-          setDate(data.date?.split('T')[0] || '');
-        }
-      };
-      fetchOrder();
-    }
-  }, [idCommande]);
-
   const addProduct = () => {
     const isValid = validateProductBeforeAdd(produits);
     if (!isValid) return;
@@ -109,6 +94,22 @@ export default function OrderForm<T extends BaseOrderParams>({
 
   const title = mode === 'create' ? 'Ajouter une commande' : 'Modifier une commande';
 
+  const handleSearchOrder = async () => {
+    if (!idCommande.trim()) return;
+
+    const data = await loadOrderById(idCommande);
+    if (data) {
+      setProduits(data.produits);
+      setAdresseLivraison(data.adresseLivraison);
+      setAdresseFacturation(data.adresseFacturation);
+      setFraisDeLivraison(data.fraisDeLivrason);
+      setDate(data.date?.split('T')[0] || '');
+    } else {
+      toast.error("Commande introuvable.");
+    }
+  };
+
+
   return (
     <div className="add-form-container max-w-3xl mx-auto p-6 border border-[#cccccc] rounded-md shadow-lg place-self-center mts">
         <h2 className="flex flex-row justify-between text-2xl font-bold  add-form-content">
@@ -118,15 +119,24 @@ export default function OrderForm<T extends BaseOrderParams>({
         {/**Si c'est update alors ajouter les champs référence et date */}
         {mode === 'update' && (
           <div className="flex justify-between items-center gap-4 mts">
-            <div className="flex flex-col w-1/2">
-              <label className="block font-medium mb-1">Référence de la commande</label>
-              <input
-                type="text"
-                className="border border-gray-300 h-8 rounded mts"
-                value={idCommande}
-                onChange={(e) => setIdCommande(e.target.value)}
-                placeholder="Ex: FA20250720120000"
-              />
+            <div className='flex w-1/2'>
+              <div className="flex flex-col">
+                <label className="block font-medium mb-1">Référence de la commande</label>
+                <input
+                  type="text"
+                  className="border border-gray-300 h-8 rounded mts"
+                  value={idCommande}
+                  onChange={(e) => setIdCommande(e.target.value)}
+                  placeholder="Ex: FA20250720120000"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={handleSearchOrder}
+                className="bg-blue-600 text-white rounded h-8 search-order-id"
+              >
+                Rechercher
+              </button>
             </div>
 
             <div className="flex flex-col w-1/2">
