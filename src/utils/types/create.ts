@@ -3,4 +3,5 @@ export type Produit = {
     nom: string;
     prixUnitaire: string;
     quantite: string;
+    fromSuggestion?: boolean;
 }
