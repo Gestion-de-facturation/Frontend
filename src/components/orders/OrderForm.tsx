@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Produit } from '@/utils/types/create';
 import { detectUpdatedProduct } from '@/utils/products/validateUpdatedProduct';
 import { handleSubmitOrder } from '@/utils/handlers/handleSubmitOrder';
+import OrderAddresses from './OrderAddresses';
 import ConfirmModal from '../modals/ProductConfirmModal';
 import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
 import { toast } from 'react-hot-toast';
@@ -142,25 +143,12 @@ export default function OrderForm() {
             Ajouter une commande <MdAddShoppingCart className='w-8 h-8 text-[#14446c]'/>
         </h2>
 
-        <div className='flex justify-between form-content-mt mts'>
-            <div className="mb-4">
-                <label className="block font-medium mb-1">Adresse de livraison</label>
-                <textarea 
-                value={adresseLivraison}
-                onChange={(e) => setAdresseLivraison(e.target.value)}
-                className="w-full border border-gray-300 p-2 rounded mts" 
-                />
-            </div>
-
-            <div className="mb-4">
-                <label className="block font-medium mb-1">Adresse de facturation</label>
-                <textarea 
-                value={adresseFacturation}
-                onChange={(e) => setAdresseFacturation(e.target.value)}
-                className="w-full border border-gray-300 p-2 rounded mts" 
-                />
-            </div>
-        </div>
+        <OrderAddresses 
+          adresseLivraison={adresseLivraison}
+          setAdresseLivraison={setAdresseLivraison}
+          adresseFacturation={adresseFacturation}
+          setAdresseFacturation={setAdresseFacturation}
+        />
 
       {/* Produits */}
       <div className="mb-4 form-content-mt">
