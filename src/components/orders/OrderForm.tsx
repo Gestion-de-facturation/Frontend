@@ -3,16 +3,15 @@
 import React, {useState, useEffect } from 'react';
 import axios from 'axios';
 import { Produit } from '@/utils/types/create';
-import { detectUpdatedProduct } from '@/utils/products/validateUpdatedProduct';
 import { handleSubmitOrder } from '@/utils/handlers/handleSubmitOrder';
 import OrderAddresses from './OrderAddresses';
 import OrderDeliveryCost from './OrderDeliveryCost';
+import OrderProductInputs from './OrderProductInputs';
 import OrderButton from './OrderButton';
 import ConfirmModal from '../modals/ProductConfirmModal';
 import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
 import { toast } from 'react-hot-toast';
 import { MdAddShoppingCart } from "react-icons/md";
-import { FaMinus } from "react-icons/fa";
 import '@/styles/form.css';
 import '@/styles/order.css';
 
@@ -153,72 +152,15 @@ export default function OrderForm() {
         />
 
       {/* Produits */}
-      <div className="mb-4 form-content-mt">
-        <label className="block font-medium mb-2">Produits</label>
-        {produits.map((p, index) => (
-          <div key={index} className="grid grid-cols-6 gap-2 mb-2 mts">
-            <input 
-            type="text" 
-            placeholder="Nom du produit" 
-            value={p.nom}
-            onChange = {(e) => handleProductChange(index, e.target.value)}
-            className="border p-1 rounded col-span-2 h-8" />
-            {suggestions[index]?.length > 0 && (
-              <ul className='absolute suggestion-mt bg-white border w-96 max-h-40 overflow-auto z-10'>
-                {suggestions[index].map((s) => (
-                  <li
-                  key={s.id}
-                  className='p-1 hover:bg-gray-200 cursor-pointer'
-                  onClick={() => handleSelectedSuggestion(index, s)}
-                  >
-                    {s.nom} - <span className='font-semibold'>{s.prixUnitaire.toLocaleString()} Ar</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <input 
-            type="number" 
-            placeholder="Prix unitaire" 
-            value={p.prixUnitaire}
-            onChange={(e) => setProduits((prev) =>
-                        prev.map((item, i) => i === index ? { ...item, prixUnitaire: e.target.value } : item)
-                      )}
-            className="border p-1 rounded h-8" />
-            <input 
-            type="number" 
-            placeholder="Quantité" 
-            value={p.quantite}
-            onChange={(e) => setProduits((prev) =>
-                        prev.map((item, i) => i === index ? { ...item, quantite: e.target.value } : item)
-                      )}
-            className="border p-1 rounded h-8" />
-            <input 
-            type="text" 
-            value={`${
-                isNaN(parseInt(String(p.quantite || '0')) * parseFloat(p.prixUnitaire))
-                  ? 0
-                  : parseInt(String(p.quantite || '0')) * parseFloat(p.prixUnitaire)
-              } Ar`} 
-            readOnly 
-            className="border p-1 rounded font-semibold h-8" />
-            <button 
-            type='button'
-            onClick={() => removeProduct(index)}
-            className='flex gap-2 cursor-pointer text-red-600 h-8 hover:text-red-500'
-            >
-              <FaMinus className='delete-icon-color'/>
-              <span className='delete-span'>Supprimer</span>
-            </button>
-          </div>
-        ))}
-
-        <button 
-        type='button'
-        onClick={addProduct}
-        className="text-sm text-[#f18c08] hover:underline mts cursor-pointer">
-          + Ajouter un produit
-        </button>
-      </div>
+      <OrderProductInputs 
+        produits={produits}
+        suggestions={suggestions}
+        handleProductChange={handleProductChange}
+        handleSelectedSuggestion={handleSelectedSuggestion}
+        setProduits={setProduits}
+        removeProduct={removeProduct}
+        addProduct={addProduct}
+      />
       
 
       {/* Frais de livraison */}
