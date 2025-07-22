@@ -6,6 +6,7 @@ import { Produit } from '@/utils/types/create';
 import { detectUpdatedProduct } from '@/utils/products/validateUpdatedProduct';
 import { handleSubmitOrder } from '@/utils/handlers/handleSubmitOrder';
 import OrderAddresses from './OrderAddresses';
+import OrderDeliveryCost from './OrderDeliveryCost';
 import ConfirmModal from '../modals/ProductConfirmModal';
 import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
 import { toast } from 'react-hot-toast';
@@ -220,15 +221,10 @@ export default function OrderForm() {
       
 
       {/* Frais de livraison */}
-      <div className="mb-4 form-content-mt">
-        <label className="block font-medium mb-1">Frais de livraison</label>
-        <input 
-        type="number" 
-        value={fraisDeLivraison}
-        onChange={(e) => setFraisDeLivraison(e.target.value)}
-        className="border p-2 rounded mts w-32 h-8" />
-        <span className='span-ml'>Ar</span>
-      </div>
+      <OrderDeliveryCost 
+        fraisDeLivraison={fraisDeLivraison}
+        setFraisDeLivraison={setFraisDeLivraison}
+      />
 
       {/* Total */}
       <div className="flex mb-4 form-content-mt gap-2 w-64 h-10 mts">
