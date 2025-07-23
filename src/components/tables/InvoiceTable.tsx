@@ -70,6 +70,7 @@ export default function InvoiceTable({
                 adresseLivraison: data.adresse_livraison,
                 adresseFacturation: data.adresse_facturation,
                 fraisDeLivraison: data.frais_de_livraison,
+                orderType: data.order_type.toUpperCase(),
                 produits,
             };
 
