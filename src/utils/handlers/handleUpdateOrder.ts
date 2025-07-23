@@ -68,38 +68,43 @@ export const handleUpdateOrder = async ({
       });
     }
 
+    // ✅ 3. Créer ou mettre à jour les produits dans la base
     const produitsEnBase = await Promise.all(
       produits.map(async (p) => {
         try {
           const res = await axios.get(`${API_URL}/products/product?name=${encodeURIComponent(p.nom)}`);
-          const existant = res.data.find((item: any) => item.nom === p.nom);
+          const existant = Array.isArray(res.data) && res.data.length > 0
+           ? res.data.find((item: any) => item.nom === p.nom) : undefined;
 
           if (existant) {
-            const nomModifie = p.nom !== existant.nom;
             const prixModifie = parseFloat(p.prixUnitaire) !== existant.prixUnitaire;
+            const nomModifie = p.nom !== existant.nom;
 
-            if (nomModifie || prixModifie) {
+            if (prixModifie || nomModifie) {
               await axios.put(`${API_URL}/products/product/${existant.id}`, {
                 nom: p.nom,
                 prixUnitaire: parseFloat(p.prixUnitaire),
-                idFournisseur: "SUP20250627-153508",
-                idCategorie: "CAT20250627-153441",
+                idFournisseur: "SUP20250723083813", // ✅ à ajuster dynamiquement au besoin
+                idCategorie: "CAT20250723083722",
               });
             }
 
             return { id: existant.id, ...p };
           }
 
+          // ✅ Création du produit si non trouvé
           const creation = await axios.post(`${API_URL}/products/product`, {
             nom: p.nom,
             prixUnitaire: parseFloat(p.prixUnitaire),
-            idFournisseur: "SUP20250627-153508",
-            idCategorie: "CAT20250627-153441",
+            idFournisseur: "SUP20250723083813",
+            idCategorie: "CAT20250723083722",
           });
 
           return { id: creation.data.id, ...p };
         } catch (error) {
-          toast.error(`Erreur produit "${p.nom}"`);
+          console.error(`Erreur produit "${p.nom}"`, error);
+          toast.error(`Impossible d'enregistrer le produit "${p.nom}"`);
+          return null;
         }
       })
     );

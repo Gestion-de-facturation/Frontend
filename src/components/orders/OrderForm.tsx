@@ -54,6 +54,15 @@ export default function OrderForm<T extends BaseOrderParams>({
     onCancel: () => {},
   });
 
+  // ✅ Fonction de reset utilisée uniquement en mode update
+  const resetChampsAdresseModification = () => {
+    setAdresseLivraison('');
+    setAdresseFacturation('');
+    setFraisDeLivraison('');
+    setIdCommande('');
+    setDate('');
+  };
+
   const addProduct = () => {
     const isValid = validateProductBeforeAdd(produits);
     if (!isValid) return;
@@ -77,11 +86,13 @@ export default function OrderForm<T extends BaseOrderParams>({
       fraisDeLivraison,
       setProduits,
       setSuggestions,
-      resetChampsAdresse: () => {
-        setAdresseLivraison('');
-        setAdresseFacturation('');
-        setFraisDeLivraison('');
-      },
+      resetChampsAdresse: mode === 'update'
+        ? resetChampsAdresseModification
+        : () => {
+            setAdresseLivraison('');
+            setAdresseFacturation('');
+            setFraisDeLivraison('');
+          },
       setConfirmModal,
       ...(mode === 'update' && { idCommande, date })
     } as T);
