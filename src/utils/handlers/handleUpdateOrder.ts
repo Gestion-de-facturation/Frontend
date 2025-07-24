@@ -68,65 +68,73 @@ export const handleUpdateOrder = async ({
       });
     }
 
-    // ✅ 3. Créer ou mettre à jour les produits dans la base
-    const produitsEnBase = await Promise.all(
-      produits.map(async (p) => {
-        try {
-          const res = await axios.get(`${API_URL}/products/product?name=${encodeURIComponent(p.nom)}`);
-          const existant = Array.isArray(res.data) && res.data.length > 0
-           ? res.data.find((item: any) => item.nom === p.nom) : undefined;
+    // ✅ Obtenir produits existants ou créer les nouveaux
+    const produitsExistants: { idProduit: string; quantite: number }[] = [];
+    const produitsNouveaux: {
+      nom: string;
+      prix_unitaire: number;
+      idFournisseur: string;
+      idCategorie: string;
+      quantite: number;
+    }[] = [];
 
-          if (existant) {
-            const prixModifie = parseFloat(p.prixUnitaire) !== existant.prixUnitaire;
-            const nomModifie = p.nom !== existant.nom;
+    for (const p of produits) {
+      try {
+        const res = await axios.get(`${API_URL}/products/product?name=${encodeURIComponent(p.nom)}`);
+        const existant = Array.isArray(res.data) && res.data.length > 0
+          ? res.data.find((item: any) => item.nom === p.nom)
+          : undefined;
 
-            if (prixModifie || nomModifie) {
-              await axios.put(`${API_URL}/products/product/${existant.id}`, {
-                nom: p.nom,
-                prixUnitaire: parseFloat(p.prixUnitaire),
-                idFournisseur: "SUP20250723083813", // ✅ à ajuster dynamiquement au besoin
-                idCategorie: "CAT20250723083722",
-              });
-            }
+        if (existant) {
+          const prixModifie = parseFloat(p.prixUnitaire) !== existant.prixUnitaire;
+          const nomModifie = p.nom !== existant.nom;
 
-            return { id: existant.id, ...p };
+          if (prixModifie || nomModifie) {
+            await axios.put(`${API_URL}/products/product/${existant.id}`, {
+              nom: p.nom,
+              prixUnitaire: parseFloat(p.prixUnitaire),
+              idFournisseur: "SUP20250723083813",
+              idCategorie: "CAT20250723083722",
+            });
           }
 
-          // ✅ Création du produit si non trouvé
-          const creation = await axios.post(`${API_URL}/products/product`, {
+          produitsExistants.push({
+            idProduit: existant.id,
+            quantite: parseInt(p.quantite),
+          });
+        } else {
+          produitsNouveaux.push({
             nom: p.nom,
-            prixUnitaire: parseFloat(p.prixUnitaire),
+            prix_unitaire: parseFloat(p.prixUnitaire),
             idFournisseur: "SUP20250723083813",
             idCategorie: "CAT20250723083722",
+            quantite: parseInt(p.quantite),
           });
-
-          return { id: creation.data.id, ...p };
-        } catch (error) {
-          console.error(`Erreur produit "${p.nom}"`, error);
-          toast.error(`Impossible d'enregistrer le produit "${p.nom}"`);
-          return null;
         }
-      })
-    );
+      } catch (error) {
+        console.error(`Erreur produit "${p.nom}"`, error);
+        toast.error(`Impossible d'enregistrer le produit "${p.nom}"`);
+        return;
+      }
+    }
 
-    const updatePayload = {
+    const payload = {
       adresse_livraison: adresseLivraison,
       adresse_facturation: adresseFacturation,
       frais_de_livraison: Number(fraisDeLivraison || 0),
       date,
-      produits: produitsEnBase.filter((p): p is NonNullable<typeof p> => p !== undefined).map((p) => ({
-        idProduit: p.id,
-        quantite: parseInt(p.quantite),
-      }))
+      produitsExistants,
+      produitsNouveaux,
     };
 
-    const res = await axios.put(`${API_URL}/orders/order/${idCommande}`, updatePayload);
+    await axios.put(`${API_URL}/orders/order_and_products/${idCommande}`, payload);
 
     toast.success(`Commande n°${idCommande} mise à jour avec succès !`);
     setProduits([{ nom: '', prixUnitaire: '', quantite: '', fromSuggestion: false }]);
     setSuggestions({});
     resetChampsAdresse();
   } catch (error) {
+    console.error("Erreur lors de la mise à jour de la commande:", error);
     toast.error("Erreur lors de la mise à jour de la commande. Veuillez réessayer.");
   }
 };
