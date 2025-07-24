@@ -199,12 +199,14 @@ export default function OrderForm<T extends BaseOrderParams>({
       />
 
       {/*Confirm Modal*/}
-      <ConfirmModal
-      open={confirmModal.open}
-      message={confirmModal.message}
-      onConfirm={confirmModal.onConfirm}
-      onCancel={confirmModal.onCancel}
-      />
+      {confirmModal && (
+        <ConfirmModal
+        open={confirmModal.open}
+        message={confirmModal.message}
+        onConfirm={confirmModal.onConfirm}
+        onCancel={confirmModal.onCancel}
+        />
+      )}
     </div>
   );
 }

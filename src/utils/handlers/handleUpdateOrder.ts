@@ -15,8 +15,9 @@ export const handleUpdateOrder = async ({
   setProduits,
   setSuggestions,
   resetChampsAdresse,
-  setConfirmModal
-}: UpdateOrderParams) => {
+  setConfirmModal,
+  skipConfirmation = false,
+}: UpdateOrderParams & { skipConfirmation?: boolean }) => {
   try {
     const nomsProduits = new Set<string>();
     for (const produit of produits) {
@@ -39,11 +40,11 @@ export const handleUpdateOrder = async ({
 
     const modification = await detectUpdatedProduct(produits);
 
-    if (modification) {
+    if (modification && !skipConfirmation) {
       const { produit, modifNom, modifPrix } = modification;
       const message = `Vous avez modifié le ${modifNom ? "nom" : ""}${modifNom && modifPrix ? " et le " : ""}${modifPrix ? "prix unitaire" : ""} du produit "${produit.nom}". Confirmez-vous ces changements ?`;
 
-      return setConfirmModal({
+      setConfirmModal({
         open: true,
         message,
         onConfirm: async () => {
@@ -59,17 +60,22 @@ export const handleUpdateOrder = async ({
             setSuggestions,
             resetChampsAdresse,
             setConfirmModal,
+            skipConfirmation: true,
           });
+
+          console.log(`Bouton appuyé `)
         },
         onCancel: () => {
           setConfirmModal({ open: false, message: '', onConfirm: () => {}, onCancel: () => {} });
           toast("Modification annulée.");
         }
       });
+
+      return;
     }
 
     // ✅ Obtenir produits existants ou créer les nouveaux
-    const produitsExistants: { idProduit: string; quantite: number }[] = [];
+    const produitsExistants: { idProduit: string; quantite: number; prix_unitaire?: number }[] = [];
     const produitsNouveaux: {
       nom: string;
       prix_unitaire: number;
@@ -99,9 +105,10 @@ export const handleUpdateOrder = async ({
           }
 
           produitsExistants.push({
-            idProduit: existant.id,
-            quantite: parseInt(p.quantite),
-          });
+              idProduit: existant.id,
+              quantite: parseInt(p.quantite),
+              prix_unitaire: parseFloat(p.prixUnitaire), // <-- Ajouté
+            });
         } else {
           produitsNouveaux.push({
             nom: p.nom,
