@@ -30,8 +30,8 @@ export default function OrderProductInputs ({
     addProduct
 } : Props) {
     return (
-         <div className="mb-4 form-content-mt">
-            <label className="block font-medium mb-2">Produits</label>
+         <div className="border border-[#cccccc] rounded-md shadow-sm order-products-container">
+            <h2 className="text-xl font-bold">Produits</h2>
             {produits.map((p, index) => (
                 <div key={index} className="grid grid-cols-6 gap-2 mb-2 mts">
                 <input 

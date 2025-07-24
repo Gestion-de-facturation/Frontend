@@ -12,11 +12,12 @@ export default function OrderDeliveryCost ({
     setFraisDeLivraison
 } : Props) {
     return (
-        <div className="mb-4 form-content-mt">
-            <label className="block font-medium mb-1">Frais de livraison</label>
+        <div className="order-delivery-cost-container">
+            <h2 className="">Frais de livraison</h2>
             <input 
             type="number" 
             value={fraisDeLivraison}
+            placeholder='0'
             onChange={(e) => setFraisDeLivraison(e.target.value)}
             className="border p-2 rounded mts w-32 h-8" />
             <span className='span-ml'>Ar</span>

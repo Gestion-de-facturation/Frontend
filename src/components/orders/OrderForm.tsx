@@ -103,7 +103,7 @@ export default function OrderForm<T extends BaseOrderParams>({
     setProduits(updated);
   };
 
-  const title = mode === 'create' ? 'Ajouter une commande' : 'Modifier une commande';
+  const title = mode === 'create' ? 'Nouvelle Commande' : 'Modifier une commande';
 
   const handleSearchOrder = async () => {
     if (!idCommande.trim()) return;
@@ -122,10 +122,11 @@ export default function OrderForm<T extends BaseOrderParams>({
 
 
   return (
-    <div className="add-form-container max-w-3xl mx-auto p-6 border border-[#cccccc] rounded-md shadow-lg place-self-center mts">
-        <h2 className="flex flex-row justify-between text-2xl font-bold  add-form-content">
-            {title} <MdAddShoppingCart className='w-8 h-8 text-[#14446c]'/>
-        </h2>
+    <div className="flex gap-2 add-form-container max-w-3xl mx-auto p-6 rounded-md mts ">
+      <div>
+        <h1 className="flex flex-row justify-between text-3xl font-bold  add-form-content">
+            {title} 
+        </h1>
 
         {/**Si c'est update alors ajouter les champs référence et date */}
         {mode === 'update' && (
@@ -179,14 +180,16 @@ export default function OrderForm<T extends BaseOrderParams>({
         removeProduct={removeProduct}
         addProduct={addProduct}
       />
+    </div>
       
-
+    <div className='border border-[#cccccc] shadow-sm rounded order-sum-container'>
+      <h2 className='text-xl font-bold'>Récapitulatif</h2>
       {/* Frais de livraison */}
       <OrderDeliveryCost 
         fraisDeLivraison={fraisDeLivraison}
         setFraisDeLivraison={setFraisDeLivraison}
       />
-
+      
       {/* Total */}
       <div className="flex mb-4 form-content-mt gap-2 w-64 h-10 mts">
         <label className="block font-medium mb-1 mts">Total:  </label>
@@ -207,6 +210,7 @@ export default function OrderForm<T extends BaseOrderParams>({
         onCancel={confirmModal.onCancel}
         />
       )}
+    </div>
     </div>
   );
 }

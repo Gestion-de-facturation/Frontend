@@ -1,5 +1,6 @@
 .add-form-container {
     padding: 2rem;
+    margin-left: 6%;
 }
 
 .form-content-mt{
@@ -24,4 +25,15 @@
 
 .search-order-id {
     margin-top: 5.5vh;
+}
+
+.order-products-container, .order-addresses-container {
+    margin-top: 4vh;
+    padding: 1rem;
+    width: 45vw;
+}
+
+.order-sum-container {
+    margin-top: 10vh;
+    padding: 1rem;
 }

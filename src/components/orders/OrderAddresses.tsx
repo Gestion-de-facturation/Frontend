@@ -16,23 +16,26 @@ export default function OrderAddresses ({
     setAdresseFacturation
 } : Props) {
     return(
-        <div className='flex justify-between form-content-mt mts'>
-            <div className="mb-4">
-                <label className="block font-medium mb-1">Adresse de livraison</label>
-                <textarea 
-                value={adresseLivraison}
-                onChange={(e) => setAdresseLivraison(e.target.value)}
-                className="w-full border border-gray-300 p-2 rounded mts" 
-                />
-            </div>
+        <div className='border border-[#cccccc] rounded-md order-addresses-container shadow-sm'>
+            <h2 className='text-xl font-bold'>Adresses de la commande</h2>
+            <div className='flex justify-between form-content-mt mts'>
+                <div className="mb-4">
+                    <label className="block font-medium mb-1">Adresse de livraison</label>
+                    <textarea 
+                    value={adresseLivraison}
+                    onChange={(e) => setAdresseLivraison(e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded mts" 
+                    />
+                </div>
 
-            <div className="mb-4">
-                <label className="block font-medium mb-1">Adresse de facturation</label>
-                <textarea 
-                value={adresseFacturation}
-                onChange={(e) => setAdresseFacturation(e.target.value)}
-                className="w-full border border-gray-300 p-2 rounded mts" 
-                />
+                <div className="mb-4">
+                    <label className="block font-medium mb-1">Adresse de facturation</label>
+                    <textarea 
+                    value={adresseFacturation}
+                    onChange={(e) => setAdresseFacturation(e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded mts" 
+                    />
+                </div>
             </div>
         </div>
     );
