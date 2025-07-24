@@ -81,7 +81,7 @@ export const handleSubmitOrder = async ({
       }
     }
 
-    const produitsExistants: { idProduit: string; quantite: number }[] = [];
+    const produitsExistants: { idProduit: string; quantite: number; prix_unitaire?: number }[] = [];
     const produitsNouveaux: {
       nom: string;
       prix_unitaire: number;
@@ -96,15 +96,28 @@ export const handleSubmitOrder = async ({
         const existant = Array.isArray(res.data) && res.data.find((item: any) => item.nom === p.nom);
 
         if (existant) {
+          const prixSaisi = parseFloat(p.prixUnitaire);
+          const prixBase = existant.prixUnitaire;
+
+          if (prixSaisi !== prixBase) {
+            await axios.put(`${API_URL}/products/product/${existant.id}`, {
+              nom: p.nom,
+              prixUnitaire: prixSaisi,
+              idFournisseur: "SUP20250723083813", // à adapter dynamiquement
+              idCategorie: "CAT20250723083722",
+            });
+          }
+
           produitsExistants.push({
             idProduit: existant.id,
             quantite: parseInt(p.quantite),
+            prix_unitaire: prixSaisi,
           });
         } else {
           produitsNouveaux.push({
             nom: p.nom,
             prix_unitaire: parseFloat(p.prixUnitaire),
-            idFournisseur: "SUP20250723083813", // à adapter dynamiquement si besoin
+            idFournisseur: "SUP20250723083813",
             idCategorie: "CAT20250723083722",
             quantite: parseInt(p.quantite),
           });
