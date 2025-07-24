@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import '@/styles/sidebar.css'
 import { LogOut } from 'lucide-react';
 import { MdReceipt, MdReceiptLong, MdOutlineAddBox  } from "react-icons/md";
+import CreateInvoiceBtn from './buttons/CreateInvoiceBtn';
 
 export default function Sidebar() {
     const router = useRouter();
@@ -17,6 +18,9 @@ export default function Sidebar() {
                 </h2>
             </div>
             <ul className="place-self-center">
+                <div className='sidebar-links mt-link'>
+                   <li><a href="/dashboard/forms/create_invoice"><CreateInvoiceBtn /></a></li> 
+                </div>
                 <div className='sidebar-links mt-link'>
                     <li><a href="/dashboard" className="flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08]"><MdReceipt className='w-5 h-5 link-icon'/>Opérations</a></li>
                 </div>
