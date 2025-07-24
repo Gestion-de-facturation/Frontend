@@ -27,7 +27,6 @@ export const handleSubmitOrder = async ({
   skipConfirmation?: boolean;
 }) => {
   try {
-    // ✅ 1. Validation des produits
     const nomsProduits = new Set<string>();
 
     for (const produit of produits) {
@@ -48,7 +47,6 @@ export const handleSubmitOrder = async ({
       nomsProduits.add(nom);
     }
 
-    // ✅ 2. Vérifier s’il faut une confirmation
     if (!skipConfirmation) {
       const modification = await detectUpdatedProduct(produits);
 
@@ -83,67 +81,52 @@ export const handleSubmitOrder = async ({
       }
     }
 
-    // ✅ 3. Créer ou mettre à jour les produits dans la base
-    const produitsEnBase = await Promise.all(
-      produits.map(async (p) => {
-        try {
-          const res = await axios.get(`${API_URL}/products/product?name=${encodeURIComponent(p.nom)}`);
-          const existant = Array.isArray(res.data) && res.data.length > 0
-           ? res.data.find((item: any) => item.nom === p.nom) : undefined;
+    const produitsExistants: { idProduit: string; quantite: number }[] = [];
+    const produitsNouveaux: {
+      nom: string;
+      prix_unitaire: number;
+      idFournisseur: string;
+      idCategorie: string;
+      quantite: number;
+    }[] = [];
 
-          if (existant) {
-            const prixModifie = parseFloat(p.prixUnitaire) !== existant.prixUnitaire;
-            const nomModifie = p.nom !== existant.nom;
+    for (const p of produits) {
+      try {
+        const res = await axios.get(`${API_URL}/products/product?name=${encodeURIComponent(p.nom)}`);
+        const existant = Array.isArray(res.data) && res.data.find((item: any) => item.nom === p.nom);
 
-            if (prixModifie || nomModifie) {
-              await axios.put(`${API_URL}/products/product/${existant.id}`, {
-                nom: p.nom,
-                prixUnitaire: parseFloat(p.prixUnitaire),
-                idFournisseur: "SUP20250723083813", // ✅ à ajuster dynamiquement au besoin
-                idCategorie: "CAT20250723083722",
-              });
-            }
-
-            return { id: existant.id, ...p };
-          }
-
-          // ✅ Création du produit si non trouvé
-          const creation = await axios.post(`${API_URL}/products/product`, {
-            nom: p.nom,
-            prixUnitaire: parseFloat(p.prixUnitaire),
-            idFournisseur: "SUP20250723083813",
-            idCategorie: "CAT20250723083722",
+        if (existant) {
+          produitsExistants.push({
+            idProduit: existant.id,
+            quantite: parseInt(p.quantite),
           });
-
-          return { id: creation.data.id, ...p };
-        } catch (error) {
-          console.error(`Erreur produit "${p.nom}"`, error);
-          toast.error(`Impossible d'enregistrer le produit "${p.nom}"`);
-          return null;
+        } else {
+          produitsNouveaux.push({
+            nom: p.nom,
+            prix_unitaire: parseFloat(p.prixUnitaire),
+            idFournisseur: "SUP20250723083813", // à adapter dynamiquement si besoin
+            idCategorie: "CAT20250723083722",
+            quantite: parseInt(p.quantite),
+          });
         }
-      })
-    );
+      } catch (err) {
+        console.error(`Erreur produit "${p.nom}"`, err);
+        toast.error(`Erreur sur le produit "${p.nom}"`);
+        return;
+      }
+    }
 
-    // ✅ 4. Créer la commande
-    const order = {
+    const commande = {
       adresse_livraison: adresseLivraison,
       adresse_facturation: adresseFacturation,
       frais_de_livraison: Number(fraisDeLivraison || 0),
-      date: new Date().toISOString().split("T")[0],
-      produits: produitsEnBase
-        .filter((p): p is NonNullable<typeof p> => p !== null && p.id)
-        .map((p) => ({
-          idProduit: p.id,
-          quantite: parseInt(p.quantite),
-        })),
+      produitsExistants,
+      produitsNouveaux,
     };
 
-    console.log("Commande à envoyer: ", order)
+    const res = await axios.post(`${API_URL}/orders/order_and_products`, commande);
+    toast.success(`Commande créée avec succès (id: ${res.data.idCommande})`);
 
-    const res = await axios.post(`${API_URL}/orders/order`, order);
-    toast.success(`Commande n°${res.data.orderId} passée avec succès.`);
-
-    // ✅ 5. Nettoyage du formulaire
     setProduits([{ nom: "", prixUnitaire: "", quantite: "", fromSuggestion: false }]);
     setSuggestions({});
     resetChampsAdresse();
