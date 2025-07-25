@@ -99,6 +99,9 @@ export default function InvoiceTable({
             }
          },
         { header: 'Total (Ar)', accessorKey: 'total' },
+        { header: 'Livraison', accessorKey: 'statut_livraison' },
+        { header: 'Paiement', accessorKey: 'statut_paiement' },
+        { header: 'Type', accessorKey: 'order_type' },
         { header: 'Actions',
             cell: ({ row }) => (
                 <div className="flex items-center gap-3 justify-center">
