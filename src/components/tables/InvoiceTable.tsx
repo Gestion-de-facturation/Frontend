@@ -99,14 +99,21 @@ export default function InvoiceTable({
                 return dateOnly;
             }
          },
-        { header: 'Total (Ar)', accessorKey: 'total' },
+        { header: 'Total', accessorKey: 'total', 
+            cell: ({getValue}) => {
+                const total = getValue<number>();
+                return (
+                    <p className='whitespace-nowrap'>{total} Ar</p>
+                )
+            }
+         },
         { header: 'Livraison', accessorKey: 'statut_livraison', 
             cell: ({ getValue }) => {
                 const statut = getValue<string>();
                 const status_color = statusColor(statut);
 
                 return (
-                    <p className={status_color.color}>{status_color.value}</p>
+                    <p className={`${status_color.color}  whitespace-nowrap`}>{status_color.value}</p>
                 )
             }
          },
@@ -116,7 +123,7 @@ export default function InvoiceTable({
                 const status_color = statusColor(statut);
 
                 return (
-                    <p className={status_color.color}>{status_color.value}</p>
+                    <p className={`${status_color.color} whitespace-nowrap`}>{status_color.value}</p>
                 )
             }
         },
@@ -194,8 +201,8 @@ export default function InvoiceTable({
                 type="text" 
                 value={globalFilter}
                 onChange={(e) => setGlobalFilter(e.target.value)}
-                placeholder="Rechercher une commande..."
-                className='border border-gray-300 h-8 mb-4 w-full rounded product-search-input mts'
+                placeholder="🔍 Rechercher une commande..."
+                className='border border-gray-300 h-8 w-80 rounded product-search-input mts'
             />
 
             <table className='border w-full mts h-64'>
@@ -203,7 +210,7 @@ export default function InvoiceTable({
                     {table.getHeaderGroups().map((headerGroup) => (
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map((header) => (
-                                <th key={header.id} className='p-2 border'>
+                                <th key={header.id} className='p-2 border h-8'>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>
                             ))}
