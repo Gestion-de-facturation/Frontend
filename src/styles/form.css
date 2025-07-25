@@ -1,6 +1,6 @@
 .add-form-container {
-    padding: 2rem;
-    margin-left: 6%;
+    margin-left: 1%;
+    padding-block: 1rem;
 }
 
 .form-content-mt{
@@ -27,13 +27,50 @@
     margin-top: 5.5vh;
 }
 
-.order-products-container, .order-addresses-container {
+.order-products-container, .order-addresses-container, .order-delivery-cost-container {
     margin-top: 4vh;
     padding: 1rem;
     width: 45vw;
 }
 
 .order-sum-container {
-    margin-top: 10vh;
+    margin-top: 4vh;
     padding: 1rem;
+    width: 20vw;
+    height: 33vh;
+}
+
+.total-container {
+    padding-top: 2vh;
+}
+
+.order-btn-container {
+    width: 20vw;
+}
+
+.order-btn-cancel {
+    padding-top: 1vh;
+    padding-left: 1.5vw;
+}
+
+.order-btn-save {
+    padding-top: 1vh;
+    padding-left: 0.5vw;
+}
+
+.order-btn-icon {
+    margin-top: 0.25vh;
+}
+
+.order-title-container {
+    width: 50vw;
+}
+
+.add-order-product-btn {
+    padding-block: 0.25rem;
+    padding-inline: 1rem;
+}
+
+.order-product-add-btn {
+    margin-top: 0.5vh;
 }

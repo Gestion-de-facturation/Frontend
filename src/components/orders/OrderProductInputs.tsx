@@ -1,5 +1,6 @@
 import React from "react";
 import { FaMinus } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 import '@/styles/form.css';
 import '@/styles/order.css';
 
@@ -31,7 +32,15 @@ export default function OrderProductInputs ({
 } : Props) {
     return (
          <div className="border border-[#cccccc] rounded-md shadow-sm order-products-container">
-            <h2 className="text-xl font-bold">Produits</h2>
+            <div className="flex justify-between"> 
+                <h2 className="text-xl font-bold">Produits</h2>           
+                <button 
+                type='button'
+                onClick={addProduct}
+                className="flex gap-2 border border-[#cccccc] text-sm rounded hover:bg-[#ccccccc9] cursor-pointer add-order-product-btn">
+                    <IoMdAdd className="order-product-add-btn font-semibold"/> Ajouter un produit
+                </button>
+            </div>
             {produits.map((p, index) => (
                 <div key={index} className="grid grid-cols-6 gap-2 mb-2 mts">
                 <input 
@@ -88,13 +97,6 @@ export default function OrderProductInputs ({
                 </button>
                 </div>
             ))}
-    
-            <button 
-            type='button'
-            onClick={addProduct}
-            className="text-sm text-[#f18c08] hover:underline mts cursor-pointer">
-                + Ajouter un produit
-            </button>
         </div>
     );
 }

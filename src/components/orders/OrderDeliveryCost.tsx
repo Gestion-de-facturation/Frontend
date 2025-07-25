@@ -12,8 +12,8 @@ export default function OrderDeliveryCost ({
     setFraisDeLivraison
 } : Props) {
     return (
-        <div className="order-delivery-cost-container">
-            <h2 className="">Frais de livraison</h2>
+        <div className="order-delivery-cost-container border border-[#cccccc] shadow-sm rounded">
+            <h2 className="text-xl font-bold">Frais de livraison</h2>
             <input 
             type="number" 
             value={fraisDeLivraison}

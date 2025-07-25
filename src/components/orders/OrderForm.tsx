@@ -122,7 +122,7 @@ export default function OrderForm<T extends BaseOrderParams>({
 
 
   return (
-    <div className="flex gap-2 add-form-container max-w-3xl mx-auto p-6 rounded-md mts ">
+    <div className="flex justify-evenly add-form-container mts ">
       <div>
         <h1 className="flex flex-row justify-between text-3xl font-bold  add-form-content">
             {title} 
@@ -180,26 +180,41 @@ export default function OrderForm<T extends BaseOrderParams>({
         removeProduct={removeProduct}
         addProduct={addProduct}
       />
-    </div>
       
-    <div className='border border-[#cccccc] shadow-sm rounded order-sum-container'>
-      <h2 className='text-xl font-bold'>Récapitulatif</h2>
       {/* Frais de livraison */}
       <OrderDeliveryCost 
         fraisDeLivraison={fraisDeLivraison}
         setFraisDeLivraison={setFraisDeLivraison}
       />
-      
-      {/* Total */}
-      <div className="flex mb-4 form-content-mt gap-2 w-64 h-10 mts">
-        <label className="block font-medium mb-1 mts">Total:  </label>
-        <p className="w-64 h-8  p-2 rounded  mts font-semibold">{total} Ar</p>
-      </div>
+    </div>
 
+    <div>
       {/* Boutons */}
       <OrderButton 
         handleSubmit={handleSubmit}
       />
+      {/**Récapitulatif */}
+      <div className='border border-[#cccccc] shadow-sm rounded order-sum-container'>
+        <h2 className='text-xl font-bold'>Récapitulatif</h2>
+        {/** Sous-total */}
+        <div className="flex mb-4 form-content-mt gap-2 w-80 h-10 mts">
+          <label className="w-64 font-medium mts"> Sous-total:  </label>
+          <p className="w-64 h-8  p-2 rounded  mts ">{totalProduits} Ar</p>
+        </div>
+
+          {/* Frais de livraison */}
+          <div className="flex mb-4 form-content-mt gap-2 w-80 h-10 mts">
+            <label className="w-64 font-medium">Frais de livraison:  </label>
+            <p className="w-64 h-8  p-2 rounded font-semi-bold">{fraisDeLivraison || '0'} Ar</p>
+          </div>
+
+          {/**Total */}
+          <div className="flex justify-between border-t-2 border-[#cccccc] font-semibold text-lg total-container">
+            <label>Total</label>
+            <p>{total} Ar</p>
+          </div>
+      </div>
+    </div>
 
       {/*Confirm Modal*/}
       {confirmModal && (
@@ -210,7 +225,6 @@ export default function OrderForm<T extends BaseOrderParams>({
         onCancel={confirmModal.onCancel}
         />
       )}
-    </div>
     </div>
   );
 }
