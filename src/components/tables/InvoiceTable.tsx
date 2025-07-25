@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import {
     ColumnDef,
@@ -11,7 +12,7 @@ import {
     flexRender
 } from '@tanstack/react-table';
 import { Order } from '@/utils/types/orderList';
-import { LiaEye } from "react-icons/lia";
+import { LiaEye, LiaEdit } from "react-icons/lia";
 import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
@@ -38,6 +39,9 @@ export default function InvoiceTable({
     const [selectedCommandeId, setSelectedCommandeId] = useState<string | null>(null);
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState<string | null>(null);
+
+
+    const router = useRouter();
 
     const handleDeleteConfirm = async() => {
         if (!deleteId) return ;
@@ -104,6 +108,15 @@ export default function InvoiceTable({
                     >
                         <LiaEye className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer'/>
                     </button>
+                    <button
+                    title='Modifier'
+                    onClick={() => {
+                        const id = row.original.id;
+                        router.push(`/dashboard/forms/update-invoice?id=${id}`);
+                    }}
+                    >
+                        <LiaEdit className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer'/>
+                    </button>
                     <button 
                     title='Télécharger'
                     onClick={() => handleDownload(row.original)}
@@ -117,7 +130,7 @@ export default function InvoiceTable({
                         setShowConfirm(true);
                     }}
                     >
-                        <MdOutlineDeleteOutline className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer'/>
+                        <MdOutlineDeleteOutline className='h-5 w-5 text-red-600 hover:text-shadow-[#f18c08] cursor-pointer'/>
                     </button>
                 </div>
             )

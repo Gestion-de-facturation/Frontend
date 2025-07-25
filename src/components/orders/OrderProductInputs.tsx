@@ -37,7 +37,7 @@ export default function OrderProductInputs ({
                 <button 
                 type='button'
                 onClick={addProduct}
-                className="flex gap-2 border border-[#cccccc] text-sm rounded hover:bg-[#ccccccc9] cursor-pointer add-order-product-btn">
+                className="flex gap-2 border border-[#cccccc] font-semibold rounded hover:bg-[#ccccccc9] cursor-pointer add-order-product-btn">
                     <IoMdAdd className="order-product-add-btn font-semibold"/> Ajouter un produit
                 </button>
             </div>

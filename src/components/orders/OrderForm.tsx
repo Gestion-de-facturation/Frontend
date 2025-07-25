@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Produit } from '@/utils/types/create';
 import { BaseOrderParams } from '@/utils/types/BaseOrderParams';
 import { useProductSuggestions } from '@/utils/products/useProductSuggestion';
@@ -13,7 +14,7 @@ import OrderButton from './OrderButton';
 import ConfirmModal from '../modals/ProductConfirmModal';
 import toast from 'react-hot-toast';
 import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
-import { MdAddShoppingCart } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
 import '@/styles/form.css';
 import '@/styles/order.css';
 import { loadOrderById } from '@/utils/hooks/useLoadOrder';
@@ -32,6 +33,8 @@ export default function OrderForm<T extends BaseOrderParams>({
   mode,
   initialValues={}
 } : OrderFormProps<T>) {
+
+  const router = useRouter();
 
   const [adresseLivraison, setAdresseLivraison] = useState(initialValues.adresseLivraison || '');
   const [adresseFacturation, setAdresseFacturation] = useState(initialValues.adresseFacturation || '');
@@ -130,35 +133,39 @@ export default function OrderForm<T extends BaseOrderParams>({
 
         {/**Si c'est update alors ajouter les champs référence et date */}
         {mode === 'update' && (
-          <div className="flex justify-between items-center gap-4 mts">
-            <div className='flex w-1/2'>
-              <div className="flex flex-col">
-                <label className="block font-medium mb-1">Référence de la commande</label>
+          <div className='mts border border-[#cccccc] rounded-md shadow-sm order-update-details-container'>
+            <h2 className='text-xl font-bold'>Détails</h2>
+            <div className="flex justify-between items-center gap-4 mts">
+              <div className='flex gap-2 w-1/2'>
+                <div className="flex flex-col">
+                  <label className="block font-medium mb-1">Référence de la commande</label>
+                  <input
+                    type="text"
+                    className="border border-gray-300 h-8 rounded mts"
+                    value={idCommande}
+                    onChange={(e) => setIdCommande(e.target.value)}
+                    placeholder="Ex: FA20250720120000"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleSearchOrder}
+                  className="rounded h-8 cursor-pointer search-order-id"
+                  title='Rechercher'
+                >
+                  <FaSearch className='text-lg hover:text-[#f18c08]'/>
+                </button> 
+              </div>
+
+              <div className="flex flex-col w-1/2">
+                <label className="block font-medium mb-1">Date de la commande</label>
                 <input
-                  type="text"
-                  className="border border-gray-300 h-8 rounded mts"
-                  value={idCommande}
-                  onChange={(e) => setIdCommande(e.target.value)}
-                  placeholder="Ex: FA20250720120000"
+                  type="date"
+                  className="border border-gray-300 h-8  rounded mts"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
                 />
               </div>
-              <button
-                type="button"
-                onClick={handleSearchOrder}
-                className="bg-blue-600 text-white rounded h-8 search-order-id"
-              >
-                Rechercher
-              </button>
-            </div>
-
-            <div className="flex flex-col w-1/2">
-              <label className="block font-medium mb-1">Date de la commande</label>
-              <input
-                type="date"
-                className="border border-gray-300 h-8  rounded mts"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
             </div>
           </div>
         )}

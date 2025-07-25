@@ -27,7 +27,7 @@
     margin-top: 5.5vh;
 }
 
-.order-products-container, .order-addresses-container, .order-delivery-cost-container {
+.order-products-container, .order-addresses-container, .order-delivery-cost-container, .order-update-details-container {
     margin-top: 4vh;
     padding: 1rem;
     width: 45vw;
