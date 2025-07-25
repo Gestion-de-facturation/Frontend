@@ -79,3 +79,9 @@
 .date-label {
     margin-top: 1vh;
 }
+
+.add-order-btn {
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+    margin-bottom: 0.5vh;
+}

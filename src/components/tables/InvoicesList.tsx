@@ -5,7 +5,9 @@ import { useOrders } from "@/utils/hooks/useOrders";
 import { useOrdersSwr } from "@/utils/hooks/useOrdersSwr";
 import InvoiceTable from "./InvoiceTable";
 import { FaFileInvoice } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 import '@/styles/order.css';
+import Link from "next/link";
 
 export default function InvoicesList() {
     const data = useOrders();
@@ -17,9 +19,12 @@ export default function InvoicesList() {
 
     return (
         <div className="invoice-container mts border border-[#ccccc] pg rounded-lg hover:shadow-lg">
-            <h2 className="flex flex-row justify-between text-2xl font-bold  mts">
-                Liste des commandes <FaFileInvoice className='w-8 h-8 text-[#cccccc] hover:text-[#14446c]'/>
-            </h2>
+            <div className="flex justify-between mts">
+                <h2 className="text-2xl font-bold">Liste des commandes</h2>
+                <button className="border border-[#cccccc] w-32 h-10 text-white rounded font-semibold bg-[#14446c] cursor-pointer add-order-btn hover:bg-[#f18c08] ">
+                    <Link className="flex gap-2 " href='/dashboard/forms/create_invoice'><IoMdAdd className="text-lg"/>Ajouter</Link>
+                </button>
+            </div>
 
             <div>
                 <InvoiceTable 
