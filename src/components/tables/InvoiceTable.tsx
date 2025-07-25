@@ -17,6 +17,7 @@ import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
 import toast from 'react-hot-toast';
+import { statusColor } from '@/utils/functions/statusColor';
 import '@/styles/order.css';
 
 type Props = {
@@ -99,9 +100,44 @@ export default function InvoiceTable({
             }
          },
         { header: 'Total (Ar)', accessorKey: 'total' },
-        { header: 'Livraison', accessorKey: 'statut_livraison' },
-        { header: 'Paiement', accessorKey: 'statut_paiement' },
-        { header: 'Type', accessorKey: 'order_type' },
+        { header: 'Livraison', accessorKey: 'statut_livraison', 
+            cell: ({ getValue }) => {
+                const statut = getValue<string>();
+                const status_color = statusColor(statut);
+
+                return (
+                    <p className={status_color.color}>{status_color.value}</p>
+                )
+            }
+         },
+        { header: 'Paiement', accessorKey: 'statut_paiement',
+            cell: ({ getValue }) => {
+                const statut = getValue<string>();
+                const status_color = statusColor(statut);
+
+                return (
+                    <p className={status_color.color}>{status_color.value}</p>
+                )
+            }
+        },
+        { header: 'Type', accessorKey: 'order_type', 
+            cell: ({getValue}) => {
+                const order_type = getValue<string>();
+                if (order_type == 'facture') {
+                    return (
+                        <div className='bg-[#14446c50] rounded-xl status-column'>
+                            <p className='place-self-center'>{order_type}</p>
+                        </div>                    
+                    )
+                } else {
+                    return (
+                        <div className='bg-[#f18c0852] rounded-xl status-column'>
+                            <p className='place-self-center text-[#f18c08]'>{order_type}</p>
+                        </div>
+                    )
+                }
+            }
+         },
         { header: 'Actions',
             cell: ({ row }) => (
                 <div className="flex items-center gap-3 justify-center">

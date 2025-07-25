@@ -85,3 +85,7 @@
     padding-inline: 1rem;
     margin-bottom: 0.5vh;
 }
+
+.status-column {
+    padding-inline: 0.5rem;
+}
