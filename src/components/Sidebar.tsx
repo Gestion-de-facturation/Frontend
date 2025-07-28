@@ -1,13 +1,15 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import '@/styles/sidebar.css'
 import { LogOut } from 'lucide-react';
 import { MdReceipt, MdReceiptLong, MdOutlineAddBox  } from "react-icons/md";
+import {  AiFillProduct } from "react-icons/ai";
 import CreateInvoiceBtn from './buttons/CreateInvoiceBtn';
 
 export default function Sidebar() {
     const router = useRouter();
+    const pathname = usePathname();
 
     return (
         <aside className="flex flex-col w-48 bg-gray-100 text-white h-screen p-4 border-r-1 border-[#CCCCCC] side-bar-container fixed top-0 left-0 z-50">
@@ -22,13 +24,18 @@ export default function Sidebar() {
                    <li><a href="/dashboard/forms/create_invoice"><CreateInvoiceBtn /></a></li> 
                 </div>
                 <div className='sidebar-links mt-link'>
-                    <li><a href="/dashboard" className="flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08]"><MdReceipt className='w-5 h-5 link-icon'/>Opérations</a></li>
+                    <li><a 
+                    href="/dashboard" 
+                    className={`flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08] ${
+                        pathname === "/dashboard" ? 'text-[#f18c08]' : 'text-[#14446c]'
+                    }`}><AiFillProduct className='w-5 h-5 link-icon'/>Produits</a></li>
                 </div>
                 <div className='sidebar-links'>
-                    <li><a href="/dashboard/invoices" className=" flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08]"><MdReceiptLong className='w-5 h-5 link-icon'/>Commandes</a></li>
-                </div>
-                <div className='sidebar-links'>
-                    <li><a href="/dashboard/forms" className=" flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08]"><MdOutlineAddBox className='w-5 h-5 link-icon'/>Formulaire</a></li>
+                    <li><a 
+                    href="/dashboard/invoices" 
+                    className={`flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08] ${
+                        pathname === "/dashboard/invoices" ? 'text-[#f18c08]' : 'text-[#14446c]'
+                    }`}><MdReceiptLong className='w-5 h-5 link-icon'/>Commandes</a></li>
                 </div>
             </ul>
             <div className='logout-btn-container'>
