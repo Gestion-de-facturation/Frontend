@@ -9,6 +9,7 @@ import { validateProductBeforeAdd } from '@/utils/products/validateProductBefore
 import { removeProduct as removeProductFn } from '@/utils/products/removeProduct';
 import OrderAddresses from './OrderAddresses';
 import OrderDeliveryCost from './OrderDeliveryCost';
+import OrderStatus from './OrderStatus';
 import OrderProductInputs from './OrderProductInputs';
 import OrderButton from './OrderButton';
 import ConfirmModal from '../modals/ProductConfirmModal';
@@ -40,6 +41,9 @@ export default function OrderForm<T extends BaseOrderParams>({
   const [adresseFacturation, setAdresseFacturation] = useState(initialValues.adresseFacturation || '');
   const [fraisDeLivraison, setFraisDeLivraison] = useState(initialValues.fraisDeLivraison || '');
   const [produits, setProduits] = useState<Produit[]>(initialValues.produits || [{ nom: '', prixUnitaire: '', quantite: ''}]);
+  
+  const [statutLivraison, setStatutLivraison] = useState(initialValues.statutLivraison || 'en_cours');
+  const [statutPaiement, setStatutPaiement] = useState(initialValues.statutPaiement || 'en_attente');
 
   const [idCommande, setIdCommande] = useState(initialValues?.idCommande || '');
   const [date, setDate] = useState(initialValues?.date?.split('T')[0] ?? '');
@@ -87,6 +91,8 @@ export default function OrderForm<T extends BaseOrderParams>({
       adresseLivraison,
       adresseFacturation,
       fraisDeLivraison,
+      statutLivraison,
+      statutPaiement,
       setProduits,
       setSuggestions,
       resetChampsAdresse: mode === 'update'
@@ -95,6 +101,8 @@ export default function OrderForm<T extends BaseOrderParams>({
             setAdresseLivraison('');
             setAdresseFacturation('');
             setFraisDeLivraison('');
+            setStatutLivraison('en_cours');
+            setStatutPaiement('en_attente');
           },
       setConfirmModal,
       ...(mode === 'update' && { idCommande, date })
@@ -116,6 +124,8 @@ export default function OrderForm<T extends BaseOrderParams>({
       setProduits(data.produits);
       setAdresseLivraison(data.adresseLivraison);
       setAdresseFacturation(data.adresseFacturation);
+      setStatutLivraison(data.statutLivraison);
+      setStatutPaiement(data.statutPaiement);
       setFraisDeLivraison(data.fraisDeLivrason);
       setDate(data.date?.split('T')[0] || '');
     } else {
@@ -123,6 +133,18 @@ export default function OrderForm<T extends BaseOrderParams>({
     }
   };
 
+  const optionsLivraison = [
+  { label: 'En cours', value: 'en_cours' },
+  { label: 'Livré', value: 'livré' },
+  { label: 'Reporté', value: 'reporté' },
+  { label: 'Annulé', value: 'annulé' },
+];
+
+  const optionsPaiement = [
+    { label: 'En attente', value: 'en_attente' },
+    { label: 'Validé', value: 'validé' },
+    { label: 'Annulé', value: 'annulé' },
+  ];
 
   return (
     <div className="flex justify-evenly add-form-container mts ">
@@ -169,6 +191,14 @@ export default function OrderForm<T extends BaseOrderParams>({
             </div>
           </div>
         )}
+
+        <OrderStatus 
+        statutLivraison={statutLivraison}
+        setStatutLivraison={setStatutLivraison}
+        statutPaiement={statutPaiement}
+        setStatutPaiement={setStatutPaiement}
+        optionsLivraison={optionsLivraison}
+        optionsPaiement={optionsPaiement}/>
 
         <OrderAddresses 
           adresseLivraison={adresseLivraison}

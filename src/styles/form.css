@@ -27,7 +27,11 @@
     margin-top: 5.5vh;
 }
 
-.order-products-container, .order-addresses-container, .order-delivery-cost-container, .order-update-details-container {
+.order-products-container, 
+.order-addresses-container, 
+.order-delivery-cost-container, 
+.order-update-details-container,
+.order-status-container {
     margin-top: 4vh;
     padding: 1rem;
     width: 45vw;
@@ -73,4 +77,8 @@
 
 .order-product-add-btn {
     margin-top: 0.5vh;
+}
+
+.status-select, .status-label {
+    padding: 0.25em;
 }

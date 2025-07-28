@@ -29,6 +29,8 @@ const [initialValues, setInitialValues] = useState<Partial<UpdateOrderParams> | 
           date: commande.date,
           adresseLivraison: commande.adresse_livraison,
           adresseFacturation: commande.adresse_facturation,
+          statutLivraison: commande.statut_livraison,
+          statutPaiement: commande.statut_paiement,
           fraisDeLivraison: commande.frais_de_livraison.toString(),
           produits: commande.commandeProduits.map((p: any) => ({
             nom: p.produit.nom,

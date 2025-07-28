@@ -7,6 +7,8 @@ type LoadOrderResult = {
     adresseLivraison: string;
     adresseFacturation: string;
     fraisDeLivrason: string;
+    statutLivraison: string;
+    statutPaiement: string;
     date: string;
 };
 
@@ -25,6 +27,8 @@ export const loadOrderById = async (idCommande: string):Promise<LoadOrderResult 
             })),
             adresseLivraison: order.adresse_livraison,
             adresseFacturation: order.adresse_facturation,
+            statutLivraison: order.statut_livraison,
+            statutPaiement: order.statut_paiement,
             fraisDeLivrason: order.frais_de_livraison.toString(),
             date: order.date,
         };
