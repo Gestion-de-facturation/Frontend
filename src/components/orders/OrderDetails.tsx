@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { MdClose } from 'react-icons/md';
+import { CiEdit } from "react-icons/ci";
 import '@/styles/order.css';
 import '@/styles/invoice.css';
 
@@ -36,6 +38,8 @@ type Props = {
 
 export default function OrderDetails({ orderId, onClose }: Props) {
   const [order, setOrder] = useState<Order | null>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -90,14 +94,27 @@ export default function OrderDetails({ orderId, onClose }: Props) {
           <MdClose size={24} />
         </button>
 
-        <div className='flex gap-2'>
-          <h2 className="text-2xl font-bold mb-4 text-[#f18c08]">Détails de la commande</h2>
-          <p className={`${displayStatut(order.statut_livraison).statut_bg_color} rounded-xl text-white status-type-details`}>
-            {displayStatut(order.statut_livraison).statut_title}
-          </p>
-          <p className={`${displayStatut(order.statut_paiement).statut_bg_color} rounded-xl text-white status-type-details`}>
-            { displayStatut(order.statut_paiement).statut_title }
-          </p>
+        <div className='flex justify-between gap-2'>
+          <div className='flex gap-2'>
+            <h2 className="text-2xl font-bold mb-4 text-[#f18c08]">Détails de la commande</h2>
+            <button 
+            title='Modifier'
+            onClick={() => {
+              router.push(`/dashboard/forms/update-invoice?id=${order.id}`);
+            }}
+            className='order-details-edit-btn'
+            >
+              <CiEdit className='h-6 w-6 text-[#f18c08] font-sm hover:text-shadow-[#f18c08] cursor-pointer order-details-edit-icon'/>
+            </button>
+          </div>
+          <div className='flex gap-2'>
+            <p className={`${displayStatut(order.statut_livraison).statut_bg_color} rounded-xl text-white status-type-details`}>
+              {displayStatut(order.statut_livraison).statut_title}
+            </p>
+            <p className={`${displayStatut(order.statut_paiement).statut_bg_color} rounded-xl text-white status-type-details`}>
+              { displayStatut(order.statut_paiement).statut_title }
+            </p>
+          </div>
         </div>
 
         <div className="mb-4 space-y-1 mts">

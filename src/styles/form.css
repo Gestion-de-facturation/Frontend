@@ -86,3 +86,7 @@
 .order-type-container {
     padding-block: 0.25rem;
 }
+
+.order-details-edit-btn {
+    padding-bottom: 5rem;
+}
