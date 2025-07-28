@@ -17,6 +17,7 @@ import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
 import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
+import PaymentStatusSelect from '../buttons/PaymentStatusSelect';
 import toast from 'react-hot-toast';
 import { statusColor } from '@/utils/functions/statusColor';
 import '@/styles/order.css';
@@ -119,12 +120,12 @@ export default function InvoiceTable({
             }
          },
         { header: 'Paiement', accessorKey: 'statut_paiement',
-            cell: ({ getValue }) => {
-                const statut = getValue<string>();
-                const status_color = statusColor(statut);
+            cell: ({ row }) => {
+                const statut = row.getValue('statut_paiement') as string;
+                const idCommande = row.original.id;
 
                 return (
-                    <p className={`${status_color.color} whitespace-nowrap`}>{status_color.value}</p>
+                    <PaymentStatusSelect idCommande={idCommande} statutActuel={statut}/>
                 )
             }
         },

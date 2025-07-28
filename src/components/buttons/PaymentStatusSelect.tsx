@@ -9,9 +9,9 @@ type Props = {
     statutActuel: string;
 };
 
-const options = ['en_cours', 'livré', 'reporté', 'annulé'];
+const options = ['en_attente', 'validé', 'annulé'];
 
-export default function DeliveryStatusSelect({ idCommande, statutActuel } : Props) {
+export default function PaymentStatusSelect({ idCommande, statutActuel } : Props) {
     const [statut, setStatut] = useState(statutActuel);
     const [loading, setLoading] = useState(false);
 
@@ -21,12 +21,12 @@ export default function DeliveryStatusSelect({ idCommande, statutActuel } : Prop
         setLoading(true);
 
         try {
-            await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/orders/order/deliverystatus/${idCommande}`, {
-                statut_livraison: nouveauStatut
+            await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/orders/order/paymentstatus/${idCommande}`, {
+                statut_paiement: nouveauStatut
             });
-            toast.success(`Statut de livraison de la commande n° ${idCommande} mise à jour en ${nouveauStatut}`);
+            toast.success(`Statut de paiement de la commande n° ${idCommande} mise à jour en ${nouveauStatut}`);
         } catch(error) {
-            toast.error('Erreur lors de la mise à jour du statut de livraison');
+            toast.error('Erreur lors de la mise à jour du statut de paiement');
             setStatut(statutActuel);
         } finally {
             setLoading(false);
