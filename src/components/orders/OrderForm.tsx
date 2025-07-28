@@ -12,6 +12,7 @@ import OrderDeliveryCost from './OrderDeliveryCost';
 import OrderStatus from './OrderStatus';
 import OrderProductInputs from './OrderProductInputs';
 import OrderButton from './OrderButton';
+import OrderType from './OrderType';
 import ConfirmModal from '../modals/ProductConfirmModal';
 import toast from 'react-hot-toast';
 import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
@@ -44,6 +45,7 @@ export default function OrderForm<T extends BaseOrderParams>({
   
   const [statutLivraison, setStatutLivraison] = useState(initialValues.statutLivraison || 'en_cours');
   const [statutPaiement, setStatutPaiement] = useState(initialValues.statutPaiement || 'en_attente');
+  const [orderType, setOrderType] = useState(initialValues.orderType || 'devis');
 
   const [idCommande, setIdCommande] = useState(initialValues?.idCommande || '');
   const [date, setDate] = useState(initialValues?.date?.split('T')[0] ?? '');
@@ -61,7 +63,7 @@ export default function OrderForm<T extends BaseOrderParams>({
     onCancel: () => {},
   });
 
-  // ✅ Fonction de reset utilisée uniquement en mode update
+  // Fonction de reset utilisée uniquement en mode update
   const resetChampsAdresseModification = () => {
     setAdresseLivraison('');
     setAdresseFacturation('');
@@ -93,6 +95,7 @@ export default function OrderForm<T extends BaseOrderParams>({
       fraisDeLivraison,
       statutLivraison,
       statutPaiement,
+      orderType,
       setProduits,
       setSuggestions,
       resetChampsAdresse: mode === 'update'
@@ -103,6 +106,7 @@ export default function OrderForm<T extends BaseOrderParams>({
             setFraisDeLivraison('');
             setStatutLivraison('en_cours');
             setStatutPaiement('en_attente');
+            setOrderType('devis');
           },
       setConfirmModal,
       ...(mode === 'update' && { idCommande, date })
@@ -126,6 +130,7 @@ export default function OrderForm<T extends BaseOrderParams>({
       setAdresseFacturation(data.adresseFacturation);
       setStatutLivraison(data.statutLivraison);
       setStatutPaiement(data.statutPaiement);
+      setOrderType(data.orderType);
       setFraisDeLivraison(data.fraisDeLivrason);
       setDate(data.date?.split('T')[0] || '');
     } else {
@@ -146,12 +151,24 @@ export default function OrderForm<T extends BaseOrderParams>({
     { label: 'Annulé', value: 'annulé' },
   ];
 
+  const optionsType = [
+    {label: 'Devis', value: 'devis'},
+    {label: 'Facture', value: 'facture'}
+  ]
+
   return (
     <div className="flex justify-evenly add-form-container mts ">
       <div>
-        <h1 className="flex flex-row justify-between text-3xl font-bold  add-form-content">
-            {title} 
-        </h1>
+        <div className='flex justify-between'>
+          <h1 className="flex flex-row justify-between text-3xl font-bold  add-form-content">
+              {title} 
+          </h1>
+          <OrderType 
+          orderType={orderType}
+          setOrderType={setOrderType}
+          optionsType={optionsType}
+          />
+        </div>
 
         {/**Si c'est update alors ajouter les champs référence et date */}
         {mode === 'update' && (

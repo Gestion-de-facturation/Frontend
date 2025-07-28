@@ -8,6 +8,7 @@ export type BaseOrderParams = {
   fraisDeLivraison: string;
   statutLivraison: string;
   statutPaiement: string;
+  orderType: string;
   setProduits: (p: Produit[]) => void;
   setSuggestions: (s: Record<number, any[]>) => void;
   resetChampsAdresse: () => void;

@@ -82,3 +82,7 @@
 .status-select, .status-label {
     padding: 0.25em;
 }
+
+.order-type-container {
+    padding-block: 0.25rem;
+}

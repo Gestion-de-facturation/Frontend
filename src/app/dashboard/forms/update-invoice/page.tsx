@@ -2,8 +2,6 @@
 
 import UpdateOrderForm from "@/components/orders/UpdateOrderForm";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { UpdateOrderParams } from "@/utils/types/UpdateOrderParams";
 
 export default function UpdateInvoicePage() {
     const searchParams = useSearchParams();
