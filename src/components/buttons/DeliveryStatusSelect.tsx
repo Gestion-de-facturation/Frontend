@@ -42,7 +42,7 @@ export default function DeliveryStatusSelect({ idCommande, statutActuel } : Prop
         className={`border rounded text-sm ${statusColor(statut).color}`}
         >
             {options.map(opt => (
-                <option key={opt} value={opt} className={`${statusColor(opt).color}`}>{opt}</option>
+                <option key={opt} value={opt} className={`${statusColor(opt).color}`}>{statusColor(opt).value}</option>
             ))}
         </select>
     );
