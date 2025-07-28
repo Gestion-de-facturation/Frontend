@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { statusColor } from "@/utils/functions/statusColor";
 import toast from "react-hot-toast";
 
 type Props = {
@@ -38,10 +39,10 @@ export default function DeliveryStatusSelect({ idCommande, statutActuel } : Prop
         value={statut}
         onChange={handleChange}
         disabled={loading}
-        className="border rounded text-sm"
+        className={`border rounded text-sm ${statusColor(statut).color}`}
         >
             {options.map(opt => (
-                <option key={opt} value={opt}>{opt}</option>
+                <option key={opt} value={opt} className={`${statusColor(opt).color}`}>{opt}</option>
             ))}
         </select>
     );
