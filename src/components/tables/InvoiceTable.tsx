@@ -19,7 +19,6 @@ import ConfirmModal from '../modals/ConfirmModal';
 import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
 import PaymentStatusSelect from '../buttons/PaymentStatusSelect';
 import toast from 'react-hot-toast';
-import { statusColor } from '@/utils/functions/statusColor';
 import '@/styles/order.css';
 
 type Props = {
