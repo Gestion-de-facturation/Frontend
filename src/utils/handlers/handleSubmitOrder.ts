@@ -11,6 +11,7 @@ export const handleSubmitOrder = async ({
   adresseFacturation,
   statutLivraison,
   statutPaiement,
+  orderType,
   fraisDeLivraison,
   setProduits,
   setSuggestions,
@@ -23,6 +24,7 @@ export const handleSubmitOrder = async ({
   adresseFacturation: string;
   statutLivraison: string;
   statutPaiement: string;
+  orderType: string;
   fraisDeLivraison: string;
   setProduits: (p: any[]) => void;
   setSuggestions: (s: any) => void;
@@ -71,6 +73,7 @@ export const handleSubmitOrder = async ({
               adresseFacturation,
               statutLivraison,
               statutPaiement,
+              orderType,
               fraisDeLivraison,
               setProduits,
               setSuggestions,
@@ -140,6 +143,7 @@ export const handleSubmitOrder = async ({
       adresse_facturation: adresseFacturation,
       statut_livraison: statutLivraison,
       statut_paiement: statutPaiement,
+      order_type: orderType,
       frais_de_livraison: Number(fraisDeLivraison || 0),
       produitsExistants,
       produitsNouveaux,
