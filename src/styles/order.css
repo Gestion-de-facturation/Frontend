@@ -89,3 +89,8 @@
 .status-column {
     padding-inline: 0.5rem;
 }
+
+.status-type-details {
+    padding-top: 0.5vh;
+    padding-inline: 0.5vw;
+}

@@ -22,6 +22,9 @@ type Order = {
   adresse_livraison: string;
   adresse_facturation: string;
   frais_de_livraison: number;
+  statut_livraison: string;
+  statut_paiement: string;
+  order_type: string;
   total: number;
   commandeProduits: ProduitCommande[];
 };
@@ -53,6 +56,30 @@ export default function OrderDetails({ orderId, onClose }: Props) {
     0
   );
 
+  const displayStatut = (statut: string) => {
+    let statut_bg_color : string;
+    let statut_title: string = statut;
+    if(statut === 'en_cours' || statut === 'en_attente') {
+      if(statut === 'en_cours') {
+        statut_title = 'en cours de livraison';
+      } else {
+        statut_title = 'en attente de paiement';
+      }
+      statut_bg_color = 'bg-blue-500';
+    }  else if (statut === 'livré' || statut === 'validé') {
+      if(statut === 'validé') {
+        statut_title = 'paiement validé';
+      }
+      statut_bg_color = 'bg-green-600';
+    } else if (statut === 'annulé') {
+      statut_bg_color = 'bg-red-600';
+    } else {
+      statut_bg_color = 'bg-orange-500';
+    }
+
+    return {statut_bg_color, statut_title}
+  }
+
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-start z-50 p-6 overflow-y-auto">
       <div className="bg-[#ffffffbe] rounded-lg shadow-lg p-6 w-full max-w-3xl relative details-container max-h-[80vh] overflow-y-auto scrollbar-hide">
@@ -63,11 +90,20 @@ export default function OrderDetails({ orderId, onClose }: Props) {
           <MdClose size={24} />
         </button>
 
-        <h2 className="text-2xl font-bold mb-4 text-[#f18c08]">Détails de la commande</h2>
+        <div className='flex gap-2'>
+          <h2 className="text-2xl font-bold mb-4 text-[#f18c08]">Détails de la commande</h2>
+          <p className={`${displayStatut(order.statut_livraison).statut_bg_color} rounded-xl text-white status-type-details`}>
+            {displayStatut(order.statut_livraison).statut_title}
+          </p>
+          <p className={`${displayStatut(order.statut_paiement).statut_bg_color} rounded-xl text-white status-type-details`}>
+            { displayStatut(order.statut_paiement).statut_title }
+          </p>
+        </div>
 
         <div className="mb-4 space-y-1 mts">
           <p><strong>Référence :</strong> {order.id}</p>
           <p><strong>Date :</strong> {new Date(order.date).toLocaleDateString('fr-FR')}</p>
+          <p><strong>Type: </strong> {order.order_type} </p>
           <p><strong>Adresse de livraison :</strong> {order.adresse_livraison}</p>
           <p><strong>Adresse de facturation :</strong> {order.adresse_facturation}</p>
         </div>
