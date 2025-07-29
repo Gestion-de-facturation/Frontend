@@ -8,6 +8,7 @@ import bcrypt from 'bcryptjs';
 export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -30,6 +31,7 @@ export default function LoginPage() {
 
     const isValid = bcrypt.compareSync(password, hash);
     if (isValid) {
+      setIsLoading(true);
       toast.success('Connexion réussie!')
       localStorage.setItem('isLoggedIn', 'true');
       setTimeout(() => router.push('/dashboard'), 1000);
@@ -50,9 +52,16 @@ export default function LoginPage() {
         className="border p-2 w-full mt-2"
         placeholder="Mot de passe"
       />
-      <button onClick={handleLogin} className="mt-4 bg-[#14446c] hover:bg-[#f18c08] text-white p-2 w-full cursor-pointer">
-        Se connecter
-      </button>
+
+      { isLoading ? (
+        <div className='text-[#14446c] animate-pulse'>
+          Connexion en cours ...
+        </div>
+      ) : (
+        <button onClick={handleLogin} className="mt-4 bg-[#14446c] hover:bg-[#f18c08] text-white p-2 w-full cursor-pointer">
+          Se connecter
+        </button>
+      )}
       {error && <p className="text-red-500 mt-2">{error}</p>}
     </main>
   );
