@@ -90,8 +90,24 @@ export default function InvoiceTable({
 
     const columns: ColumnDef<Order>[] = [
         { header: 'Référence', accessorKey: 'id' },
-        { header: 'Adresse Livraison', accessorKey: 'adresse_livraison' },
-        { header: 'Adresse Facturation', accessorKey: 'adresse_facturation' },
+        { header: 'Adresse Livraison', accessorKey: 'adresse_livraison',
+            cell: ({getValue}) => {
+                const adresseLivraison = getValue<string>();
+                if (adresseLivraison.length >= 50) {
+                    return adresseLivraison.substring(0, 51);
+                }
+                return adresseLivraison;
+            }
+         },
+        { header: 'Adresse Facturation', accessorKey: 'adresse_facturation', 
+            cell: ({getValue}) => {
+                const adresseFacturation = getValue<string>();
+                if (adresseFacturation.length >= 50) {
+                    return adresseFacturation.substring(0, 51);
+                }
+                return adresseFacturation;
+            }
+         },
         { header: 'Date', accessorKey: 'date',
             cell: ({ getValue }) => {
                 const dateStr = getValue<string>();

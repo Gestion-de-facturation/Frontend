@@ -12,7 +12,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <UserInfo />
         </div>
         <div className='dashboard'>
-          <RouteChangeLoader />
           {children}
         </div>
       </main>

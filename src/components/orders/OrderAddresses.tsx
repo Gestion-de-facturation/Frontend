@@ -50,7 +50,7 @@ export default function OrderAddresses ({
                         setAdresseLivraison(e.target.value);
                         updateSuggestions(STORAGE_KEY_LIVRAISON, e.target.value, setSuggestionLivraison);
                     }}
-                    className="w-full h-22 border border-gray-300 p-2 rounded mts" 
+                    className="w-full h-22 border border-gray-300 rounded mts order-adresses-textarea" 
                     />
                     {adresseLivraison && (
                         <ul className="absolute z-10 bg-white border border-[#ccccccc] rounded shadow w-64 max-h-32 overflow-auto">
