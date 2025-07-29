@@ -54,13 +54,16 @@ export const handleSubmitOrder = async ({
     }
 
     if (!skipConfirmation) {
-      const modification = await detectUpdatedProduct(produits);
+      const modifications = await detectUpdatedProduct(produits);
 
-      if (modification) {
-        const { produit, modifNom, modifPrix } = modification;
-        const message = `Vous avez modifié le ${modifNom ? "nom" : ""}${
-          modifNom && modifPrix ? " et le " : ""
-        }${modifPrix ? "prix unitaire" : ""} du produit "${produit.nom}". Confirmez-vous ces changements ?`;
+      if (modifications) {
+        const message = `Vous avez modifié :\n${modifications.map(({ produit, modifNom, modifPrix }) => {
+        const parts = [];
+        if (modifNom) parts.push("nom");
+        if (modifPrix) parts.push("prix unitaire");
+        return `• le ${parts.join(" et ")} du produit "${produit.nom}"`;
+    })
+    .join("\n")}\nConfirmez-vous ces changements ?`;
 
         return setConfirmModal({
           open: true,

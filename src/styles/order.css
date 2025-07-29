@@ -94,3 +94,7 @@
     padding-top: 0.5vh;
     padding-inline: 0.5vw;
 }
+
+.details-header {
+    margin-top: -8vh;
+}

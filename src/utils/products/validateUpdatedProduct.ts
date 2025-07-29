@@ -3,6 +3,13 @@ import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const detectUpdatedProduct = async (produits: any[]) => {
+    const modifications : {
+        produit: any,
+        existant: any,
+        modifNom: boolean,
+        modifPrix: boolean,
+    }[] = [];
+
     for (const produit of produits) {
         try {
             const res = await axios.get(`${API_URL}/products/product?name=${encodeURIComponent(produit.nom)}`);
@@ -13,22 +20,20 @@ export const detectUpdatedProduct = async (produits: any[]) => {
                 const nomModifie = produit.nom !== existant.nom;
 
                 if (prixModifie || nomModifie) {
-                    return {
+                    modifications.push({
                         produit,
                         existant,
                         modifNom: nomModifie,
                         modifPrix: prixModifie,
-                    };
+                    });
                 }
             }    
         }  catch (error: any) {
             if (error.response?.status === 404) {
-            // Produit introuvable → pas une erreur bloquante
                 continue;
             }
-            // Vraie erreur serveur → à traiter
             throw error;
         }
     }
-    return null;
+    return modifications.length > 0 ? modifications : null;
 }

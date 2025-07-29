@@ -2,17 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useTransition } from "react";
 
 export function RouteChangeLoader() {
   const pathname = usePathname();
-  const [isPending, startTransition] = useTransition();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Lors d’un changement de route, active le loader
     setLoading(true);
-    const timeout = setTimeout(() => setLoading(false), 1000); // Delay fictif
+    const timeout = setTimeout(() => setLoading(false), 1000); 
 
     return () => clearTimeout(timeout);
   }, [pathname]);

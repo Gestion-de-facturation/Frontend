@@ -108,16 +108,16 @@ export default function OrderDetails({ orderId, onClose }: Props) {
             </button>
           </div>
           <div className='flex gap-2'>
-            <p className={`${displayStatut(order.statut_livraison).statut_bg_color} rounded-xl text-white status-type-details`}>
+            <p className={`${displayStatut(order.statut_livraison).statut_bg_color} rounded-xl text-white status-type-details h-8`}>
               {displayStatut(order.statut_livraison).statut_title}
             </p>
-            <p className={`${displayStatut(order.statut_paiement).statut_bg_color} rounded-xl text-white status-type-details`}>
+            <p className={`${displayStatut(order.statut_paiement).statut_bg_color} rounded-xl text-white status-type-details h-8`}>
               { displayStatut(order.statut_paiement).statut_title }
             </p>
           </div>
         </div>
 
-        <div className="mb-4 space-y-1 mts">
+        <div className="mb-4 space-y-1 details-header">
           <p><strong>Référence :</strong> {order.id}</p>
           <p><strong>Date :</strong> {new Date(order.date).toLocaleDateString('fr-FR')}</p>
           <p><strong>Type: </strong> {order.order_type} </p>
