@@ -6,14 +6,19 @@ import { FaRegSave } from "react-icons/fa";
 
 type Props = {
     handleSubmit: () => void;
+    handleCancel: () => void;
 }
 
 export default function OrderButton ({
-    handleSubmit
+    handleSubmit,
+    handleCancel,
 } : Props) {
     return (
     <div className="flex justify-between order-btn-container">
-        <button className="flex gap-2 border rounded bg-gray-100 cursor-pointer w-32 h-9 font-semibold order-btn-cancel hover:bg-[#ffffffda]">
+        <button 
+        onClick={handleCancel}
+        className="flex gap-2 border rounded bg-gray-100 cursor-pointer w-32 h-9 font-semibold order-btn-cancel hover:bg-[#ffffffda]"
+        >
             <TiCancel className='text-lg order-btn-icon'/>
             Annuler
         </button>

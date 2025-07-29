@@ -138,6 +138,17 @@ export default function OrderForm<T extends BaseOrderParams>({
     }
   };
 
+  const handleCancel = () => {
+    setProduits([{ nom: '', prixUnitaire: '', quantite: ''}]);
+    setAdresseLivraison('');
+    setAdresseFacturation('');
+    setStatutLivraison('');
+    setStatutPaiement('');
+    setOrderType('');
+    setFraisDeLivraison('');
+    setDate('');
+  }
+
   const optionsLivraison = [
   { label: 'En cours', value: 'en_cours' },
   { label: 'Livré', value: 'livré' },
@@ -246,6 +257,7 @@ export default function OrderForm<T extends BaseOrderParams>({
       {/* Boutons */}
       <OrderButton 
         handleSubmit={handleSubmit}
+        handleCancel= {handleCancel}
       />
       {/**Récapitulatif */}
       <div className='border border-[#cccccc] shadow-sm rounded order-sum-container'>
