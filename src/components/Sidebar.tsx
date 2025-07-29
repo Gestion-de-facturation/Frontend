@@ -6,6 +6,7 @@ import { LogOut } from 'lucide-react';
 import { MdReceipt, MdReceiptLong, MdOutlineAddBox  } from "react-icons/md";
 import {  AiFillProduct } from "react-icons/ai";
 import CreateInvoiceBtn from './buttons/CreateInvoiceBtn';
+import Link from 'next/link';
 
 export default function Sidebar() {
     const router = useRouter();
@@ -21,21 +22,21 @@ export default function Sidebar() {
             </div>
             <ul className="place-self-center">
                 <div className='sidebar-links mt-link'>
-                   <li><a href="/dashboard/forms/create_invoice"><CreateInvoiceBtn /></a></li> 
+                   <li><Link href="/dashboard/forms/create_invoice"><CreateInvoiceBtn /></Link></li> 
                 </div>
                 <div className='sidebar-links mt-link'>
-                    <li><a 
+                    <li><Link 
                     href="/dashboard" 
                     className={`flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08] ${
                         pathname === "/dashboard" ? 'text-[#f18c08]' : 'text-[#14446c]'
-                    }`}><AiFillProduct className='w-5 h-5 link-icon'/>Produits</a></li>
+                    }`}><AiFillProduct className='w-5 h-5 link-icon'/>Produits</Link></li>
                 </div>
                 <div className='sidebar-links'>
-                    <li><a 
+                    <li><Link 
                     href="/dashboard/invoices" 
                     className={`flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08] ${
                         pathname === "/dashboard/invoices" ? 'text-[#f18c08]' : 'text-[#14446c]'
-                    }`}><MdReceiptLong className='w-5 h-5 link-icon'/>Commandes</a></li>
+                    }`}><MdReceiptLong className='w-5 h-5 link-icon'/>Commandes</Link></li>
                 </div>
             </ul>
             <div className='logout-btn-container'>

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import ProductsList from '@/components/tables/ProductsList';
 
@@ -19,8 +19,10 @@ export default function Dashboard() {
   if (!ready) return null;
 
   return (
-    <main className="p-6">
-      <ProductsList />
-    </main>
+    <Suspense fallback={<div>Chargement...</div>}>
+      <main className="p-6">
+        <ProductsList />
+      </main>
+    </Suspense>
   );
 }
