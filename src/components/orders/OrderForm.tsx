@@ -147,6 +147,7 @@ export default function OrderForm<T extends BaseOrderParams>({
     setOrderType('');
     setFraisDeLivraison('');
     setDate('');
+    setIdCommande('');
   }
 
   const optionsLivraison = [
