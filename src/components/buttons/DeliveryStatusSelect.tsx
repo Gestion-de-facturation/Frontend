@@ -31,7 +31,7 @@ export default function DeliveryStatusSelect({ idCommande, statutActuel } : Prop
                 <div className={`bg-white border rounded-md relative shadow-md flex items-start justify-between gap-2 w-80 status-toast`} role="alert">
                     <div>
                         <strong className="font-bold">Succès : </strong>
-                        <span className="block sm:inline">Statut de livraison de la commande n° {idCommande} mis à jour de <span className="text-[#f18c08]">{statutActuel}</span> en <span className="text-[#f18c08]">{nouveauStatut}</span>.</span>
+                        <span className="block sm:inline">Statut de livraison de la commande n° {idCommande} mis à jour de <span className="text-[#f18c08]">{statutActuel}</span> à <span className="text-[#f18c08]">{nouveauStatut}</span>.</span>
                     </div>
                     <button
                         className="ml-4 text-red-800 font-bold"
