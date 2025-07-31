@@ -30,7 +30,12 @@ export default function ProductTable({
   const columns: ColumnDef<Produit>[] = [
     { header: 'Référence', accessorKey: 'id' },
     { header: 'Nom', accessorKey: 'nom' },
-    { header: 'Prix Unitaire (AR)', accessorKey: 'prixUnitaire' },
+    { header: 'Prix Unitaire', accessorKey: 'prixUnitaire',
+      cell: ({getValue}) => {
+        const prix = getValue<number>();
+        return `${prix} Ar`;
+      }
+     },
     { header: 'Catégorie', accessorKey: 'categorie.nom' },
     {header: 'Fournisseur', accessorKey: 'fournisseur.nom'}
   ];

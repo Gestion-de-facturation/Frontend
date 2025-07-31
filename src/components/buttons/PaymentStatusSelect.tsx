@@ -34,7 +34,7 @@ export default function PaymentStatusSelect({ idCommande, statutActuel } : Props
                         <span className="block sm:inline">Statut de facturation de la commande n° {idCommande} mis à jour de <span className="text-[#f18c08]">{statutActuel}</span> à <span className="text-[#f18c08]">{nouveauStatut}</span>.</span>
                     </div>
                     <button
-                        className="ml-4 text-red-800 font-bold"
+                        className="ml-4 text-red-800 font-bold hover:text-red-600"
                         onClick={() => toast.dismiss(t.id)}
                         title="fermer"
                     >
