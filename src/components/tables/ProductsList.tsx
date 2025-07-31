@@ -13,7 +13,7 @@ export default function ProductsList() {
 
   return (
     <div className="order">
-        <div className='border border-[#cccccc] rounded-lg hover:shadow-md productlist-section'>
+        <div className='border border-[#cccccc] rounded-lg shadow-md productlist-section'>
             <h2 className="flex flex-row justify-between text-2xl font-bold mb-4 mts">
               Liste des produits<MdListAlt className='w-8 h-8 text-[#14446c]' />
             </h2>

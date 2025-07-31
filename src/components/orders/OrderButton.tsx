@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ConfirmModal from '../modals/ConfirmModal';
-import { TiCancel } from "react-icons/ti";
 import { FiRotateCw } from 'react-icons/fi';
 import { FaRegSave } from "react-icons/fa";
 import '@/styles/form.css';
