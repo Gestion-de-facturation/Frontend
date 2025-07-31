@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { MdClose } from 'react-icons/md';
+import { PiDownloadSimpleThin } from "react-icons/pi";
 import { CiEdit } from "react-icons/ci";
 import '@/styles/order.css';
 import '@/styles/invoice.css';
@@ -84,6 +85,34 @@ export default function OrderDetails({ orderId, onClose }: Props) {
     return {statut_bg_color, statut_title}
   }
 
+  const handleDownload = async () => {
+      try {
+          const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}`);
+
+          const produits = data.commandeProduits.map((item: any) => ({
+              id: item.idProduit,
+              nom: item.produit.nom,
+              quantite: item.quantite,
+              prixUnitaire: item.produit.prixUnitaire
+          }));
+
+          const factureBody = {
+              id: data.id,
+              date: data.date.substring(0, 10),
+              adresseLivraison: data.adresse_livraison,
+              adresseFacturation: data.adresse_facturation,
+              fraisDeLivraison: data.frais_de_livraison,
+              orderType: data.order_type.toUpperCase(),
+              produits,
+          };
+
+          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/invoice/create`, factureBody);
+          window.open(`${process.env.NEXT_PUBLIC_API_URL}/invoice/${order.id}/download`);
+      } catch (err) {
+          console.error("Erreur de téléchargement: ", err);          
+      };
+  }
+
   return (
     <div className={`transition-opacity duration-300 ${order ? 'opacity-100' : 'opacity-0'}`}>
       <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-start z-50 p-6 overflow-y-auto">
@@ -106,6 +135,12 @@ export default function OrderDetails({ orderId, onClose }: Props) {
               className='order-details-edit-btn'
               >
                 <CiEdit className='h-6 w-6 text-[#f18c08] font-sm hover:text-shadow-[#f18c08] cursor-pointer order-details-edit-icon'/>
+              </button>
+              <button
+              title='Télécharger'
+              onClick={() => handleDownload()}
+              className='order-details-edit-btn'>
+                <PiDownloadSimpleThin className='h-6 w-6 text-[#f18c08] font-sm hover:text-shadow-[#f18c08] cursor-pointer order-details-edit-icon'/>
               </button>
             </div>
             <div className='flex gap-2'>
