@@ -32,6 +32,11 @@ export const handleSubmitOrder = async ({
   setConfirmModal: (modal: ConfirmModalState) => void;
   skipConfirmation?: boolean;
 }) => {
+  if(!adresseLivraison || !adresseFacturation) {
+    toast.error("Veuillez remplir les adresses de la commande.");
+    return ;
+  }
+
   try {
     const nomsProduits = new Set<string>();
 
@@ -115,7 +120,7 @@ export const handleSubmitOrder = async ({
             await axios.put(`${API_URL}/products/product/${existant.id}`, {
               nom: p.nom,
               prixUnitaire: prixSaisi,
-              idFournisseur: "SUP20250723083813", // à adapter dynamiquement
+              idFournisseur: "SUP20250723083813",
               idCategorie: "CAT20250723083722",
             });
           }

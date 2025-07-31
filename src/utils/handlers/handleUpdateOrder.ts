@@ -21,6 +21,11 @@ export const handleUpdateOrder = async ({
   setConfirmModal,
   skipConfirmation = false,
 }: UpdateOrderParams & { skipConfirmation?: boolean }) => {
+  if(!adresseLivraison || !adresseFacturation) {
+    toast.error("Veuillez remplir les adresses de la commande.");
+    return ;
+  }
+  
   try {
     const nomsProduits = new Set<string>();
     for (const produit of produits) {
