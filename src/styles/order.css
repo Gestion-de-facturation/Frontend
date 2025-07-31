@@ -57,8 +57,8 @@
 }
 
 .productlist-section {
-    width: 50vw;
     height: max-content;
+    margin-inline: 5%;
     padding-inline: 2vw;
     padding-bottom: 2vh;
 }

@@ -8,9 +8,6 @@ import {
   getPaginationRowModel,
   flexRender,
 } from '@tanstack/react-table';
-import { useState } from 'react';
-import { MdAdd } from 'react-icons/md';
-import { GiCheckMark } from "react-icons/gi";
 import { Produit } from '@/utils/types/productList';
 import '@/styles/order.css'
 
@@ -18,7 +15,6 @@ type Props = {
   data: Produit[];
   globalFilter: string;
   setGlobalFilter: (val: string) => void;
-  addProduct: (produit: Produit, quantite: number) => void;
   pagination: { pageIndex: number; pageSize: number };
   setPagination: (val: any) => void;
 };
@@ -27,62 +23,16 @@ export default function ProductTable({
   data,
   globalFilter,
   setGlobalFilter,
-  addProduct,
   pagination,
   setPagination,
 }: Props) {
-  const [quantiteInput, setQuantiteInput] = useState<{ [id: string]: number }>({});
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
 
   const columns: ColumnDef<Produit>[] = [
     { header: 'Référence', accessorKey: 'id' },
     { header: 'Nom', accessorKey: 'nom' },
     { header: 'Prix Unitaire (AR)', accessorKey: 'prixUnitaire' },
     { header: 'Catégorie', accessorKey: 'categorie.nom' },
-    {
-      header: 'Action',
-      cell: ({ row }) => {
-        const produit = row.original;
-
-        if (selectedProductId === produit.id) {
-          return (
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                min={0}
-                value={quantiteInput[produit.id] || 0}
-                onChange={(e) =>
-                  setQuantiteInput((prev) => ({
-                    ...prev,
-                    [produit.id]: Number(e.target.value),
-                  }))
-                }
-                className="w-16 px-2 py-1 border rounded"
-              />
-              <button
-                onClick={() => {
-                  addProduct(produit, quantiteInput[produit.id] || 0);
-                  setSelectedProductId(null);
-                }}
-                className="text-white px-2 py-1 rounded"
-              >
-                <GiCheckMark className="w-5 h-5 text-[#f18c08]" />
-              </button>
-            </div>
-          );
-        }
-
-        return (
-          <button
-            onClick={() => setSelectedProductId(produit.id)}
-            className="cursor-pointer .add-icon"
-            title="Ajouter à la commande"
-          >
-            <MdAdd className="w-5 h-5 text-[#f18c08]" />
-          </button>
-        );
-      },
-    },
+    {header: 'Fournisseur', accessorKey: 'fournisseur.nom'}
   ];
 
   const table = useReactTable({
@@ -110,7 +60,10 @@ export default function ProductTable({
       <table className="border w-full mts h-[50vh]">
         <thead className="bg-gray">
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
+            <tr 
+            key={headerGroup.id}
+            className='h-8'
+            >
               {headerGroup.headers.map((header) => (
                 <th key={header.id} className="pil border">
                   {flexRender(header.column.columnDef.header, header.getContext())}
