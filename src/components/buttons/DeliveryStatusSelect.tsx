@@ -3,7 +3,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { statusColor } from "@/utils/functions/statusColor";
+import { IoMdCloseCircle } from "react-icons/io";
 import toast from "react-hot-toast";
+import '@/styles/toast.css'
 
 type Props = {
     idCommande: string;
@@ -25,7 +27,22 @@ export default function DeliveryStatusSelect({ idCommande, statutActuel } : Prop
             await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/orders/order/deliverystatus/${idCommande}`, {
                 statut_livraison: nouveauStatut
             });
-            toast.success(`Statut de livraison de la commande n° ${idCommande} mise à jour en ${nouveauStatut}`);
+            toast.custom((t) => (
+                <div className={`bg-white border rounded-md relative shadow-md flex items-start justify-between gap-2 w-80 status-toast`} role="alert">
+                    <div>
+                        <strong className="font-bold">Succès : </strong>
+                        <span className="block sm:inline">Statut de livraison de la commande n° {idCommande} mis à jour de <span className="text-[#f18c08]">{statutActuel}</span> en <span className="text-[#f18c08]">{nouveauStatut}</span>.</span>
+                    </div>
+                    <button
+                        className="ml-4 text-red-800 font-bold"
+                        onClick={() => toast.dismiss(t.id)}
+                        title="fermer"
+                    >
+                        <IoMdCloseCircle className="text-lg"/>
+                    </button>
+                </div>
+            ), { duration: Infinity });
+
         } catch(error) {
             toast.error('Erreur lors de la mise à jour du statut de livraison');
             setStatut(statutActuel);
