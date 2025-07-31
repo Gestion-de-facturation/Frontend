@@ -14,6 +14,7 @@ import {
 import { Order } from '@/utils/types/orderList';
 import { LiaEye, LiaEdit } from "react-icons/lia";
 import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
 import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
 import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
@@ -214,13 +215,16 @@ export default function InvoiceTable({
 
     return (
         <div className='invoices'>
-            <input 
-                type="text" 
-                value={globalFilter}
-                onChange={(e) => setGlobalFilter(e.target.value)}
-                placeholder="🔍 Rechercher une commande..."
-                className='border border-gray-300 h-8 w-80 rounded product-search-input mts'
-            />
+            <div className='flex gap-4 border border border-gray-300 h-8 w-80 rounded product-search-input mts'>
+                <FaSearch size={20} className='order-search-icon'/>
+                <input 
+                    type="text" 
+                    value={globalFilter}
+                    onChange={(e) => setGlobalFilter(e.target.value)}
+                    placeholder="Rechercher une commande..."
+                    className=' h-8 w-80 rounded'
+                />
+            </div>
 
             <table className='border w-full mts h-64'>
                 <thead className='bg-gray'>
