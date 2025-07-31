@@ -225,9 +225,12 @@ export default function InvoiceTable({
             <table className='border w-full mts h-64'>
                 <thead className='bg-gray'>
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id}>
+                        <tr 
+                        key={headerGroup.id}
+                        className='h-8'
+                        >
                             {headerGroup.headers.map((header) => (
-                                <th key={header.id} className='p-2 border h-8'>
+                                <th key={header.id} className='p-2 border'>
                                     {flexRender(header.column.columnDef.header, header.getContext())}
                                 </th>
                             ))}
@@ -238,7 +241,7 @@ export default function InvoiceTable({
                     {table.getRowModel().rows.map((row) => (
                         <tr key={row.id}> 
                         {row.getVisibleCells().map((cell) => (
-                            <td key={cell.id} className='p-2 border table-element-p h-8'>
+                            <td key={cell.id} className='p-2 border table-element-p h-10'>
                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                             </td>
                         ))}

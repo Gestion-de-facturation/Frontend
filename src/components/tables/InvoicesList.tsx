@@ -17,8 +17,8 @@ export default function InvoicesList() {
     if (isLoading) return <p>Chargement ... </p>;
 
     return (
-        <div className="invoice-container mts border border-[#ccccc] pg rounded-lg shadow-lg">
-            <div className="flex justify-between mts">
+        <div className="invoice-container border border-[#ccccc] pg rounded-lg shadow-lg">
+            <div className="flex justify-between">
                 <h2 className="text-2xl font-bold">Liste des commandes</h2>
                 <button className="border border-[#cccccc] w-32 h-10 text-white rounded font-semibold bg-[#14446c] cursor-pointer add-order-btn hover:bg-[#f18c08] ">
                     <Link className="flex gap-2 " href='/dashboard/forms/create_invoice'><IoMdAdd className="text-lg"/>Ajouter</Link>
