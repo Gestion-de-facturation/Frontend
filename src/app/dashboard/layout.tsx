@@ -1,6 +1,5 @@
 import Sidebar from '@/components/Sidebar';
 import UserInfo from '@/components/user/UserInfo';
-import { RouteChangeLoader } from '@/components/modals/RouteChangeLoader';
 import '@/styles/normalize.css';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

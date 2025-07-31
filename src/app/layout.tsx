@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en" className='scroll-smooth'>
       <body>
         <div className="flex">
-          <main className="flex-1 p-6 bg-gray-100 min-h-screen">
+          <main className="flex-1 bg-gray-100 min-h-screen">
             <Toaster position="top-right" />
             {children}
           </main>
