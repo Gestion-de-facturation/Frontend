@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ConfirmModal from '../modals/ConfirmModal';
 import { TiCancel } from "react-icons/ti";
+import { FiRotateCw } from 'react-icons/fi';
 import { FaRegSave } from "react-icons/fa";
 import '@/styles/form.css';
 import '@/styles/order.css';
@@ -24,8 +25,8 @@ export default function OrderButton ({
         }}
         className="flex gap-2 border rounded bg-gray-100 cursor-pointer w-32 h-9 font-semibold order-btn-cancel hover:bg-[#ffffffda]"
         >
-            <TiCancel className='text-lg order-btn-icon'/>
-            Annuler
+            <FiRotateCw className='text-lg order-btn-icon'/>
+            Effacer
         </button>
         <button 
         onClick={handleSubmit}
