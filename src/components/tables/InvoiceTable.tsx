@@ -273,6 +273,8 @@ export default function InvoiceTable({
                 <ConfirmModal
                     title="Confirmer la suppression"
                     message="Voulez-vous vraiment supprimer cette commande ?"
+                    confirmBtn='Supprimer'
+                    cancelBtn='Annuler'
                     onConfirm={handleDeleteConfirm}
                     onCancel={() => {
                     setShowConfirm(false);

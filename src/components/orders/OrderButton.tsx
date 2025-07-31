@@ -1,8 +1,9 @@
-import React from 'react';
-import '@/styles/form.css';
-import '@/styles/order.css';
+import React, { useState } from 'react';
+import ConfirmModal from '../modals/ConfirmModal';
 import { TiCancel } from "react-icons/ti";
 import { FaRegSave } from "react-icons/fa";
+import '@/styles/form.css';
+import '@/styles/order.css';
 
 type Props = {
     handleSubmit: () => void;
@@ -13,10 +14,14 @@ export default function OrderButton ({
     handleSubmit,
     handleCancel,
 } : Props) {
+    const [showConfirm, setShowConfirm] = useState(false);
+
     return (
     <div className="flex justify-between order-btn-container">
         <button 
-        onClick={handleCancel}
+        onClick={() => {
+            setShowConfirm(true);
+        }}
         className="flex gap-2 border rounded bg-gray-100 cursor-pointer w-32 h-9 font-semibold order-btn-cancel hover:bg-[#ffffffda]"
         >
             <TiCancel className='text-lg order-btn-icon'/>
@@ -28,6 +33,21 @@ export default function OrderButton ({
             <FaRegSave className='text-lg order-btn-icon'/>
             Enregistrer
         </button>
+        {showConfirm && (
+            <ConfirmModal 
+                title="Annulation de la saisie"
+                message='Voulez-vous vraiment annuler la saisie de la commande?'
+                confirmBtn='Oui'
+                cancelBtn='Non'
+                onConfirm={() => {
+                    handleCancel();
+                    setShowConfirm(false);
+                }}
+                onCancel={() => {
+                    setShowConfirm(false);
+                }}
+            />
+        )}
     </div>
     )
 }
