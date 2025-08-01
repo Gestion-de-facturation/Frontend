@@ -83,7 +83,7 @@ export default function PaidInvoices () {
         content={count !== null ? `${count}` : 'chargement'} 
        percentage={
                 percentage !== null
-                    ? `${percentage.toFixed(2)}%`
+                    ? `${percentage.toFixed(2)}`
                     : "chargement..."
             }  />
     );
