@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
 import {
     ColumnDef,
     getCoreRowModel,
@@ -16,6 +15,7 @@ import { LiaEye, LiaEdit } from "react-icons/lia";
 import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import { handleDeleteOrder } from '@/utils/handlers/order-list/handleDeleteConfirm';
+import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
 import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
 import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
@@ -49,35 +49,6 @@ export default function InvoiceTable({
 
     const handleDeleteConfirm = async() => {
         handleDeleteOrder({deleteId, mutate, setShowConfirm, setDeleteId});
-    }
-
-    const handleDownload = async (order: any) => {
-        try {
-            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}`);
-
-            const produits = data.commandeProduits.map((item: any) => ({
-                id: item.idProduit,
-                nom: item.produit.nom,
-                quantite: item.quantite,
-                prixUnitaire: item.produit.prixUnitaire
-            }));
-
-            const factureBody = {
-                id: data.id,
-                date: data.date.substring(0, 10),
-                adresseLivraison: data.adresse_livraison,
-                adresseFacturation: data.adresse_facturation,
-                fraisDeLivraison: data.frais_de_livraison,
-                orderType: data.order_type.toUpperCase(),
-                produits,
-            };
-
-            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/invoice/create`, factureBody);
-            window.open(`${process.env.NEXT_PUBLIC_API_URL}/invoice/${order.id}/download`);
-        } catch (err) {
-            console.error("Erreur de téléchargement: ", err);
-            
-        };
     }
 
     const columns: ColumnDef<Order>[] = [
