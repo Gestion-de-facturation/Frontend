@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { displayStatut } from '@/utils/functions/displayStatut';
+import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
 import { MdClose } from 'react-icons/md';
 import { PiDownloadSimpleThin } from "react-icons/pi";
 import { CiEdit } from "react-icons/ci";
@@ -61,58 +63,6 @@ export default function OrderDetails({ orderId, onClose }: Props) {
     0
   );
 
-  const displayStatut = (statut: string) => {
-    let statut_bg_color : string;
-    let statut_title: string = statut;
-    if(statut === 'en_cours' || statut === 'en_attente') {
-      if(statut === 'en_cours') {
-        statut_title = 'en cours de livraison';
-      } else {
-        statut_title = 'en attente de paiement';
-      }
-      statut_bg_color = 'bg-blue-500';
-    }  else if (statut === 'livré' || statut === 'validé') {
-      if(statut === 'validé') {
-        statut_title = 'paiement validé';
-      }
-      statut_bg_color = 'bg-green-600';
-    } else if (statut === 'annulé') {
-      statut_bg_color = 'bg-red-600';
-    } else {
-      statut_bg_color = 'bg-orange-500';
-    }
-
-    return {statut_bg_color, statut_title}
-  }
-
-  const handleDownload = async () => {
-      try {
-          const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}`);
-
-          const produits = data.commandeProduits.map((item: any) => ({
-              id: item.idProduit,
-              nom: item.produit.nom,
-              quantite: item.quantite,
-              prixUnitaire: item.produit.prixUnitaire
-          }));
-
-          const factureBody = {
-              id: data.id,
-              date: data.date.substring(0, 10),
-              adresseLivraison: data.adresse_livraison,
-              adresseFacturation: data.adresse_facturation,
-              fraisDeLivraison: data.frais_de_livraison,
-              orderType: data.order_type.toUpperCase(),
-              produits,
-          };
-
-          await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/invoice/create`, factureBody);
-          window.open(`${process.env.NEXT_PUBLIC_API_URL}/invoice/${order.id}/download`);
-      } catch (err) {
-          console.error("Erreur de téléchargement: ", err);          
-      };
-  }
-
   return (
     <div className={`transition-opacity duration-300 ${order ? 'opacity-100' : 'opacity-0'}`}>
       <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex justify-center items-start z-50 p-6 overflow-y-auto">
@@ -138,7 +88,7 @@ export default function OrderDetails({ orderId, onClose }: Props) {
               </button>
               <button
               title='Télécharger'
-              onClick={() => handleDownload()}
+              onClick={() => handleDownload(orderId)}
               className='order-details-edit-btn'>
                 <PiDownloadSimpleThin className='h-6 w-6 text-[#f18c08] font-sm hover:text-shadow-[#f18c08] cursor-pointer order-details-edit-icon'/>
               </button>

@@ -144,7 +144,7 @@ export default function InvoiceTable({
                     </button>
                     <button 
                     title='Télécharger'
-                    onClick={() => handleDownload(row.original)}
+                    onClick={() => handleDownload(row.original.id)}
                     >
                         <MdOutlineFileDownload className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer'/>
                     </button>

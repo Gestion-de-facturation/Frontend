@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const handleDownload = async (order: any) => {
+export const handleDownload = async (orderId: string) => {
     try {
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}`);
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}`);
 
         const produits = data.commandeProduits.map((item: any) => ({
             id: item.idProduit,
@@ -22,7 +22,7 @@ export const handleDownload = async (order: any) => {
         };
 
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/invoice/create`, factureBody);
-        window.open(`${process.env.NEXT_PUBLIC_API_URL}/invoice/${order.id}/download`);
+        window.open(`${process.env.NEXT_PUBLIC_API_URL}/invoice/${orderId}/download`);
     } catch (err) {
         console.error("Erreur de téléchargement: ", err);
         
