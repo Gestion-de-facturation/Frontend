@@ -99,3 +99,7 @@
 .order-search-icon {
     margin-top: 0.75vh;
 }
+
+.date-search {
+    padding-inline: 0.5em;
+}
