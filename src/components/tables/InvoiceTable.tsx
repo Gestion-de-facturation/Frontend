@@ -13,10 +13,10 @@ import {
 import { Order } from '@/utils/types/orderList';
 import { LiaEye, LiaEdit } from "react-icons/lia";
 import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
-import { FaSearch } from "react-icons/fa";
 import { handleDeleteOrder } from '@/utils/handlers/order-list/handleDeleteConfirm';
 import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
 import { OrderSearch } from '../fields/search/OrderSearch';
+import { PaginationBtn } from '../buttons/PaginationBtn';
 import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
 import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
@@ -207,25 +207,8 @@ export default function InvoiceTable({
                 </tbody>
             </table>
 
-            <div className="flex justify-between items-center mts">
-                <button
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                    className='px-4 py-2 bg-gray-200 rounded disabled:opacity-50'    
-                >
-                    Précédent
-                </button>
-                <span>
-                    Page {table.getState().pagination.pageIndex + 1} sur {table.getPageCount()}
-                </span>
-                <button 
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                    className='px-4 py-2 bg-gray-200 rounded disabled:opacity-50'    
-                >
-                    Suivant
-                </button>
-            </div>
+            <PaginationBtn table={table}/>
+
             {selectedCommandeId && (
                 <OrderDetails orderId={selectedCommandeId} onClose={() => setSelectedCommandeId(null)} />
             )}
