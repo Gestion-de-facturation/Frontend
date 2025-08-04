@@ -20,7 +20,6 @@ import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
 import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
 import PaymentStatusSelect from '../buttons/PaymentStatusSelect';
-import toast from 'react-hot-toast';
 import '@/styles/order.css';
 
 type Props = {
