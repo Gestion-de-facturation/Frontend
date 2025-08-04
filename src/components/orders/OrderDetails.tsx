@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { displayStatut } from '@/utils/functions/displayStatut';
 import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
+import { DownloadInvoiceBtn } from '../buttons/DownloadInvoiceBtn';
 import { MdClose } from 'react-icons/md';
 import { PiDownloadSimpleThin } from "react-icons/pi";
 import { CiEdit } from "react-icons/ci";
@@ -86,12 +87,6 @@ export default function OrderDetails({ orderId, onClose }: Props) {
               >
                 <CiEdit className='h-6 w-6 text-[#f18c08] font-sm hover:text-shadow-[#f18c08] cursor-pointer order-details-edit-icon'/>
               </button>
-              <button
-              title='Télécharger'
-              onClick={() => handleDownload(orderId)}
-              className='order-details-edit-btn'>
-                <PiDownloadSimpleThin className='h-6 w-6 text-[#f18c08] font-sm hover:text-shadow-[#f18c08] cursor-pointer order-details-edit-icon'/>
-              </button>
             </div>
             <div className='flex gap-2'>
               <p className={`${displayStatut(order.statut_livraison).statut_bg_color} rounded-xl text-white status-type-details h-8`}>
@@ -134,6 +129,7 @@ export default function OrderDetails({ orderId, onClose }: Props) {
             <p><strong>Total produits :</strong> {totalProduits.toLocaleString()} Ar</p>
             <p><strong>Frais de livraison :</strong> {order.frais_de_livraison.toLocaleString()} Ar</p>
             <p className="text-lg font-bold"><strong>Total général :</strong> {order.total.toLocaleString()} Ar</p>
+            <DownloadInvoiceBtn onClick={() => handleDownload(orderId)}/>
           </div>
         </div>
       </div>

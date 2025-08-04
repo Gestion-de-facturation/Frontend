@@ -11,3 +11,14 @@
     width: 90%;
     margin-left: 0.5vw;
 }
+
+/*OrderDetails btn*/
+
+.invoice-download-btn-container {
+    margin-top: 2vh;
+    margin-left: 68.5%;
+}
+
+.invoice-download-btn {
+    padding: 1rem;
+}
