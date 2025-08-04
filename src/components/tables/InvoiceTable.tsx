@@ -15,6 +15,7 @@ import { Order } from '@/utils/types/orderList';
 import { LiaEye, LiaEdit } from "react-icons/lia";
 import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
+import { handleDeleteOrder } from '@/utils/handlers/order-list/handleDeleteConfirm';
 import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
 import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
@@ -47,17 +48,7 @@ export default function InvoiceTable({
     const router = useRouter();
 
     const handleDeleteConfirm = async() => {
-        if (!deleteId) return ;
-        try {
-            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/orders/${deleteId}`);
-            toast.success('Commande supprimée');
-            mutate();
-        } catch (err) {
-            toast.error('Erreur lors de la suppression');
-        } finally {
-            setShowConfirm(false);
-            setDeleteId(null);
-        }
+        handleDeleteOrder({deleteId, mutate, setShowConfirm, setDeleteId});
     }
 
     const handleDownload = async (order: any) => {
