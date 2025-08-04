@@ -16,6 +16,7 @@ import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import { handleDeleteOrder } from '@/utils/handlers/order-list/handleDeleteConfirm';
 import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
+import { OrderSearch } from '../fields/search/OrderSearch';
 import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
 import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
@@ -176,27 +177,7 @@ export default function InvoiceTable({
 
     return (
         <div className='invoices'>
-            <div className='flex gap-2'>
-                <div className='flex gap-4 border border border-gray-300 h-8 w-80 rounded product-search-input mts'>
-                    <FaSearch size={20} className='order-search-icon'/>
-                    <input 
-                        type="text" 
-                        value={globalFilter}
-                        onChange={(e) => setGlobalFilter(e.target.value)}
-                        placeholder="Rechercher une commande..."
-                        className=' h-8 w-80 rounded'
-                    />
-                </div>
-                <div className=" border border border-gray-300 h-8 rounded  mts date-search">
-                    <label className='font-semibold'>Date: </label>
-                    <input 
-                    type="date"
-                    className='h-8'
-                    value={globalFilter}
-                    onChange={(e) => setGlobalFilter(e.target.value)}
-                    />
-                </div>
-            </div>
+            <OrderSearch globalFilter={globalFilter} setGlobalFilter={setGlobalFilter}/>
 
             <table className='border w-full mts h-64'>
                 <thead className='bg-gray'>
