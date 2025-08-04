@@ -1,14 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Order } from '@/utils/types/orderDetails/Order';
 import { displayStatut } from '@/utils/functions/displayStatut';
 import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
 import { DownloadInvoiceBtn } from '../buttons/DownloadInvoiceBtn';
+import { OrderDetailsTitle } from '../fields/title/OrderDetailsTitle';
 import { MdClose } from 'react-icons/md';
-import { CiEdit } from "react-icons/ci";
 import '@/styles/order.css';
 import '@/styles/invoice.css';
 
@@ -19,8 +18,6 @@ type Props = {
 
 export default function OrderDetails({ orderId, onClose }: Props) {
   const [order, setOrder] = useState<Order | null>(null);
-
-  const router = useRouter();
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -53,18 +50,7 @@ export default function OrderDetails({ orderId, onClose }: Props) {
           </button>
 
           <div className='flex justify-between gap-2'>
-            <div className='flex gap-2 h-[5vh]'>
-              <h2 className="text-2xl font-bold text-[#f18c08]">Détails de la commande</h2>
-              <button 
-              title='Modifier'
-              onClick={() => {
-                router.push(`/dashboard/forms/update-invoice?id=${order.id}`);
-              }}
-              className='order-details-edit-btn'
-              >
-                <CiEdit className='h-6 w-6 text-[#f18c08] font-sm hover:text-shadow-[#f18c08] cursor-pointer order-details-edit-icon'/>
-              </button>
-            </div>
+            <OrderDetailsTitle orderId={order.id} />
             <div className='flex gap-2'>
               <p className={`${displayStatut(order.statut_livraison).statut_bg_color} rounded-xl text-white status-type-details h-8`}>
                 {displayStatut(order.statut_livraison).statut_title}
