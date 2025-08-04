@@ -3,37 +3,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { Order } from '@/utils/types/orderDetails/Order';
 import { displayStatut } from '@/utils/functions/displayStatut';
 import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
 import { DownloadInvoiceBtn } from '../buttons/DownloadInvoiceBtn';
 import { MdClose } from 'react-icons/md';
-import { PiDownloadSimpleThin } from "react-icons/pi";
 import { CiEdit } from "react-icons/ci";
 import '@/styles/order.css';
 import '@/styles/invoice.css';
-
-type ProduitCommande = {
-  idProduit: string;
-  quantite: number;
-  montant: number;
-  produit: {
-    nom: string;
-    prixUnitaire: number;
-  };
-};
-
-type Order = {
-  id: string;
-  date: string;
-  adresse_livraison: string;
-  adresse_facturation: string;
-  frais_de_livraison: number;
-  statut_livraison: string;
-  statut_paiement: string;
-  order_type: string;
-  total: number;
-  commandeProduits: ProduitCommande[];
-};
 
 type Props = {
   orderId: string;
