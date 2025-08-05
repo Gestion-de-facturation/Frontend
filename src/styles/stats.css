@@ -5,3 +5,9 @@
 .stats-items {
     margin-top: 0.5vh;
 }
+
+.line-chart-container {
+    margin-top: 4vh;
+    padding: 2rem;
+    width: 50vw;
+}
