@@ -22,3 +22,12 @@
 .invoice-download-btn {
     padding: 1rem;
 }
+
+.minimized-width{
+    width: 9.5vw;
+}
+
+.minimized-btn-add {
+    margin-left: 25%;
+    margin-top: 1.25vh;
+}
