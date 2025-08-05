@@ -25,3 +25,7 @@
 .recent-invoice-amount-container, .recent-invoice-icons {
     padding-block: 1.5rem;
 }
+
+.chart {
+    margin-bottom: 4vh;
+}

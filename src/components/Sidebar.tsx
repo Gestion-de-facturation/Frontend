@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import CreateInvoiceBtn from './buttons/CreateInvoiceBtn';
 import { LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
+import { TbClipboardList } from "react-icons/tb";
+import { RxDashboard } from "react-icons/rx";
 import { MdReceiptLong } from "react-icons/md";
-import { AiFillProduct } from "react-icons/ai";
 import '@/styles/sidebar.css'
 
 export default function Sidebar() {
@@ -72,8 +73,20 @@ export default function Sidebar() {
                             href="/dashboard"
                             className={`flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08] ${pathname === "/dashboard" ? 'text-[#f18c08]' : 'text-[#14446c]'
                                 }`}
+                            title={isMinimized ? "Tableau de bord" : ""}>
+                            <RxDashboard className={`${isMinimized ? 'w-9 h-9 minimized-icon': 'w-5 h-5'} link-icon`} />
+                            {!isMinimized && "Tableau de bord"}
+                        </Link>
+                    </li>
+                </div>
+                <div className='sidebar-links mt-link'>
+                    <li>
+                        <Link
+                            href="/dashboard/products"
+                            className={`flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08] ${pathname === "/dashboard/products" ? 'text-[#f18c08]' : 'text-[#14446c]'
+                                }`}
                             title={isMinimized ? "Produits" : ""}>
-                            <AiFillProduct className={`${isMinimized ? 'w-9 h-9 minimized-icon': 'w-5 h-5'} link-icon`} />
+                            <TbClipboardList className={`${isMinimized ? 'w-9 h-9 minimized-icon': 'w-5 h-5'} link-icon`} />
                             {!isMinimized && "Produits"}
                         </Link>
                     </li>

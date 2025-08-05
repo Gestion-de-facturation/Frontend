@@ -1,28 +1,26 @@
-'use client';
-import { useEffect, useState, Suspense } from 'react';
-import { useRouter } from 'next/navigation';
-import ProductsList from '@/components/tables/ProductsList';
+import TotalInvoices from "@/components/stats/TotalInvoices";
+import PaidInvoices from "@/components/stats/PaidInvoices";
+import TotalRevenue from "@/components/stats/TotalRevenue";
+import HighestTotal from "@/components/stats/HighestTotal";
+import { LineChartsRevenue } from "@/components/stats/graphs/LineChartsRevenue";
+import { RecentInvoices } from "@/components/stats/lists/RecentInvoices";
+import '@/styles/order.css';
+import '@/styles/stats.css'
 
-export default function Dashboard() {
-  const router = useRouter();
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    if (isLoggedIn !== 'true') {
-      router.push('/login');
-    } else {
-      setReady(true);
-    }
-  }, []);
-
-  if (!ready) return null;
-
-  return (
-    <Suspense fallback={<div>Chargement...</div>}>
-      <main className="p-6">
-        <ProductsList />
-      </main>
-    </Suspense>
-  );
+export default function Stats () {
+    return (
+        <div className="mts">
+             <h2 className="text-2xl font-bold dashboard-title">Tableau de bord</h2>
+            <div className="flex justify-evenly mts">
+                <TotalInvoices />
+                <PaidInvoices />
+                <TotalRevenue />
+                <HighestTotal />
+            </div>
+            <div className="flex justify-around chart">
+                <LineChartsRevenue />
+                <RecentInvoices />
+            </div>
+        </div>
+    );
 }

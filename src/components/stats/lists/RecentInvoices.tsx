@@ -34,11 +34,10 @@ export const RecentInvoices = () => {
         <div className="border border-[#cccccc] shadow-md hover:shadow-lg rounded-md recent-invoices">
             <div className="flex justify-between">
                 <h2 className="font-bold text-xl">Commandes Récentes</h2>
-                <ViewAll />
+                <ViewAll target="/dashboard/invoices"/>
             </div>
             <div>
                 {recentOrders.map((order) => (
-                <>
                     <div 
                     className="flex justify-between invoices-list"
                     key={order.id}
@@ -78,7 +77,6 @@ export const RecentInvoices = () => {
                             className="cursor-pointer"/>
                         </div>
                     </div>
-                </>
                 ))}
             </div>
 
