@@ -11,3 +11,17 @@
     padding: 2rem;
     width: 50vw;
 }
+
+.recent-invoices {
+    margin-top: 4vh;
+    padding: 2rem;
+    width: 30vw;
+}
+
+.invoices-list>div {
+    margin-top: 4vh;
+}
+
+.recent-invoice-amount-container, .recent-invoice-icons {
+    padding-block: 1.5rem;
+}
