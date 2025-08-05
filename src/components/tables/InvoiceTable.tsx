@@ -21,6 +21,7 @@ import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
 import PaymentStatusSelect from '../buttons/PaymentStatusSelect';
 import { StatusDeliveryFilter } from '../fields/search/StatusDeliveryFilter';
 import { StatusPaymentFilter } from '../fields/search/StatusPaymentFilter';
+import { OrderTypeFilter } from '../fields/search/OrderTypeFilter';
 import { LiaEye, LiaEdit } from "react-icons/lia";
 import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import '@/styles/order.css';
@@ -189,6 +190,10 @@ export default function InvoiceTable({
                 <StatusPaymentFilter onChange={(value) => setColumnFilters([
                     ...columnFilters.filter(f => f.id !== 'statut_paiement'),
                     value ? { id: 'statut_paiement', value } : null,
+                ].filter(Boolean))}/>
+                <OrderTypeFilter onChange={(value) => setColumnFilters([
+                    ...columnFilters.filter(f => f.id !== 'order_type'),
+                    value ? { id: 'order_type', value } : null,
                 ].filter(Boolean))}/>
             </div>
 

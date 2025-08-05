@@ -8,10 +8,10 @@ type Props = {
 export const StatusPaymentFilter = ( {onChange} : Props ) => {
     return (
         <div className="border border-[#cccccc] h-8 mts rounded status-search">
-            <label htmlFor="delivery-status" className='font-semibold'>paiement: </label>
+            <label htmlFor="payment-status" className='font-semibold'>paiement: </label>
             <select 
-            name="delivery-status" 
-            id="delivery-status"
+            name="payment-status" 
+            id="payment-status"
             onChange={(e) => onChange(e.target.value)}
             >
                 <option value="">Tous</option>
