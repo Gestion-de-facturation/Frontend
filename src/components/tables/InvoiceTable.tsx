@@ -11,8 +11,6 @@ import {
     flexRender
 } from '@tanstack/react-table';
 import { Order } from '@/utils/types/orderList';
-import { LiaEye, LiaEdit } from "react-icons/lia";
-import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import { handleDeleteOrder } from '@/utils/handlers/order-list/handleDeleteConfirm';
 import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
 import { OrderSearch } from '../fields/search/OrderSearch';
@@ -21,6 +19,9 @@ import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
 import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
 import PaymentStatusSelect from '../buttons/PaymentStatusSelect';
+import { StatusDeliveryFilter } from '../fields/search/StatusDeliveryFilter';
+import { LiaEye, LiaEdit } from "react-icons/lia";
+import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import '@/styles/order.css';
 
 type Props = {
@@ -43,6 +44,7 @@ export default function InvoiceTable({
     const [selectedCommandeId, setSelectedCommandeId] = useState<string | null>(null);
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState<string | null>(null);
+    const [columnFilters, setColumnFilters] = useState<any[]>([]);
 
 
     const router = useRouter();
@@ -166,7 +168,7 @@ export default function InvoiceTable({
     const table = useReactTable({
         data, 
         columns,
-        state: { globalFilter, pagination },
+        state: { globalFilter, pagination, columnFilters },
         onGlobalFilterChange: setGlobalFilter,
         onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel(),
@@ -177,7 +179,13 @@ export default function InvoiceTable({
 
     return (
         <div className='invoices'>
-            <OrderSearch globalFilter={globalFilter} setGlobalFilter={setGlobalFilter}/>
+            <div className="flex gap-2">
+                <OrderSearch globalFilter={globalFilter} setGlobalFilter={setGlobalFilter}/>
+                <StatusDeliveryFilter onChange={(value) => setColumnFilters([
+                    ...columnFilters.filter(f => f.id !== 'statut_livraison'),
+                    value ? { id: 'statut_livraison', value } : null,
+                ].filter(Boolean))}/>
+            </div>
 
             <table className='border w-full mts h-64'>
                 <thead className='bg-gray'>
