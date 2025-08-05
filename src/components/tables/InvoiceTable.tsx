@@ -20,6 +20,7 @@ import ConfirmModal from '../modals/ConfirmModal';
 import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
 import PaymentStatusSelect from '../buttons/PaymentStatusSelect';
 import { StatusDeliveryFilter } from '../fields/search/StatusDeliveryFilter';
+import { StatusPaymentFilter } from '../fields/search/StatusPaymentFilter';
 import { LiaEye, LiaEdit } from "react-icons/lia";
 import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import '@/styles/order.css';
@@ -184,6 +185,10 @@ export default function InvoiceTable({
                 <StatusDeliveryFilter onChange={(value) => setColumnFilters([
                     ...columnFilters.filter(f => f.id !== 'statut_livraison'),
                     value ? { id: 'statut_livraison', value } : null,
+                ].filter(Boolean))}/>
+                <StatusPaymentFilter onChange={(value) => setColumnFilters([
+                    ...columnFilters.filter(f => f.id !== 'statut_paiement'),
+                    value ? { id: 'statut_paiement', value } : null,
                 ].filter(Boolean))}/>
             </div>
 
