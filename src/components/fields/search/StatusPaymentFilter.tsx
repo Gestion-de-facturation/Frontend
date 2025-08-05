@@ -7,7 +7,7 @@ type Props = {
 
 export const StatusPaymentFilter = ( {onChange} : Props ) => {
     return (
-        <div className="border border-[#cccccc] h-8 mts rounded status-search">
+        <div className="border border-[#cccccc] h-8 mts rounded bg-white status-search">
             <label htmlFor="payment-status" className='font-semibold'>paiement: </label>
             <select 
             name="payment-status" 

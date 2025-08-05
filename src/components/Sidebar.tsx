@@ -30,18 +30,8 @@ export default function Sidebar() {
     return (
         <aside className={`flex flex-col  ${isMinimized ? 'w-20' : 'w-48'} bg-gray-100 text-white h-screen p-4 border-r-1 border-[#CCCCCC] side-bar-container fixed top-0 left-0 z-50`}>
 
-            <div className="flex">
-                <div className="flex ustify-end minimisation-btn">
-                    <button
-                        onClick={toggleSidebar}
-                        className='text-[#14446c] hover:text-[#f18c08] transition'
-                        title={isMinimized ? "Agrandir" : "Réduire"}
-                    >
-                        {isMinimized ? <ChevronRight /> : <ChevronLeft />}
-                    </button>
-                </div>
-
-                <div className='border-b-1 border-[#CCCCCC] h-16'>
+            <div className="flex justify-evenly border-b-1 border-[#CCCCCC] ">
+                <div className='h-16'>
                     <h2 className="text-3xl font-semibold place-self-center logo">
                         {isMinimized ? (
                             <>
@@ -55,6 +45,15 @@ export default function Sidebar() {
                             </>
                         )}
                     </h2>
+                </div>
+                <div className="flex justify-end minimisation-btn">
+                    <button
+                        onClick={toggleSidebar}
+                        className='text-[#14446c] hover:text-[#f18c08] transition'
+                        title={isMinimized ? "Agrandir" : "Réduire"}
+                    >
+                        {isMinimized ? <ChevronRight /> : <ChevronLeft />}
+                    </button>
                 </div>
             </div>
 

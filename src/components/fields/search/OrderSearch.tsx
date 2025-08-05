@@ -18,7 +18,7 @@ export const OrderSearch = ({globalFilter, setGlobalFilter} : OrderSearchProps) 
                     className=' h-8 w-80 rounded'
                 />
             </div>
-            <div className=" border border border-gray-300 h-8 rounded  mts date-search">
+            <div className=" border border border-gray-300 h-8 rounded bg-white  mts date-search">
                 <label className='font-semibold'>Date: </label>
                 <input 
                 type="date"
