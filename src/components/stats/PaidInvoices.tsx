@@ -16,6 +16,7 @@ type Order = {
 
 export default function PaidInvoices () {
     const [count, setCount] = useState<number | null>(null);
+    const [total, setTotal] = useState<number | null>(null);
     const [percentage, setPercentage] = useState<number | null>(null);
 
     const fetchPaidInvoices = async () => {
@@ -24,7 +25,8 @@ export default function PaidInvoices () {
             const data: Order[] = res.data;
 
             const paidInvoices  = data.filter(
-                (order) => order.order_type === "facture" && order.statut_paiement === "validé" 
+                (order) => order.order_type === "facture" && 
+                            order.statut_paiement === "validé"
             );
 
             return paidInvoices;
@@ -33,6 +35,29 @@ export default function PaidInvoices () {
             return [];
         }
     };
+
+    const countPaidInvoices = async () => {
+        const data = await fetchPaidInvoices();
+
+        const now = new Date();
+        const currentMonth = now.getMonth();
+        const currentYear = now.getFullYear();
+
+        const filteredByMonth = data.filter((order: Order) => {
+            const orderDate = new Date(order.date);
+
+            return (
+                orderDate.getFullYear()=== currentYear &&
+                orderDate.getMonth() === currentMonth
+            )
+        });
+
+        return filteredByMonth.length;
+    }
+
+    useEffect(() => {
+        countPaidInvoices().then()
+    })
 
     useEffect(() => {
         const fetchAndCompute = async () => {
@@ -76,11 +101,15 @@ export default function PaidInvoices () {
         fetchAndCompute();
     }, []);
 
+    useEffect(() => {
+        countPaidInvoices().then(setTotal);
+    })
+
     return (
         <StatsCard 
         title={"Factures payées"} 
         icon={<MdOutlinePaid size={20}/>} 
-        content={count !== null ? `${count}` : 'chargement'} 
+        content={total !== null ? `${total}` : 'chargement'} 
        percentage={
                 percentage !== null
                     ? `${percentage.toFixed(2)}`

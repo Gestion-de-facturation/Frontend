@@ -10,6 +10,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 type Order = {
     id: string;
     date: string;
+    order_type: string
 };
 
 export default function TotalInvoices() {
@@ -75,7 +76,7 @@ export default function TotalInvoices() {
         const currentMonth = now.getMonth();
         const currentYear = now.getFullYear();
 
-        const filtered = data.filter((order: any) => {
+        const filtered = data.filter((order: Order) => {
             const orderDate = new Date(order.date);
             return (
                 orderDate.getFullYear() === currentYear && 
