@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { handleUpdateOrder } from '@/utils/handlers/handleUpdateOrder';
 import OrderForm from './OrderForm';
 import { UpdateOrderParams } from '@/utils/types/UpdateOrderParams';
@@ -13,7 +14,17 @@ type Props = {
 }
 
 export default function UpdateOrderForm({ commandeId } : Props) {
-const [initialValues, setInitialValues] = useState<Partial<UpdateOrderParams> | null>(null);
+  const [initialValues, setInitialValues] = useState<Partial<UpdateOrderParams> | null>(null);
+  const router = useRouter();
+
+  const handleSubmit = async (data: UpdateOrderParams) => {
+    await handleUpdateOrder({
+      ...data,
+      onSuccess: () => {
+        router.push('/dashboard/invoices');
+      }
+    });
+  };
 
   useEffect(() => {
     if (!commandeId) return;
@@ -54,7 +65,7 @@ const [initialValues, setInitialValues] = useState<Partial<UpdateOrderParams> | 
   return (
     <div>
       <OrderForm
-        onSubmit={handleUpdateOrder}
+        onSubmit={handleSubmit}
         mode="update"
         initialValues={initialValues}
       />
