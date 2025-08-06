@@ -70,7 +70,21 @@ export default function TotalInvoices() {
 
     const countInvoices = async() => {
         const data = await fetchOrders();
-        return data.length;
+
+        const now = new Date();
+        const currentMonth = now.getMonth();
+        const currentYear = now.getFullYear();
+
+        const filtered = data.filter((order: any) => {
+            const orderDate = new Date(order.date);
+            return (
+                orderDate.getFullYear() === currentYear && 
+                orderDate.getMonth() === currentMonth &&
+                order.order_type?.toLowerCase() === "facture"
+            );
+        });
+
+        return filtered.length;
     };
 
     useEffect(() => {
