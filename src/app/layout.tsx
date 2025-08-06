@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
+import AppLoader from '@/components/spinners/AppLoader';
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en" className='scroll-smooth'>
       <body>
         <div className="flex">
+          <AppLoader />
           <main className="flex-1 bg-gray-100 min-h-screen">
             <Toaster position="top-right" />
             {children}
