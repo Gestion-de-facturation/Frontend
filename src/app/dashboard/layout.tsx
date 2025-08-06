@@ -1,8 +1,27 @@
+'use client'
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
 import UserInfo from '@/components/user/UserInfo';
 import '@/styles/normalize.css';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    if (!isLoggedIn) {
+      router.replace('/login');
+    } else {
+      setChecking(false);
+    }
+  }, [router]);
+
+  if (checking) return null;
+
   return (
     <div className="flex">
       <Sidebar />
