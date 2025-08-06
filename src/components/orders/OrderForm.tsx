@@ -19,12 +19,9 @@ import OrderType from './OrderType';
 import { OrderFormDetails } from './OrderFormDetails';
 import { OrderSummary } from './OrderSummary';
 import ConfirmModal from '../modals/ProductConfirmModal';
-import toast from 'react-hot-toast';
 import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
-import { FaSearch } from "react-icons/fa";
 import '@/styles/form.css';
 import '@/styles/order.css';
-import { loadOrderById } from '@/utils/hooks/useLoadOrder';
 
 type OrderFormProps<T extends BaseOrderParams> = {
   onSubmit: (params: T) => void;
