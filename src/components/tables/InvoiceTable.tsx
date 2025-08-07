@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-    ColumnDef,
     getCoreRowModel,
     getFilteredRowModel,
     useReactTable,
@@ -12,19 +11,14 @@ import {
 } from '@tanstack/react-table';
 import { Order } from '@/utils/types/orderList';
 import { handleDeleteOrder } from '@/utils/handlers/order-list/handleDeleteConfirm';
-import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
 import { invoiceTableColumnsFn } from '@/utils/functions/invoice-table/invoiceTableColumnsFn';
 import { OrderSearch } from '../fields/search/OrderSearch';
 import { PaginationBtn } from '../buttons/PaginationBtn';
 import OrderDetails from '../orders/OrderDetails';
 import ConfirmModal from '../modals/ConfirmModal';
-import DeliveryStatusSelect from '../buttons/DeliveryStatusSelect';
-import PaymentStatusSelect from '../buttons/PaymentStatusSelect';
 import { StatusDeliveryFilter } from '../fields/search/StatusDeliveryFilter';
 import { StatusPaymentFilter } from '../fields/search/StatusPaymentFilter';
 import { OrderTypeFilter } from '../fields/search/OrderTypeFilter';
-import { LiaEye, LiaEdit } from "react-icons/lia";
-import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import '@/styles/order.css';
 
 type Props = {
