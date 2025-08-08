@@ -10,6 +10,7 @@ import { resetChampsAdresseModification } from '@/utils/functions/order-form/res
 import { addProductFn } from '@/utils/functions/order-form/addProductFn';
 import { calculTotalAmount } from '@/utils/functions/order-form/calculTotalAmount';
 import { handleSearchOrderFn } from '@/utils/handlers/order-form/handleSearchOrderFn';
+import { useLoading } from '@/store/useLoadingStore';
 import OrderAddresses from './OrderAddresses';
 import OrderDeliveryCost from './OrderDeliveryCost';
 import OrderStatus from './OrderStatus';
@@ -69,31 +70,42 @@ export default function OrderForm<T extends BaseOrderParams>({
     addProductFn(produits, setProduits);
   };
 
-  const handleSubmit = () => {
-    onSubmit({
-      ...initialValues,
-      produits,
-      adresseLivraison,
-      adresseFacturation,
-      fraisDeLivraison,
-      statutLivraison,
-      statutPaiement,
-      orderType,
-      setProduits,
-      setSuggestions,
-      resetChampsAdresse: mode === 'update'
-        ? resetChampsAdresseModification
-        : () => {
-          setAdresseLivraison('');
-          setAdresseFacturation('');
-          setFraisDeLivraison('');
-          setStatutLivraison('en_cours');
-          setStatutPaiement('en_attente');
-          setOrderType('devis');
-        },
-      setConfirmModal,
-      ...(mode === 'update' && { idCommande, date })
-    } as T);
+  const handleSubmit = async () => {
+    const { show, hide } = useLoading.getState();
+
+    try {
+      show();
+
+      await onSubmit({
+        ...initialValues,
+        produits,
+        adresseLivraison,
+        adresseFacturation,
+        fraisDeLivraison,
+        statutLivraison,
+        statutPaiement,
+        orderType,
+        setProduits,
+        setSuggestions,
+        resetChampsAdresse: mode === 'update'
+          ? resetChampsAdresseModification
+          : () => {
+            setAdresseLivraison('');
+            setAdresseFacturation('');
+            setFraisDeLivraison('');
+            setStatutLivraison('en_cours');
+            setStatutPaiement('en_attente');
+            setOrderType('devis');
+          },
+        setConfirmModal,
+        ...(mode === 'update' && { idCommande, date })
+      } as T);
+
+    } catch (error) {
+      console.error("Erreur lors de la soumission :", error);
+    } finally {
+      hide();
+    }
   };
 
   const removeProduct = (index: number) => {
@@ -116,15 +128,15 @@ export default function OrderForm<T extends BaseOrderParams>({
   };
 
   const handleCancel = () => {
-      setProduits([{ nom: '', prixUnitaire: '', quantite: ''}]);
-      setAdresseLivraison('');
-      setAdresseFacturation('');
-      setStatutLivraison('');
-      setStatutPaiement('');
-      setOrderType('');
-      setFraisDeLivraison('');
-      setDate('');
-      setIdCommande('');
+    setProduits([{ nom: '', prixUnitaire: '', quantite: '' }]);
+    setAdresseLivraison('');
+    setAdresseFacturation('');
+    setStatutLivraison('');
+    setStatutPaiement('');
+    setOrderType('');
+    setFraisDeLivraison('');
+    setDate('');
+    setIdCommande('');
   }
 
   return (
@@ -143,7 +155,7 @@ export default function OrderForm<T extends BaseOrderParams>({
 
         {/**Si c'est update alors ajouter les champs référence et date */}
         {mode === 'update' && (
-          <OrderFormDetails idCommande={idCommande} setIdCommande={setIdCommande} handleSearchOrder={handleSearchOrder} date={date} setDate={setDate}/>
+          <OrderFormDetails idCommande={idCommande} setIdCommande={setIdCommande} handleSearchOrder={handleSearchOrder} date={date} setDate={setDate} />
         )}
 
         <OrderStatus
