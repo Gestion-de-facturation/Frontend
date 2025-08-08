@@ -2,6 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { detectUpdatedProduct } from "../products/validateUpdatedProduct";
 import { ConfirmModalState } from "../types/ConfirmModalState";
+import { useLoading } from "@/store/useLoadingStore";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -32,12 +33,17 @@ export const handleSubmitOrder = async ({
   setConfirmModal: (modal: ConfirmModalState) => void;
   skipConfirmation?: boolean;
 }) => {
-  if(!adresseLivraison || !adresseFacturation) {
+  if (!adresseLivraison || !adresseFacturation) {
     toast.error("Veuillez remplir les adresses de la commande.");
-    return ;
+    return;
   }
 
+  // Accès au store Zustand hors composant React
+  const { show, hide } = useLoading.getState();
+
   try {
+    show(); // Affiche le spinner global
+
     const nomsProduits = new Set<string>();
 
     for (const produit of produits) {
@@ -62,13 +68,14 @@ export const handleSubmitOrder = async ({
       const modifications = await detectUpdatedProduct(produits);
 
       if (modifications) {
-        const message = `Vous avez modifié :\n${modifications.map(({ produit, modifNom, modifPrix }) => {
-        const parts = [];
-        if (modifNom) parts.push("nom");
-        if (modifPrix) parts.push("prix unitaire");
-        return `• le ${parts.join(" et ")} du produit "${produit.nom}"`;
-    })
-    .join("\n")}\nConfirmez-vous ces changements ?`;
+        const message = `Vous avez modifié :\n${modifications
+          .map(({ produit, modifNom, modifPrix }) => {
+            const parts = [];
+            if (modifNom) parts.push("nom");
+            if (modifPrix) parts.push("prix unitaire");
+            return `• le ${parts.join(" et ")} du produit "${produit.nom}"`;
+          })
+          .join("\n")}\nConfirmez-vous ces changements ?`;
 
         return setConfirmModal({
           open: true,
@@ -166,5 +173,7 @@ export const handleSubmitOrder = async ({
   } catch (error) {
     console.error("Erreur lors de la commande :", error);
     toast.error("Erreur lors de la commande. Veuillez réessayer.");
+  } finally {
+    hide(); // Toujours cacher le spinner
   }
 };

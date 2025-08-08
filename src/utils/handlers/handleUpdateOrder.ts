@@ -2,6 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { detectUpdatedProduct } from "../products/validateUpdatedProduct";
 import { UpdateOrderParams } from "../types/UpdateOrderParams";
+import { useLoading } from "@/store/useLoadingStore";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -22,12 +23,17 @@ export const handleUpdateOrder = async ({
   setConfirmModal,
   skipConfirmation = false,
 }: UpdateOrderParams & { skipConfirmation?: boolean }) => {
-  if(!adresseLivraison || !adresseFacturation) {
+  if (!adresseLivraison || !adresseFacturation) {
     toast.error("Veuillez remplir les adresses de la commande.");
-    return ;
+    return;
   }
-  
+
+  // Utilisation du store Zustand hors composant React
+  const { show, hide } = useLoading.getState();
+
   try {
+    show();
+
     const nomsProduits = new Set<string>();
     for (const produit of produits) {
       const nom = produit.nom?.trim().toLowerCase();
@@ -50,19 +56,20 @@ export const handleUpdateOrder = async ({
     const modifications = await detectUpdatedProduct(produits);
 
     if (modifications && !skipConfirmation) {
-      const message = `Vous avez modifié :\n${modifications.map(({ produit, modifNom, modifPrix }) => {
-        const parts = [];
-        if (modifNom) parts.push("nom");
-        if (modifPrix) parts.push("prix unitaire");
-        return `• le ${parts.join(" et ")} du produit "${produit.nom}"`;
-      })
-      .join("\n")}\nConfirmez-vous ces changements ?`;
+      const message = `Vous avez modifié :\n${modifications
+        .map(({ produit, modifNom, modifPrix }) => {
+          const parts = [];
+          if (modifNom) parts.push("nom");
+          if (modifPrix) parts.push("prix unitaire");
+          return `• le ${parts.join(" et ")} du produit "${produit.nom}"`;
+        })
+        .join("\n")}\nConfirmez-vous ces changements ?`;
 
       setConfirmModal({
         open: true,
         message,
         onConfirm: async () => {
-          setConfirmModal({ open: false, message: '', onConfirm: () => {}, onCancel: () => {} });
+          setConfirmModal({ open: false, message: "", onConfirm: () => {}, onCancel: () => {} });
           await handleUpdateOrder({
             idCommande,
             date,
@@ -79,19 +86,16 @@ export const handleUpdateOrder = async ({
             setConfirmModal,
             skipConfirmation: true,
           });
-
-          console.log(`Bouton appuyé `)
         },
         onCancel: () => {
-          setConfirmModal({ open: false, message: '', onConfirm: () => {}, onCancel: () => {} });
+          setConfirmModal({ open: false, message: "", onConfirm: () => {}, onCancel: () => {} });
           toast("Modification annulée.");
-        }
+        },
       });
 
       return;
     }
 
-    // ✅ Obtenir produits existants ou créer les nouveaux
     const produitsExistants: { idProduit: string; quantite: number; prix_unitaire?: number }[] = [];
     const produitsNouveaux: {
       nom: string;
@@ -122,10 +126,10 @@ export const handleUpdateOrder = async ({
           }
 
           produitsExistants.push({
-              idProduit: existant.id,
-              quantite: parseInt(p.quantite),
-              prix_unitaire: parseFloat(p.prixUnitaire), // <-- Ajouté
-            });
+            idProduit: existant.id,
+            quantite: parseInt(p.quantite),
+            prix_unitaire: parseFloat(p.prixUnitaire),
+          });
         } else {
           produitsNouveaux.push({
             nom: p.nom,
@@ -160,11 +164,13 @@ export const handleUpdateOrder = async ({
     if (onSuccess) {
       onSuccess();
     }
-    setProduits([{ nom: '', prixUnitaire: '', quantite: '', fromSuggestion: false }]);
+    setProduits([{ nom: "", prixUnitaire: "", quantite: "", fromSuggestion: false }]);
     setSuggestions({});
     resetChampsAdresse();
   } catch (error) {
     console.error("Erreur lors de la mise à jour de la commande:", error);
     toast.error("Erreur lors de la mise à jour de la commande. Veuillez réessayer.");
+  } finally {
+    hide();
   }
 };
