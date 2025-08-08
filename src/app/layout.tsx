@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import AppLoader from '@/components/spinners/AppLoader';
+import LoadingOverlay from "@/components/spinners/LoadingOverlay";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body>
         <div className="flex">
           <AppLoader />
+          <LoadingOverlay/>
           <main className="flex-1 bg-gray-100 min-h-screen">
             <Toaster position="top-right" />
             {children}
