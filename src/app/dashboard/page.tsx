@@ -11,7 +11,7 @@ export default function Stats () {
     return (
         <div className="mts">
              <h2 className="text-2xl font-bold dashboard-title">Tableau de bord</h2>
-            <div className="flex justify-evenly gap-2 mts">
+            <div className="flex justify-evenly gap-2 mts all-stats">
                 <TotalInvoices />
                 <PaidInvoices />
                 <TotalRevenue />
