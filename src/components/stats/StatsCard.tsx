@@ -10,7 +10,7 @@ type Props = {
 
 export default function StatsCard({title, icon, content, percentage}:Props) {
     return (
-        <div className="border border-[#cccccc] w-[23%] h-[20vh] shadow-sm rounded-md hover:shadow-md stats-container">
+        <div className="border border-[#cccccc] w-[25%] h-[20vh] shadow-sm rounded-md hover:shadow-md stats-container">
             <div className="flex justify-between">
                 <p className="font-semibold">{title}</p>
                 <div>{icon}</div>
