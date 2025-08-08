@@ -16,7 +16,7 @@ export default function StatsCard({title, icon, content, percentage}:Props) {
                 <div>{icon}</div>
             </div>
             <p className="text-xl font-bold stats-items">{content}</p>
-            <p><span className="text-[#f18c08] stats-items">{percentage}</span> du mois dernier</p>
+            <p><span className="text-[#f18c08] stats-items">{percentage}</span> par rapport au mois dernier</p>
         </div>
     );
 } 
