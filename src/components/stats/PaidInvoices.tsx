@@ -110,10 +110,6 @@ export default function PaidInvoices () {
         title={"Factures payées"} 
         icon={<MdOutlinePaid size={20}/>} 
         content={total !== null ? `${total}` : 'chargement'} 
-       percentage={
-                percentage !== null
-                    ? `${percentage.toFixed(2)}`
-                    : "chargement..."
-            }  />
+       percentage={percentage !== null ? `${percentage >= 0 ? "+" : ""}${percentage.toFixed(2)}%` : "chargement..."}/>
     );
 }

@@ -82,8 +82,6 @@ export default function HighestTotal () {
         title={"Total max"} 
         icon={<GiTakeMyMoney size={20}/>} 
         content={maxTotal !== null ? `${maxTotal.toLocaleString()} Ar` : "chargement..."} 
-        percentage={
-            variation !== null ? `${variation?.toFixed(2)}%` : "chargement..."
-        } />
+        percentage={variation !== null ? `${variation >= 0 ? "+" : ""}${variation.toFixed(2)}%` : "chargement..."}/>
     )
 }
