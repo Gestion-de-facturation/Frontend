@@ -20,7 +20,7 @@ export default function LoginPage() {
 
     setIsLoading(true);
     try {
-      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, { password });
+      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, { password }, { withCredentials: true });
 
       if (data?.token) {
         localStorage.setItem('token', data.token);
