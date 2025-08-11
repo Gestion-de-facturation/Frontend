@@ -4,10 +4,12 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import CreateInvoiceBtn from './buttons/CreateInvoiceBtn';
+import { handleLogout } from '@/utils/handlers/auth/handleLogout';
 import { LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { TbClipboardList } from "react-icons/tb";
 import { RxDashboard } from "react-icons/rx";
 import { MdReceiptLong } from "react-icons/md";
+import toast from 'react-hot-toast';
 import '@/styles/sidebar.css'
 
 export default function Sidebar() {
@@ -21,6 +23,16 @@ export default function Sidebar() {
             setIsMinimized(true);
         }
     }, []);
+
+    const onLogoutClick = async () => {
+        try {
+            await handleLogout();
+            router.push('/login');
+        } catch (error) {
+  console.error("Erreur lors de la déconnexion :", error);
+  toast.error("La déconnexion a échoué. Veuillez réessayer.");
+        }
+    }
 
     const toggleSidebar = () => {
         const newState = !isMinimized;
@@ -108,10 +120,7 @@ export default function Sidebar() {
             <div className='logout-btn-container'>
                 <button
                     className=" flex gap-1 bg-transparent text-red-600 font-semibold p-2 cursor-pointer rounded-md h-10 w-36 disconnect-btn"
-                    onClick={() => {
-                        localStorage.removeItem('isLoggedIn');
-                        router.push('/login');
-                    }}
+                    onClick={onLogoutClick}
                 >
                     <LogOut /> 
                     {!isMinimized && "Déconnexion"}
