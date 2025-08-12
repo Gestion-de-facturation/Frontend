@@ -11,9 +11,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
-    if (!isLoggedIn) {
+    const token = localStorage.getItem('token');
+    if (!token) {
       router.replace('/login');
     } else {
       setChecking(false);

@@ -4,13 +4,12 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import CreateInvoiceBtn from './buttons/CreateInvoiceBtn';
-import { handleLogout } from '@/utils/handlers/auth/handleLogout';
+import toast from 'react-hot-toast';
 import { LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { TbClipboardList } from "react-icons/tb";
 import { RxDashboard } from "react-icons/rx";
 import { MdReceiptLong } from "react-icons/md";
-import toast from 'react-hot-toast';
-import '@/styles/sidebar.css'
+import '@/styles/sidebar.css';
 
 export default function Sidebar() {
     const router = useRouter();
@@ -29,6 +28,12 @@ export default function Sidebar() {
         setIsMinimized(newState);
         localStorage.setItem('sidebarMinimized', newState.toString());
     }
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        toast.success('Déconnecté avec succès.');
+        router.push('/login');
+    };
 
     return (
         <aside className={`flex flex-col  ${isMinimized ? 'w-20' : 'w-48'} bg-gray-100 text-white h-screen p-4 border-r-1 border-[#CCCCCC] side-bar-container fixed top-0 left-0 z-50`}>
@@ -110,11 +115,7 @@ export default function Sidebar() {
             <div className='logout-btn-container'>
                 <button
                     className=" flex gap-1 bg-transparent text-red-600 font-semibold p-2 cursor-pointer rounded-md h-10 w-36 disconnect-btn"
-                    onClick={() => {
-                        localStorage.removeItem('isLoggedIn');
-                        router.push('/login');
-                    }}
-                >
+                    onClick={handleLogout} >
                     <LogOut />
                     {!isMinimized && "Déconnexion"}
                 </button>
