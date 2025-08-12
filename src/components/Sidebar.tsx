@@ -24,16 +24,6 @@ export default function Sidebar() {
         }
     }, []);
 
-    const onLogoutClick = async () => {
-        try {
-            await handleLogout();
-            router.push('/login');
-        } catch (error) {
-  console.error("Erreur lors de la déconnexion :", error);
-  toast.error("La déconnexion a échoué. Veuillez réessayer.");
-        }
-    }
-
     const toggleSidebar = () => {
         const newState = !isMinimized;
         setIsMinimized(newState);
@@ -73,8 +63,8 @@ export default function Sidebar() {
             <ul className="place-self-center">
                 <div className='sidebar-links mt-link'>
                     <li>
-                        <Link 
-                        href="/dashboard/forms/create_invoice">
+                        <Link
+                            href="/dashboard/forms/create_invoice">
                             <CreateInvoiceBtn minimized={isMinimized} />
                         </Link>
                     </li>
@@ -86,7 +76,7 @@ export default function Sidebar() {
                             className={`flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08] ${pathname === "/dashboard" ? 'text-[#f18c08]' : 'text-[#14446c]'
                                 }`}
                             title={isMinimized ? "Tableau de bord" : ""}>
-                            <RxDashboard className={`${isMinimized ? 'w-9 h-9 minimized-icon': 'w-5 h-5'} link-icon`} />
+                            <RxDashboard className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
                             {!isMinimized && "Tableau de bord"}
                         </Link>
                     </li>
@@ -98,7 +88,7 @@ export default function Sidebar() {
                             className={`flex text-[#14446c] text-lg side-bar-content hover:text-[#f18c08] ${pathname === "/dashboard/products" ? 'text-[#f18c08]' : 'text-[#14446c]'
                                 }`}
                             title={isMinimized ? "Produits" : ""}>
-                            <TbClipboardList className={`${isMinimized ? 'w-9 h-9 minimized-icon': 'w-5 h-5'} link-icon`} />
+                            <TbClipboardList className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
                             {!isMinimized && "Produits"}
                         </Link>
                     </li>
@@ -110,7 +100,7 @@ export default function Sidebar() {
                             className={`flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08] ${pathname === "/dashboard/invoices" ? 'text-[#f18c08]' : 'text-[#14446c]'
                                 }`}
                             title={isMinimized ? "Commandes" : ""}>
-                            <MdReceiptLong className={`${isMinimized ? 'w-9 h-9 minimized-icon': 'w-5 h-5'} link-icon`} />
+                            <MdReceiptLong className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
                             {!isMinimized && "Commandes"}
                         </Link>
                     </li>
@@ -120,9 +110,12 @@ export default function Sidebar() {
             <div className='logout-btn-container'>
                 <button
                     className=" flex gap-1 bg-transparent text-red-600 font-semibold p-2 cursor-pointer rounded-md h-10 w-36 disconnect-btn"
-                    onClick={onLogoutClick}
+                    onClick={() => {
+                        localStorage.removeItem('isLoggedIn');
+                        router.push('/login');
+                    }}
                 >
-                    <LogOut /> 
+                    <LogOut />
                     {!isMinimized && "Déconnexion"}
                 </button>
             </div>

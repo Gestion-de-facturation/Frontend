@@ -1,44 +1,38 @@
 'use client';
-import {  useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CircleUserRound } from 'lucide-react';
 import toast from 'react-hot-toast';
+import bcrypt from 'bcryptjs';
 import '@/styles/login.css';
 
 export default function LoginPage() {
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); 
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async () => {
-    if (!password.trim()) {
-      toast.error("Veuillez entrer un mot de passe.");
+  useEffect(() => {
+    const hash = bcrypt.hashSync('bestplaceadmin', 10);
+    localStorage.setItem('bestplaceAdminPasswordHash', hash);
+  }, []);
+
+  const handleLogin = () => {
+    const hash = localStorage.getItem('bestplaceAdminPasswordHash');
+    if (!hash) {
+      toast.error("Mot de passe non défini.");
       return;
-    } 
+    }
 
-    setIsLoading(true);
-    try {
-      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, { password }, { withCredentials: true });
-
-      if (data?.token) {
-        localStorage.setItem('token', data.token);
-        toast.success("Connexion réussie");
-        router.push('/dashboard');
-      } else {
-        toast.error("Réponse invalide du serveur.")
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error(error.response?.data || error.message);
-      } else {
-        console.error(error);
-        toast.error("Erreur serveur.");
-      } 
-    }finally {
-        setIsLoading(false);
-      }
+    const isValid = bcrypt.compareSync(password, hash);
+    if (isValid) {
+      setIsLoading(true);
+      localStorage.setItem('isLoggedIn', 'true');
+      setTimeout(() => router.push('/dashboard'), 1000);
+    } else {
+      toast.error("Mot de passe incorrect.");
+    }
   };
 
   return (
@@ -63,7 +57,7 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={() => setShowPassword(prev => !prev)}
-          className="absolute right-2 top-2 text-sm text-gray-600"
+          className="absolute right-2 text-sm text-gray-600 cursor-pointer btn-mt"
         >
           {showPassword ? "Masquer" : "Afficher"}
         </button>
@@ -79,6 +73,8 @@ export default function LoginPage() {
           <span>Se connecter</span>
         )}
       </button>
+
+      {error && <p className="text-red-500 mt-2">{error}</p>}
     </div>
   );
 }
