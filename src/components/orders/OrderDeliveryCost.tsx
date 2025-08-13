@@ -19,7 +19,7 @@ export default function OrderDeliveryCost ({
             value={fraisDeLivraison}
             placeholder='0'
             onChange={(e) => setFraisDeLivraison(e.target.value)}
-            className="border p-2 rounded mts w-32 h-8" />
+            className="border p-2 rounded mts w-32 h-8 form-input-padding-left" />
             <span className='span-ml'>Ar</span>
         </div>
     )

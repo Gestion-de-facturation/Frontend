@@ -48,7 +48,7 @@ export default function OrderProductInputs ({
                 placeholder="Nom du produit" 
                 value={p.nom}
                 onChange = {(e) => handleProductChange(index, e.target.value)}
-                className="border p-1 rounded col-span-2 h-8" />
+                className="border p-1 rounded col-span-2 h-8 form-input-padding-left" />
                 {suggestions[index]?.length > 0 && (
                     <ul className='absolute suggestion-mt bg-white border w-96 max-h-40 overflow-auto z-10'>
                     {suggestions[index].map((s) => (
@@ -64,12 +64,12 @@ export default function OrderProductInputs ({
                 )}
                 <input 
                 type="number" 
-                placeholder="Prix unitaire" 
+                placeholder="Prix" 
                 value={p.prixUnitaire}
                 onChange={(e) => setProduits((prev) =>
                             prev.map((item, i) => i === index ? { ...item, prixUnitaire: e.target.value } : item)
                             )}
-                className="border p-1 rounded h-8" />
+                className="border p-1 rounded h-8 form-input-padding-left" />
                 <input 
                 type="number" 
                 placeholder="Quantité" 
@@ -77,7 +77,7 @@ export default function OrderProductInputs ({
                 onChange={(e) => setProduits((prev) =>
                             prev.map((item, i) => i === index ? { ...item, quantite: e.target.value } : item)
                             )}
-                className="border p-1 rounded h-8" />
+                className="border p-1 rounded h-8 form-input-padding-left" />
                 <input 
                 type="text" 
                 value={`${

@@ -1,4 +1,5 @@
 import { FaSearch } from "react-icons/fa";
+import '@/styles/form.css'
 
 type Props = {
     idCommande: string;
@@ -24,7 +25,7 @@ export const OrderFormDetails = ({
                         <label className="block font-medium mb-1">Référence de la commande</label>
                         <input
                             type="text"
-                            className="border border-gray-300 h-8 rounded mts"
+                            className="border border-gray-300 h-8 rounded mts form-input-padding-left"
                             value={idCommande}
                             onChange={(e) => setIdCommande(e.target.value)}
                             placeholder="Ex: FA20250720120000"
@@ -44,7 +45,7 @@ export const OrderFormDetails = ({
                     <label className="block font-medium mb-1">Date de la commande</label>
                     <input
                         type="date"
-                        className="border border-gray-300 h-8  rounded mts"
+                        className="border border-gray-300 h-8 rounded mts form-input-padding-left"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
                     />
