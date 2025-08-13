@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { CircleUserRound } from 'lucide-react';
 import toast from 'react-hot-toast';
 import '@/styles/login.css';
+import '@/styles/big-screen/login.css';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
