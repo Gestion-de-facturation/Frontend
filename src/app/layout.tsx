@@ -3,6 +3,9 @@ import { Toaster } from "react-hot-toast";
 import AppLoader from '@/components/spinners/AppLoader';
 import LoadingOverlay from "@/components/spinners/LoadingOverlay";
 import "./globals.css";
+import "@/styles/button.css";
+import '@/styles/big-screen/sidebar.css';
+import '@/styles/big-screen/button.css';
 
 export const metadata: Metadata = {
   title: "Bestplace facturation",
