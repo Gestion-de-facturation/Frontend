@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation';
 import { ColumnDef } from '@tanstack/react-table';
 import { Order } from '@/utils/types/orderList';
 import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
@@ -9,13 +8,13 @@ import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
 import DeliveryStatusSelect from '@/components/buttons/DeliveryStatusSelect';
 import PaymentStatusSelect from '@/components/buttons/PaymentStatusSelect';
 import '@/styles/order.css';
+import Link from 'next/link';
 
 export const invoiceTableColumnsFn = (
     setSelectedCommandeId: (val: string) => void, 
     setDeleteId: (val: string) => void, 
     setShowConfirm: (val: boolean) => void
 ) => {
-    const router = useRouter();
 
     const columns: ColumnDef<Order>[] = [
         { header: 'Référence', accessorKey: 'id' },
@@ -108,15 +107,12 @@ export const invoiceTableColumnsFn = (
                     >
                         <LiaEye className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer' />
                     </button>
-                    <button
+                    <Link
                         title='Modifier'
-                        onClick={() => {
-                            const id = row.original.id;
-                            router.push(`/dashboard/forms/update-invoice?id=${id}`);
-                        }}
+                        href={`/dashboard/forms/update-invoice?id=${row.original.id}`}
                     >
                         <LiaEdit className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer' />
-                    </button>
+                    </Link>
                     <button
                         title='Télécharger'
                         onClick={() => handleDownload(row.original.id)}
