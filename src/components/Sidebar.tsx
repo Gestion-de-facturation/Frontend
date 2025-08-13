@@ -10,6 +10,8 @@ import { TbClipboardList } from "react-icons/tb";
 import { RxDashboard } from "react-icons/rx";
 import { MdReceiptLong } from "react-icons/md";
 import '@/styles/sidebar.css';
+import '@/styles/big-screen/sidebar.css';
+import '@/styles/big-screen/button.css'
 
 export default function Sidebar() {
     const router = useRouter();
