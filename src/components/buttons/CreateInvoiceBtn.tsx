@@ -1,5 +1,5 @@
 import { IoMdAdd } from "react-icons/io";
-import '@/styles/button.css'
+import '@/styles/big-screen/button.css';
 
 type Props = {
     minimized: boolean;

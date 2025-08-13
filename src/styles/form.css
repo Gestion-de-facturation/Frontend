@@ -3,7 +3,7 @@
     padding-block: 1rem;
 }
 
-.form-content-mt{
+.form-content-mt {
     margin-top: 1vh;
 }
 
@@ -27,9 +27,9 @@
     margin-top: 5.5vh;
 }
 
-.order-products-container, 
-.order-addresses-container, 
-.order-delivery-cost-container, 
+.order-products-container,
+.order-addresses-container,
+.order-delivery-cost-container,
 .order-update-details-container,
 .order-status-container {
     margin-top: 4vh;
@@ -83,7 +83,8 @@
     margin-top: 0.5vh;
 }
 
-.status-select, .status-label {
+.status-select,
+.status-label {
     padding: 0.25em;
 }
 
@@ -98,4 +99,8 @@
 .adresse-facturation-sugg {
     margin-left: 24vw;
     margin-top: 20vh;
+}
+
+.form-input-padding-left {
+    padding-left: 1vw;
 }

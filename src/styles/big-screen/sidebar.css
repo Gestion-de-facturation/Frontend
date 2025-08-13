@@ -1,0 +1,14 @@
+@media screen and (min-width: 1820px) {
+    .logo {
+        margin-top: 1.25vh;
+    }
+
+    .sidebar-links {
+        width: 10.5vw;
+        height: 4vh;
+    }
+
+    .sidebar-links-title-mt {
+        margin-top: 0.5vh;
+    }
+}

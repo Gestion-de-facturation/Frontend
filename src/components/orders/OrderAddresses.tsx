@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '@/styles/form.css';
 import '@/styles/order.css';
+import '@/styles/big-screen/form.css';
 
 type Props = {
     adresseLivraison: string;
@@ -50,7 +51,7 @@ export default function OrderAddresses ({
                         setAdresseLivraison(e.target.value);
                         updateSuggestions(STORAGE_KEY_LIVRAISON, e.target.value, setSuggestionLivraison);
                     }}
-                    className="w-full h-22 border border-gray-300 rounded mts order-adresses-textarea" 
+                    className="w-full h-22 border border-gray-300 rounded mts order-adresses-textarea form-input-padding-left" 
                     />
                     {adresseLivraison && (
                         <ul className="absolute z-10 bg-white border border-[#ccccccc] rounded shadow w-64 max-h-32 overflow-auto">
@@ -75,7 +76,7 @@ export default function OrderAddresses ({
                         setAdresseFacturation(e.target.value);
                         updateSuggestions(STORAGE_KEY_FACTURATION, e.target.value, setSuggestionFacturation);
                     }}
-                    className="w-full h-22 border border-gray-300 p-2 rounded mts" 
+                    className="w-full h-22 border border-gray-300 p-2 rounded mts form-input-padding-left" 
                     />
                 </div>
                 {adresseFacturation && (
