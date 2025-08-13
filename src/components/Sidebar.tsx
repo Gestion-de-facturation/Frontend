@@ -84,7 +84,7 @@ export default function Sidebar() {
                                 }`}
                             title={isMinimized ? "Tableau de bord" : ""}>
                             <RxDashboard className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
-                            {!isMinimized && "Tableau de bord"}
+                            <span className="sidebar-links-title-mt">{!isMinimized && "Tableau de bord"}</span>
                         </Link>
                     </li>
                 </div>
@@ -96,7 +96,7 @@ export default function Sidebar() {
                                 }`}
                             title={isMinimized ? "Produits" : ""}>
                             <TbClipboardList className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
-                            {!isMinimized && "Produits"}
+                            <span className="sidebar-links-title-mt">{!isMinimized && "Produits"}</span>
                         </Link>
                     </li>
                 </div>
@@ -108,7 +108,7 @@ export default function Sidebar() {
                                 }`}
                             title={isMinimized ? "Commandes" : ""}>
                             <MdReceiptLong className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
-                            {!isMinimized && "Commandes"}
+                            <span className="sidebar-links-title-mt">{!isMinimized && "Commandes"}</span>
                         </Link>
                     </li>
                 </div>
