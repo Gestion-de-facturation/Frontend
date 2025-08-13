@@ -43,7 +43,7 @@ export default function Stats() {
     return (
         <div className="mts">
             <h2 className="text-2xl font-bold dashboard-title">Tableau de bord</h2>
-            <div className="flex justify-evenly gap-2 mts all-stats">
+            <div className="flex justify-evenly 2xl:justify-around gap-2 mts all-stats">
                 <TotalInvoices />
                 <PaidInvoices />
                 <TotalRevenue />
