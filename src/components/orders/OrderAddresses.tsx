@@ -76,7 +76,7 @@ export default function OrderAddresses ({
                         setAdresseFacturation(e.target.value);
                         updateSuggestions(STORAGE_KEY_FACTURATION, e.target.value, setSuggestionFacturation);
                     }}
-                    className="w-full h-22 border border-gray-300 p-2 rounded mts form-input-padding-left" 
+                    className="w-full h-22 border border-gray-300 p-2 rounded mts order-adresses-textarea form-input-padding-left" 
                     />
                 </div>
                 {adresseFacturation && (
