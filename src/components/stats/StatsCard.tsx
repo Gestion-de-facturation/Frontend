@@ -1,6 +1,6 @@
 import React from "react";
 import '@/styles/stats.css';
-import '@/styles/big-screen/stats.css'
+import '@/styles/big-screen/stats.css';
 
 type Props = {
     title: string;
