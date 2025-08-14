@@ -23,6 +23,7 @@ import ConfirmModal from '../modals/ProductConfirmModal';
 import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
 import '@/styles/form.css';
 import '@/styles/order.css';
+import '@/app/responsive.css';
 
 type OrderFormProps<T extends BaseOrderParams> = {
   onSubmit: (params: T) => void;

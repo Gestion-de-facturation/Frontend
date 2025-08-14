@@ -1,11 +1,30 @@
 @media screen and (min-width: 1820px) {
+
     /*form.css*/
+    .order-btn-cancel {
+        padding-top: 0.7vh;
+    }
+
     .order-btn-save {
         padding-top: 0.7vh;
     }
 
     .order-sum-container {
         height: 22vh;
+    }
+
+    .search-order-id {
+        margin-top: 4.5vh;
+    }
+
+    .adresse-facturation-sugg {
+        margin-left: 30vw;
+        margin-top: 14vh;
+    }
+
+    .order-sum-container {
+        margin-top: 3vh;
+        height: 23vh;
     }
 
     /*login.css*/
@@ -30,6 +49,6 @@
     }
 
     /*stats.css*/
-    
- 
+
+
 }
