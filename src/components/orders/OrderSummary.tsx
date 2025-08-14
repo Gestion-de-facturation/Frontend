@@ -1,3 +1,5 @@
+import '@/app/responsive.css';
+
 type Props = {
     totalProduits: number;
     total: number;

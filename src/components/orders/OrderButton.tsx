@@ -4,6 +4,7 @@ import { FiRotateCw } from 'react-icons/fi';
 import { FaRegSave } from "react-icons/fa";
 import '@/styles/form.css';
 import '@/styles/order.css';
+import '@/app/responsive.css';
 
 type Props = {
     handleSubmit: () => void;

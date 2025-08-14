@@ -1,5 +1,6 @@
 import { FaSearch } from "react-icons/fa";
-import '@/styles/form.css'
+import '@/styles/form.css';
+import '@/app/responsive.css';
 
 type Props = {
     idCommande: string;

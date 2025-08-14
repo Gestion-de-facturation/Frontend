@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '@/styles/form.css';
 import '@/styles/order.css';
+import '@/app/responsive.css';
 
 type Props = {
     adresseLivraison: string;
