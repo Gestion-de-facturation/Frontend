@@ -1,52 +1,15 @@
 @media screen and (min-width: 1820px) {
 
     /*form.css*/
-    .order-btn-cancel {
-        padding-top: 0.7vh;
-    }
 
-    .order-btn-save {
-        padding-top: 0.7vh;
-    }
-
-    .order-sum-container {
-        height: 22vh;
-    }
-
-    .search-order-id {
-        margin-top: 4.5vh;
-    }
-
-    .adresse-facturation-sugg {
-        margin-left: 30vw;
-        margin-top: 14vh;
-    }
-
-    .order-sum-container {
-        margin-top: 3vh;
-        height: 23vh;
-    }
 
     /*login.css*/
 
-    .btn-mt {
-        margin-top: 4vh;
-    }
 
-    .logo {
-        margin-top: 1.25vh;
-    }
+
 
     /*sidebars.css*/
 
-    .sidebar-links {
-        width: 10.5vw;
-        height: 4vh;
-    }
-
-    .sidebar-links-title-mt {
-        margin-top: 0.5vh;
-    }
 
     /*stats.css*/
 

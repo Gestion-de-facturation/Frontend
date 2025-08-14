@@ -36,10 +36,21 @@
     margin-top: 0.5vh;
 }
 
-.user-info{
+.user-info {
     margin-right: 2vw;
 }
 
 .minimized-icon {
     margin-left: 25%;
+}
+
+@media screen and (min-width: 1820px) {
+    .sidebar-links {
+        width: 10.5vw;
+        height: 4vh;
+    }
+
+    .sidebar-links-title-mt {
+        margin-top: 0.5vh;
+    }
 }
