@@ -11,7 +11,6 @@ import { RxDashboard } from "react-icons/rx";
 import { MdReceiptLong } from "react-icons/md";
 import '@/styles/sidebar.css';
 import "@/styles/button.css";
-import '@/app/responsive.css';
 
 export default function Sidebar() {
     const router = useRouter();
@@ -38,7 +37,7 @@ export default function Sidebar() {
     };
 
     return (
-        <aside className={`flex flex-col  ${isMinimized ? 'w-20' : 'w-48'} bg-gray-100 text-white h-screen p-4 border-r-1 border-[#CCCCCC] side-bar-container fixed top-0 left-0 z-50`}>
+        <aside className={`flex flex-col  ${isMinimized ? 'w-20' : 'w-48 2xl:w-52'} bg-gray-100 text-white h-screen p-4 border-r-1 border-[#CCCCCC] side-bar-container fixed top-0 left-0 z-50`}>
 
             <div className="flex justify-evenly border-b-1 border-[#CCCCCC] ">
                 <div className='h-16'>

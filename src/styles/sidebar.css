@@ -51,6 +51,10 @@
     }
 
     .sidebar-links-title-mt {
-        margin-top: 0.5vh;
+        margin-top: 0.25vh;
+    }
+
+    .logo  {
+        margin-top: 1.25vh;
     }
 }
