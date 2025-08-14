@@ -1,6 +1,5 @@
 import React from "react";
 import '@/styles/stats.css';
-import '@/styles/big-screen/stats.css';
 
 type Props = {
     title: string;
@@ -11,7 +10,7 @@ type Props = {
 
 export default function StatsCard({title, icon, content, percentage}:Props) {
     return (
-        <div className="border border-[#cccccc] w-[25%] 2xl:w-[20%] h-[20vh] 2xl:h-[10vh] shadow-sm rounded-md hover:shadow-md stats-container">
+        <div className="border border-[#cccccc] w-[25%] 2xl:w-[20%] h-[20vh] 2xl:h-[11.5vh] shadow-sm rounded-md hover:shadow-md stats-container">
             <div className="flex justify-between">
                 <p className="font-semibold">{title}</p>
                 <div>{icon}</div>
