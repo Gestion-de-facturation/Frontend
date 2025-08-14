@@ -12,7 +12,6 @@ import { MdReceiptLong } from "react-icons/md";
 import '@/styles/sidebar.css';
 import "@/styles/button.css";
 import '@/styles/big-screen/sidebar.css';
-import '@/styles/big-screen/button.css'
 
 export default function Sidebar() {
     const router = useRouter();
