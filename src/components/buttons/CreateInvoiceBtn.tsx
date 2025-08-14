@@ -1,5 +1,5 @@
 import { IoMdAdd } from "react-icons/io";
-import styles from '@/styles/big-screen/button-create-order.module.css';
+import styles from './button-create-order.module.css';
 
 type Props = {
     minimized: boolean;
