@@ -9,7 +9,9 @@ import {
   flexRender,
 } from '@tanstack/react-table';
 import { Produit } from '@/utils/types/productList';
+import {  LiaEdit } from "react-icons/lia";
 import '@/styles/order.css'
+import Link from 'next/link';
 
 type Props = {
   data: Produit[];
@@ -37,7 +39,19 @@ export default function ProductTable({
       }
      },
     { header: 'Catégorie', accessorKey: 'categorie.nom' },
-    {header: 'Fournisseur', accessorKey: 'fournisseur.nom'}
+    {header: 'Fournisseur', accessorKey: 'fournisseur.nom'},
+    {header: 'Actions', 
+      cell: ({ row }) => (
+        <div className='flex justify-between'>
+          <button 
+          className='cursor-pointer'
+          title='Modifier le produit'
+          >
+            <LiaEdit color='#f18c08' className='h-5 w-5'/>
+          </button>
+        </div>
+      )
+    }
   ];
 
   const table = useReactTable({
