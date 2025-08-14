@@ -1,0 +1,27 @@
+.createInvBtnIcon {
+    margin-top: 2vh;
+    margin-left: 0.25vw;
+}
+
+.createInvBtnTitle{
+    margin-top: 1.5vh;
+}
+
+.createInvBtnContainer {
+    width: 92%;
+    margin-left: 0.5vw;
+}
+
+@media screen and (min-width: 1820px) {
+    .minimizedWidth {
+        width: 7vw !important;
+    }
+
+    .createInvBtnIcon {
+        margin-top: 1.2vh !important;
+    }
+
+    .createInvBtnTitle {
+        margin-top: 0.9vh !important;
+    }
+}
