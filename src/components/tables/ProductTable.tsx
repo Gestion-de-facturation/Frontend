@@ -9,7 +9,7 @@ import {
   flexRender,
 } from '@tanstack/react-table';
 import { Produit } from '@/utils/types/productList';
-import {  LiaEdit } from "react-icons/lia";
+import { LiaEdit } from "react-icons/lia";
 import '@/styles/order.css'
 import Link from 'next/link';
 
@@ -32,26 +32,31 @@ export default function ProductTable({
   const columns: ColumnDef<Produit>[] = [
     { header: 'Référence', accessorKey: 'id' },
     { header: 'Nom', accessorKey: 'nom' },
-    { header: 'Prix Unitaire', accessorKey: 'prixUnitaire',
-      cell: ({getValue}) => {
+    {
+      header: 'Prix Unitaire', accessorKey: 'prixUnitaire',
+      cell: ({ getValue }) => {
         const prix = getValue<number>();
         return `${prix} Ar`;
       }
-     },
+    },
     { header: 'Catégorie', accessorKey: 'categorie.nom' },
-    {header: 'Fournisseur', accessorKey: 'fournisseur.nom'},
-    {header: 'Actions', 
-      cell: ({ row }) => (
-        <div className='flex justify-between'>
-          <Link 
-          href={`/dashboard/forms/update_product`}
-          className='cursor-pointer'
-          title='Modifier le produit'
-          >
-            <LiaEdit color='#f18c08' className='h-5 w-5'/>
-          </Link>
-        </div>
-      )
+    { header: 'Fournisseur', accessorKey: 'fournisseur.nom' },
+    {
+      header: 'Actions',
+      cell: ({ row }) => {
+        const product = row.original;
+        return (
+          <div className='flex justify-between'>
+            <Link
+              href={`/dashboard/forms/update_product/${product.id}`}
+              className='cursor-pointer'
+              title='Modifier le produit'
+            >
+              <LiaEdit color='#f18c08' className='h-5 w-5' />
+            </Link>
+          </div>
+        )
+      }
     }
   ];
 
@@ -80,9 +85,9 @@ export default function ProductTable({
       <table className="border w-full mts h-[50vh]">
         <thead className="bg-gray">
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr 
-            key={headerGroup.id}
-            className='h-8'
+            <tr
+              key={headerGroup.id}
+              className='h-8'
             >
               {headerGroup.headers.map((header) => (
                 <th key={header.id} className="pil border">

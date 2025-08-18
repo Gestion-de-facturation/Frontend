@@ -1,24 +1,31 @@
-import ProductDetailsContent from "./ProductDetailsContent"
+import React from "react";
+import { Produit } from "@/utils/types/products/Produit";
+import ProductDetailsContent from "./ProductDetailsContent";
 
-export default function ProductDetails() {
+interface Props {
+    product: Produit;
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+}
+
+export default function ProductDetails({ product, onChange }: Props) {
     return (
         <div className='border border-[#cccccc] mts rounded-md product-modif-container'>
             <h2 className="text-xl font-bold">Détails du produit</h2>
             <div className="flex justify-between">
-                <ProductDetailsContent label="Nom du produit" value="produit 1 | exemple" />
-                <ProductDetailsContent label="Catégorie" value="catégorie 1 | exemple" />
-                <ProductDetailsContent label="Fournisseur" value="fournisseur 1 | exemple" />
+                <ProductDetailsContent name="nom" label="Nom du produit" value={product.nom} onChange={onChange} />
+                <ProductDetailsContent name="categorie" label="Catégorie" value={product.categorie.nom} onChange={onChange} />
+                <ProductDetailsContent name="fournisseur" label="Fournisseur" value={product.fournisseur.nom} onChange={onChange} />
             </div>
             <div>
                 <label className="block font-medium product-modif-content-mt">Prix unitaire</label>
-                <input 
-                type="text" 
-                value="20000 Ar" 
-                className="w-64 border border-gray-300 rounded product-modif-content-mt product-input"
-                readOnly/>
-            </div>
-            <div className="flex">
-                
+                <input
+                    type="number"
+                    name="prixUnitaire"
+                    value={product.prixUnitaire}
+                    className="w-40 border border-gray-300 border-r-none rounded product-modif-content-mt product-input"
+                    onChange={onChange}
+                />
+                <span>Ar</span>
             </div>
         </div>
     )
