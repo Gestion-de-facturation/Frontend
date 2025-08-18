@@ -141,7 +141,7 @@ export default function OrderForm<T extends BaseOrderParams>({
   }
 
   return (
-    <div className="flex justify-evenly add-form-container mts ">
+    <div className="flex justify-evenly 2xl:justify-around add-form-container mts ">
       <div>
         <div className='flex justify-between'>
           <h1 className="flex flex-row justify-between text-3xl font-bold  add-form-content">

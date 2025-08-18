@@ -43,12 +43,13 @@ export default function ProductTable({
     {header: 'Actions', 
       cell: ({ row }) => (
         <div className='flex justify-between'>
-          <button 
+          <Link 
+          href={`/dashboard/forms/update_product`}
           className='cursor-pointer'
           title='Modifier le produit'
           >
             <LiaEdit color='#f18c08' className='h-5 w-5'/>
-          </button>
+          </Link>
         </div>
       )
     }

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useProducts } from '@/utils/hooks/useProducts';
 import ProductTable from './ProductTable';
+import UpdateProductForm from '../products/UpdateProductForm';
 import { MdListAlt } from "react-icons/md";
 import '@/styles/order.css';
 

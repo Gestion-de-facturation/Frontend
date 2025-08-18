@@ -1,0 +1,30 @@
+.product-modif-form {
+    margin-left: 5%;
+}
+
+.product-modif-content-mt {
+    margin-top: 0.5rem;
+}
+
+.product-modif-container {
+    padding: 1em;
+}
+
+.product-reference-container {
+    padding: 0.25em;
+}
+
+.product-input {
+    padding-top: 0.5vh;
+    padding-left: 0.5vw;
+}
+
+.product-update-btn {
+    padding: 0.5rem;
+}
+
+@media screen and (min-width: 1820px) {
+    .product-modif-form {
+        margin-left: 0%;
+    }
+}
