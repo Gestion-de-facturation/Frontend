@@ -14,6 +14,7 @@ type Order = {
     order_type: string;
     statut_paiement: string;
     total: number;
+    isDeleted?: boolean;
 };
 
 export default function HighestTotal () {
@@ -27,7 +28,7 @@ export default function HighestTotal () {
                 const data: Order[] = res.data;
 
                 const facturesPayees = data.filter(
-                    (order) => order.order_type === 'facture' && order.statut_paiement === 'validé'
+                    (order) => order.order_type === 'facture' && order.statut_paiement === 'validé' && order.isDeleted === false
                 );
 
                 const grouped: Record<string, number[]> = {};

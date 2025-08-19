@@ -10,7 +10,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 type Order = {
     id: string;
     date: string;
-    order_type: string
+    order_type: string;
+    isDeleted?: boolean;
 };
 
 export default function TotalInvoices() {
@@ -59,7 +60,7 @@ export default function TotalInvoices() {
         fetchAndCompute();
     }, []);
 
-    const fetchOrders = async() => {
+    const fetchOrders = async () => {
         try {
             const res = await axios.get(`${API_URL}/orders`);
             return res.data;
@@ -69,7 +70,7 @@ export default function TotalInvoices() {
         }
     };
 
-    const countInvoices = async() => {
+    const countInvoices = async () => {
         const data = await fetchOrders();
 
         const now = new Date();
@@ -79,9 +80,10 @@ export default function TotalInvoices() {
         const filtered = data.filter((order: Order) => {
             const orderDate = new Date(order.date);
             return (
-                orderDate.getFullYear() === currentYear && 
+                orderDate.getFullYear() === currentYear &&
                 orderDate.getMonth() === currentMonth &&
-                order.order_type?.toLowerCase() === "facture"
+                order.order_type?.toLowerCase() === "facture" &&
+                order.isDeleted === false
             );
         });
 
@@ -93,11 +95,11 @@ export default function TotalInvoices() {
     }, []);
 
     return (
-        <StatsCard 
-        title={"Total des factures"} 
-        icon={<LiaFileInvoiceSolid size={20}/>} 
-        content={total !== null ? `${total}` : 'chargement...'} 
-        percentage={percentage !== null ? `${percentage >= 0 ? "+" : ""}${percentage.toFixed(2)}%` : "chargement..."} />
-        
+        <StatsCard
+            title={"Total des factures"}
+            icon={<LiaFileInvoiceSolid size={20} />}
+            content={total !== null ? `${total}` : 'chargement...'}
+            percentage={percentage !== null ? `${percentage >= 0 ? "+" : ""}${percentage.toFixed(2)}%` : "chargement..."} />
+
     )
 }
