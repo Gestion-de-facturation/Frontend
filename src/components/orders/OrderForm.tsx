@@ -13,6 +13,7 @@ import { handleSearchOrderFn } from '@/utils/handlers/order-form/handleSearchOrd
 import { useLoading } from '@/store/useLoadingStore';
 import OrderAddresses from './OrderAddresses';
 import OrderDeliveryCost from './OrderDeliveryCost';
+import PaymentMethod from './PaymentMethod';
 import OrderStatus from './OrderStatus';
 import OrderProductInputs from './OrderProductInputs';
 import OrderButton from './OrderButton';
@@ -194,6 +195,9 @@ export default function OrderForm<T extends BaseOrderParams>({
           fraisDeLivraison={fraisDeLivraison}
           setFraisDeLivraison={setFraisDeLivraison}
         />
+
+        {/* Méthode de paiement */}
+        <PaymentMethod />
       </div>
 
       <div>
