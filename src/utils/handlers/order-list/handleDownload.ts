@@ -13,6 +13,7 @@ export const handleDownload = async (orderId: string) => {
 
         const factureBody = {
             id: data.id,
+            reference: data.reference,
             date: data.date.substring(0, 10),
             adresseLivraison: data.adresse_livraison,
             adresseFacturation: data.adresse_facturation,
