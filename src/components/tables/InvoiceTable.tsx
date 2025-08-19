@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import {
     getCoreRowModel,
     getFilteredRowModel,
@@ -42,9 +41,6 @@ export default function InvoiceTable({
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState<string | null>(null);
     const [columnFilters, setColumnFilters] = useState<any[]>([]);
-
-
-    const router = useRouter();
 
     const handleDeleteConfirm = async() => {
         handleDeleteOrder({deleteId, mutate, setShowConfirm, setDeleteId});
@@ -117,9 +113,9 @@ export default function InvoiceTable({
             )}
             {showConfirm && (
                 <ConfirmModal
-                    title="Confirmer la suppression"
-                    message="Voulez-vous vraiment supprimer cette commande ?"
-                    confirmBtn='Supprimer'
+                    title="Confirmer l'archivage de la commande"
+                    message="Voulez-vous vraiment archiver cette commande ?"
+                    confirmBtn='Archiver'
                     cancelBtn='Annuler'
                     onConfirm={handleDeleteConfirm}
                     onCancel={() => {

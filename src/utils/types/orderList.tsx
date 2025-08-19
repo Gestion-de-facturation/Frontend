@@ -5,4 +5,5 @@ export type Order = {
     fraisDeLivraison: number;
     date: string;
     total: number;
+    isDeleted?: boolean;
 }
