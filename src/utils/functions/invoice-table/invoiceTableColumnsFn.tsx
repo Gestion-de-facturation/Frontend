@@ -17,7 +17,7 @@ export const invoiceTableColumnsFn = (
 ) => {
 
     const columns: ColumnDef<Order>[] = [
-        { header: 'Référence', accessorKey: 'id' },
+        { header: 'Référence', accessorKey: 'reference' },
         {
             header: 'Adresse Livraison', accessorKey: 'adresse_livraison',
             cell: ({ getValue }) => {
