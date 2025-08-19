@@ -37,6 +37,7 @@ export default function UpdateOrderForm({ commandeId } : Props) {
         // Mise en forme selon la structure attendue par le formulaire
         setInitialValues({
           idCommande: commande.id,
+          reference: commande.reference,
           date: commande.date,
           adresseLivraison: commande.adresse_livraison,
           adresseFacturation: commande.adresse_facturation,

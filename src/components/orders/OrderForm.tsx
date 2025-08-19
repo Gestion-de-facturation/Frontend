@@ -30,6 +30,7 @@ type OrderFormProps<T extends BaseOrderParams> = {
   mode: 'create' | 'update';
   initialValues?: Partial<T> & { produits?: Produit[] } & {
     idCommande?: string;
+    reference?: string;
     date?: string;
   };
 };
@@ -49,6 +50,7 @@ export default function OrderForm<T extends BaseOrderParams>({
   const [orderType, setOrderType] = useState(initialValues.orderType || 'devis');
 
   const [idCommande, setIdCommande] = useState(initialValues?.idCommande || '');
+  const [reference, setReference] = useState(initialValues?.reference || '');
   const [date, setDate] = useState(initialValues?.date?.split('T')[0] ?? '');
 
   const title = mode === 'create' ? 'Nouvelle Commande' : 'Modifier une commande';
@@ -117,6 +119,7 @@ export default function OrderForm<T extends BaseOrderParams>({
   const handleSearchOrder = () => {
     handleSearchOrderFn(
       idCommande,
+      reference,
       setProduits,
       setAdresseLivraison,
       setAdresseFacturation,
@@ -138,6 +141,7 @@ export default function OrderForm<T extends BaseOrderParams>({
     setFraisDeLivraison('');
     setDate('');
     setIdCommande('');
+    setReference('');
   }
 
   return (
@@ -156,7 +160,7 @@ export default function OrderForm<T extends BaseOrderParams>({
 
         {/**Si c'est update alors ajouter les champs référence et date */}
         {mode === 'update' && (
-          <OrderFormDetails idCommande={idCommande} setIdCommande={setIdCommande} handleSearchOrder={handleSearchOrder} date={date} setDate={setDate} />
+          <OrderFormDetails reference={reference} setReference={setReference} idCommande={idCommande} setIdCommande={setIdCommande} handleSearchOrder={handleSearchOrder} date={date} setDate={setDate} />
         )}
 
         <OrderStatus
