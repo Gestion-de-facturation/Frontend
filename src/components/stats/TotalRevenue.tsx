@@ -13,6 +13,7 @@ type Order = {
   order_type: string;
   statut_paiement: string;
   total: number;
+  isDeleted?: boolean;
 };
 
 export default function TotalRevenue() {
@@ -41,6 +42,7 @@ export default function TotalRevenue() {
       (order) =>
         order.order_type.toLowerCase() === "facture" &&
         order.statut_paiement.toLowerCase() === "validé" &&
+        order.isDeleted === false &&
         new Date(order.date).getFullYear() === currentYear &&
         new Date(order.date).getMonth() === currentMonth
     );
@@ -68,7 +70,8 @@ export default function TotalRevenue() {
         data.forEach((order) => {
           if (
             order.order_type.toLowerCase() === "facture" &&
-            order.statut_paiement.toLowerCase() === "validé"
+            order.statut_paiement.toLowerCase() === "validé" &&
+            order.isDeleted === false
           ) {
             const orderDate = new Date(order.date);
             const orderMonth = orderDate.getMonth();

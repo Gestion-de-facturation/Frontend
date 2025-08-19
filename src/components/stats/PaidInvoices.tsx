@@ -12,9 +12,10 @@ type Order = {
     date: string;
     order_type: string;
     statut_paiement: string;
+    isDeleted?: boolean;
 }
 
-export default function PaidInvoices () {
+export default function PaidInvoices() {
     const [count, setCount] = useState<number | null>(null);
     const [total, setTotal] = useState<number | null>(null);
     const [percentage, setPercentage] = useState<number | null>(null);
@@ -24,9 +25,10 @@ export default function PaidInvoices () {
             const res = await axios.get(`${API_URL}/orders`);
             const data: Order[] = res.data;
 
-            const paidInvoices  = data.filter(
-                (order) => order.order_type === "facture" && 
-                            order.statut_paiement === "validé"
+            const paidInvoices = data.filter(
+                (order) => order.order_type === "facture" &&
+                    order.statut_paiement === "validé" &&
+                    order.isDeleted === false
             );
 
             return paidInvoices;
@@ -47,7 +49,7 @@ export default function PaidInvoices () {
             const orderDate = new Date(order.date);
 
             return (
-                orderDate.getFullYear()=== currentYear &&
+                orderDate.getFullYear() === currentYear &&
                 orderDate.getMonth() === currentMonth
             )
         });
@@ -62,36 +64,36 @@ export default function PaidInvoices () {
     useEffect(() => {
         const fetchAndCompute = async () => {
             try {
-               const paidInvoices = await fetchPaidInvoices();
-               setCount(paidInvoices.length);
+                const paidInvoices = await fetchPaidInvoices();
+                setCount(paidInvoices.length);
 
-               const grouped: Record<string, number> = {};
-               paidInvoices.forEach(order => {
-                const dateObj = new Date(order.date);
-                if (isNaN(dateObj.getTime())) return ;
-                const key = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, "0")}`;
-                grouped[key] = (grouped[key] || 0) + 1;
-               });
+                const grouped: Record<string, number> = {};
+                paidInvoices.forEach(order => {
+                    const dateObj = new Date(order.date);
+                    if (isNaN(dateObj.getTime())) return;
+                    const key = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, "0")}`;
+                    grouped[key] = (grouped[key] || 0) + 1;
+                });
 
-               const sortedKeys = Object.keys(grouped).sort(
-                (a, b) => new Date(b).getTime() - new Date(a).getTime()
-               );
+                const sortedKeys = Object.keys(grouped).sort(
+                    (a, b) => new Date(b).getTime() - new Date(a).getTime()
+                );
 
-               if(sortedKeys.length < 2) {
-                setPercentage(null);
-                return;
-               }
+                if (sortedKeys.length < 2) {
+                    setPercentage(null);
+                    return;
+                }
 
-               const current = grouped[sortedKeys[0]];
-               const previous = grouped[sortedKeys[1]];
+                const current = grouped[sortedKeys[0]];
+                const previous = grouped[sortedKeys[1]];
 
-               if (previous === 0) {
-                setPercentage(null);
-                return ;
-               }
+                if (previous === 0) {
+                    setPercentage(null);
+                    return;
+                }
 
-               const variation = ((current - previous) * 100) / previous;
-               setPercentage(variation);
+                const variation = ((current - previous) * 100) / previous;
+                setPercentage(variation);
             } catch (err) {
                 console.error("Erreur lors de la récupération ou du calcul", err);
                 setPercentage(null);
@@ -106,10 +108,10 @@ export default function PaidInvoices () {
     })
 
     return (
-        <StatsCard 
-        title={"Factures payées"} 
-        icon={<MdOutlinePaid size={20}/>} 
-        content={total !== null ? `${total}` : 'chargement'} 
-       percentage={percentage !== null ? `${percentage >= 0 ? "+" : ""}${percentage.toFixed(2)}%` : "chargement..."}/>
+        <StatsCard
+            title={"Factures payées"}
+            icon={<MdOutlinePaid size={20} />}
+            content={total !== null ? `${total}` : 'chargement'}
+            percentage={percentage !== null ? `${percentage >= 0 ? "+" : ""}${percentage.toFixed(2)}%` : "chargement..."} />
     );
 }

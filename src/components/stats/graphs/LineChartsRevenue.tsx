@@ -12,6 +12,7 @@ type Order = {
   order_type: string;
   statut_paiement: string;
   total: number;
+  isDeleted?: boolean;
 };
 
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -33,7 +34,8 @@ export const LineChartsRevenue = () => {
         orders.forEach(order => {
           if (
             order.order_type.toLowerCase() === "facture" &&
-            order.statut_paiement.toLowerCase() === "validé"
+            order.statut_paiement.toLowerCase() === "validé" &&
+            order.isDeleted === false
           ) {
             const orderDate = new Date(order.date);
             const year = orderDate.getFullYear();
