@@ -39,12 +39,12 @@ export const RecentInvoices = () => {
             <div>
                 {recentOrders.map((order) => (
                     <div 
-                    className="flex justify-between invoices-list"
+                    className="grid grid-cols-4 gap-2 invoices-list"
                     key={order.id}
                     >
-                        <div>
+                        <div className="col-span-2">
                             <h3 className="font-semibold">
-                                {order.id} {" "} 
+                                {order.reference} {" "} 
                                 <span className={order.statut_livraison === "livré"
                                     ? "text-green-600" 
                                     : order.statut_livraison === "en_cours"
