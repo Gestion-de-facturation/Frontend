@@ -20,12 +20,14 @@ export const handleDeleteOrder = async ({
   const { show, hide } = useLoading.getState();
 
   try {
-    show(); 
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/orders/${deleteId}`);
-    toast.success("Commande supprimée");
+    show();
+    await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/orders/order/${deleteId}/softdelete`,
+      { isDeleted: true },
+    );
+    toast.success("Commande archivée");
     mutate();
   } catch (err) {
-    toast.error("Erreur lors de la suppression");
+    toast.error("Erreur lors de l'archivage");
   } finally {
     hide();
     setShowConfirm(false);
