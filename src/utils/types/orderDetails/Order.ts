@@ -2,6 +2,7 @@ import { ProduitCommande } from "./ProduitCommande";
 
 export type Order = {
     id: string;
+    reference?: string;
     date: string;
     adresse_livraison: string;
     adresse_facturation: string;

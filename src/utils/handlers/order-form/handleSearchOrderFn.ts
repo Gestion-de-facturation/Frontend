@@ -15,6 +15,7 @@ type SearchOrderResult = {
 
 export const handleSearchOrderFn = async (
   idCommande: string,
+  reference: string,
   setProduits: (value: Produit[]) => void,
   setAdresseLivraison: (value: string) => void,
   setAdresseFacturation: (value: string) => void,

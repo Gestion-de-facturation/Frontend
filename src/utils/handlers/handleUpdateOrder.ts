@@ -7,6 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const handleUpdateOrder = async ({
   idCommande,
+  reference,
   date,
   produits,
   adresseLivraison,
@@ -65,6 +66,7 @@ export const handleUpdateOrder = async ({
           setConfirmModal({ open: false, message: '', onConfirm: () => {}, onCancel: () => {} });
           await handleUpdateOrder({
             idCommande,
+            reference,
             date,
             produits,
             adresseLivraison,

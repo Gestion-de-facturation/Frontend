@@ -4,7 +4,9 @@ import '@/app/responsive.css';
 
 type Props = {
     idCommande: string;
+    reference: string;
     setIdCommande: (val: string) => void;
+    setReference: (val: string) => void;
     handleSearchOrder: () => void;
     date: string;
     setDate: (val: string) => void;
@@ -12,7 +14,9 @@ type Props = {
 
 export const OrderFormDetails = ({
     idCommande,
+    reference,
     setIdCommande,
+    setReference,
     handleSearchOrder,
     date,
     setDate
@@ -27,9 +31,9 @@ export const OrderFormDetails = ({
                         <input
                             type="text"
                             className="border border-gray-300 h-8 rounded mts form-input-padding-left"
-                            value={idCommande}
-                            onChange={(e) => setIdCommande(e.target.value)}
-                            placeholder="Ex: FA20250720120000"
+                            value={reference}
+                            onChange={(e) => setReference(e.target.value)}
+                            placeholder="Ex: ABNGJLPSE"
                         />
                     </div>
                     <button
