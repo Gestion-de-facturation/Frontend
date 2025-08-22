@@ -21,20 +21,13 @@ export default function PaymentMethod() {
         { id: "PAYM3", nom: "Airtel Money", descriptions: ["Paiement en ligne"], selectedDescription: null },
     ]);
 
-    const [selected, setSelected] = useState<string[]>([]);
+    const [selected, setSelected] = useState<string>('');
     const [isAddingMethod, setIsAddingMethod] = useState(false);
     const [newName, setNewName] = useState("");
     const [newDescription, setNewDescription] = useState("");
 
     const [addingDescriptionFor, setAddingDescriptionFor] = useState<string | null>(null);
     const [tempDescription, setTempDescription] = useState("");
-
-    // Gestion du checkbox
-    const toggleCheckbox = (id: string) => {
-        setSelected((prev) =>
-            prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-        );
-    };
 
     // Sélection d'une description
     const handleSelectDescription = (methodId: string, description: string | null) => {
@@ -102,8 +95,8 @@ export default function PaymentMethod() {
                                 type="radio"
                                 name="paymentMethod"       
                                 value={method.id}
-                                checked={selected.includes(method.id)}
-                                onChange={() => toggleCheckbox(method.id)}
+                                checked={selected === method.id}
+                                onChange={() => setSelected(method.id)}
                                 className="accent-[#14446c] cursor-pointer"
                             />
                             <span className="font-semibold">{method.nom}</span>
@@ -155,7 +148,7 @@ export default function PaymentMethod() {
                                 ) : (
                                     <button
                                         onClick={() => setAddingDescriptionFor(method.id)}
-                                        className="bg-[#14446c] text-white rounded w-max cursor-pointer hover:bg-[#f18c08] add-new-desc-btn"
+                                        className="bg-[#14446c] text-white rounded w-max cursor-pointer hover:bg-[#14446cc0] add-new-desc-btn"
                                     >
                                         + Ajouter une nouvelle description
                                     </button>
