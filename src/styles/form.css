@@ -1,6 +1,7 @@
 .add-form-container {
     margin-left: 1%;
-    padding-block: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
 }
 
 .form-content-mt {
@@ -103,6 +104,23 @@
 
 .form-input-padding-left {
     padding-left: 1vw;
+}
+
+.payment-method-select {
+    margin-top: 0.5vh;
+}
+
+.payment-method-input-p {
+    padding-inline: 0.5rem;
+    padding-block: 0.25em;
+}
+
+.add-new-desc-btn {
+    padding-inline: 0.5rem;
+}
+
+.add-payment-method-container {
+    padding: 0.5rem;
 }
 
 @media screen and (min-width: 1820px) {

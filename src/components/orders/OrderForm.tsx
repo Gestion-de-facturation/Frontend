@@ -190,14 +190,14 @@ export default function OrderForm<T extends BaseOrderParams>({
           addProduct={addProduct}
         />
 
+        {/* Méthode de paiement */}
+        <PaymentMethod />
+
         {/* Frais de livraison */}
         <OrderDeliveryCost
           fraisDeLivraison={fraisDeLivraison}
           setFraisDeLivraison={setFraisDeLivraison}
         />
-
-        {/* Méthode de paiement */}
-        <PaymentMethod />
       </div>
 
       <div>
