@@ -1,5 +1,6 @@
 import { Produit } from "./create";
 import { ConfirmModalState } from "./ConfirmModalState";
+import { ModePaiementPayload } from "../handlers/order-form/buildModePaiementPayload";
 
 export type BaseOrderParams = {
   produits: Produit[];
@@ -9,6 +10,7 @@ export type BaseOrderParams = {
   statutLivraison: string;
   statutPaiement: string;
   orderType: string;
+  modePaiement?: ModePaiementPayload | null;
   setProduits: (p: Produit[]) => void;
   setSuggestions: (s: Record<number, any[]>) => void;
   resetChampsAdresse: () => void;

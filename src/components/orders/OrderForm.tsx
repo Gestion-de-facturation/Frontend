@@ -11,6 +11,7 @@ import { addProductFn } from '@/utils/functions/order-form/addProductFn';
 import { calculTotalAmount } from '@/utils/functions/order-form/calculTotalAmount';
 import { handleSearchOrderFn } from '@/utils/handlers/order-form/handleSearchOrderFn';
 import { useLoading } from '@/store/useLoadingStore';
+import { ModePaiementPayload } from '@/utils/handlers/order-form/buildModePaiementPayload';
 import OrderAddresses from './OrderAddresses';
 import OrderDeliveryCost from './OrderDeliveryCost';
 import PaymentMethod from './PaymentMethod';
@@ -25,6 +26,7 @@ import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
 import '@/styles/form.css';
 import '@/styles/order.css';
 import '@/app/responsive.css';
+import { PaymentMethodType } from '@/utils/types/order-form/paymentMethod';
 
 type OrderFormProps<T extends BaseOrderParams> = {
   onSubmit: (params: T) => void;
@@ -56,6 +58,8 @@ export default function OrderForm<T extends BaseOrderParams>({
 
   const title = mode === 'create' ? 'Nouvelle Commande' : 'Modifier une commande';
   const totaux = calculTotalAmount(produits, fraisDeLivraison);
+
+  const [modePaiement, setModePaiement] = useState<ModePaiementPayload | null>(null);
 
   const {
     suggestions,
@@ -89,6 +93,7 @@ export default function OrderForm<T extends BaseOrderParams>({
         statutLivraison,
         statutPaiement,
         orderType,
+        modePaiement,
         setProduits,
         setSuggestions,
         resetChampsAdresse: mode === 'update'
@@ -100,6 +105,7 @@ export default function OrderForm<T extends BaseOrderParams>({
             setStatutLivraison('en_cours');
             setStatutPaiement('en_attente');
             setOrderType('devis');
+            setModePaiement(null);
           },
         setConfirmModal,
         ...(mode === 'update' && { idCommande, date })
@@ -191,7 +197,7 @@ export default function OrderForm<T extends BaseOrderParams>({
         />
 
         {/* Méthode de paiement */}
-        <PaymentMethod />
+        <PaymentMethod onChange={setModePaiement}/>
 
         {/* Frais de livraison */}
         <OrderDeliveryCost

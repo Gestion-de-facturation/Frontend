@@ -2,6 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { detectUpdatedProduct } from "../products/validateUpdatedProduct";
 import { ConfirmModalState } from "../types/ConfirmModalState";
+import { ModePaiementPayload } from "./order-form/buildModePaiementPayload";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -13,6 +14,7 @@ export const handleSubmitOrder = async ({
   statutPaiement,
   orderType,
   fraisDeLivraison,
+  modePaiement,
   setProduits,
   setSuggestions,
   resetChampsAdresse,
@@ -26,15 +28,21 @@ export const handleSubmitOrder = async ({
   statutPaiement: string;
   orderType: string;
   fraisDeLivraison: string;
+  modePaiement: ModePaiementPayload | null;
   setProduits: (p: any[]) => void;
   setSuggestions: (s: any) => void;
   resetChampsAdresse: () => void;
   setConfirmModal: (modal: ConfirmModalState) => void;
   skipConfirmation?: boolean;
 }) => {
-  if(!adresseLivraison || !adresseFacturation) {
+  if (!adresseLivraison || !adresseFacturation) {
     toast.error("Veuillez remplir les adresses de la commande.");
-    return ;
+    return;
+  }
+
+  if (!modePaiement || !modePaiement.nom) {
+    toast.error("Veuillez choisir un mode de paiement.");
+    return;
   }
 
   try {
@@ -63,18 +71,18 @@ export const handleSubmitOrder = async ({
 
       if (modifications) {
         const message = `Vous avez modifié :\n${modifications.map(({ produit, modifNom, modifPrix }) => {
-        const parts = [];
-        if (modifNom) parts.push("nom");
-        if (modifPrix) parts.push("prix unitaire");
-        return `• le ${parts.join(" et ")} du produit "${produit.nom}"`;
-    })
-    .join("\n")}\nConfirmez-vous ces changements ?`;
+          const parts = [];
+          if (modifNom) parts.push("nom");
+          if (modifPrix) parts.push("prix unitaire");
+          return `• le ${parts.join(" et ")} du produit "${produit.nom}"`;
+        })
+          .join("\n")}\nConfirmez-vous ces changements ?`;
 
         return setConfirmModal({
           open: true,
           message,
           onConfirm: async () => {
-            setConfirmModal({ open: false, message: "", onConfirm: () => {}, onCancel: () => {} });
+            setConfirmModal({ open: false, message: "", onConfirm: () => { }, onCancel: () => { } });
             await handleSubmitOrder({
               produits,
               adresseLivraison,
@@ -83,6 +91,7 @@ export const handleSubmitOrder = async ({
               statutPaiement,
               orderType,
               fraisDeLivraison,
+              modePaiement,
               setProduits,
               setSuggestions,
               resetChampsAdresse,
@@ -91,7 +100,7 @@ export const handleSubmitOrder = async ({
             });
           },
           onCancel: () => {
-            setConfirmModal({ open: false, message: "", onConfirm: () => {}, onCancel: () => {} });
+            setConfirmModal({ open: false, message: "", onConfirm: () => { }, onCancel: () => { } });
             toast("Modification annulée");
           },
         });
@@ -155,6 +164,13 @@ export const handleSubmitOrder = async ({
       frais_de_livraison: Number(fraisDeLivraison || 0),
       produitsExistants,
       produitsNouveaux,
+
+      modePaiement: {
+        nom: modePaiement.nom,
+        description: { contenu: modePaiement.description?.contenu || "" },
+        isActive: Boolean(modePaiement.isActive),
+        //id: modePaiement.id//
+      }
     };
 
     const res = await axios.post(`${API_URL}/orders/order_and_products`, commande);

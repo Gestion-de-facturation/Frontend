@@ -1,27 +1,24 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdAddBox } from "react-icons/md";
 import { FaCheckSquare } from "react-icons/fa";
 import { MdDisabledByDefault } from "react-icons/md";
+import { PaymentMethodType } from "@/utils/types/order-form/paymentMethod";
+import { fetchPaymentMethods } from "@/utils/services/paymentMethodService";
 import '@/styles/form.css';
 import '@/styles/order.css';
+import { buildExistingModePaiementPlayload, buildNewModePaiementPayload, ModePaiementPayload } from "@/utils/handlers/order-form/buildModePaiementPayload";
 
-type PaymentMethod = {
-    id: string;
-    nom: string;
-    descriptions: string[];
-    selectedDescription: string | null;
-};
+type Props = {
+    onChange: (payload: ModePaiementPayload | null) => void;
+}
 
-export default function PaymentMethod() {
-    const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([
-        { id: "PAYM1", nom: "MVola", descriptions: ["Transfert rapide", "Paiement facture"], selectedDescription: null },
-        { id: "PAYM2", nom: "Orange Money", descriptions: ["Achat crédit", "Transfert"], selectedDescription: null },
-        { id: "PAYM3", nom: "Airtel Money", descriptions: ["Paiement en ligne"], selectedDescription: null },
-    ]);
+export default function PaymentMethod({ onChange }: Props) {
+    const [paymentMethods, setPaymentMethods] = useState<PaymentMethodType[]>([]);
+    const [selectedId, setSelectedId] = useState<string>("");
+    const [selectedDescription, setSelectedDescription] = useState<string>("");
 
-    const [selected, setSelected] = useState<string>('');
     const [isAddingMethod, setIsAddingMethod] = useState(false);
     const [newName, setNewName] = useState("");
     const [newDescription, setNewDescription] = useState("");
@@ -29,62 +26,77 @@ export default function PaymentMethod() {
     const [addingDescriptionFor, setAddingDescriptionFor] = useState<string | null>(null);
     const [tempDescription, setTempDescription] = useState("");
 
-    // Sélection d'une description
-    const handleSelectDescription = (methodId: string, description: string | null) => {
-        setPaymentMethods((prev) =>
-            prev.map((m) =>
-                m.id === methodId ? { ...m, selectedDescription: description } : m
-            )
-        );
+    useEffect(() => {
+        const load = async () => {
+            try {
+                const data = await fetchPaymentMethods();
+                setPaymentMethods(data);
+            } catch (e) {
+                console.error("Impossible de charger les modes de paiement", e);
+            };
+            load();
+        }
+    }, []);
+
+    const handleSelectMethod = (id: string) => {
+        setIsAddingMethod(false);
+        setNewName(""),
+            setNewDescription("");
+
+        setSelectedId(id);
+        setSelectedDescription("");
+
+        const method = paymentMethods.find(m => m.id === id);
+        if (method) {
+            onChange(buildExistingModePaiementPlayload(method, ""));
+        } else {
+            onChange(null);
+        }
     };
 
-    // Modification d'une description existante
-    const handleChangeDescription = (methodId: string, index: number, newValue: string) => {
-        setPaymentMethods((prev) =>
-            prev.map((pm) =>
-                pm.id === methodId
-                    ? {
-                        ...pm,
-                        descriptions: pm.descriptions.map((d, i) => (i === index ? newValue : d)),
-                        selectedDescription: pm.selectedDescription === pm.descriptions[index] ? newValue : pm.selectedDescription,
-                    }
+    const handleSaveNewDescription = () => {
+        if (!addingDescriptionFor || !tempDescription.trim()) {
+            setAddingDescriptionFor(null);
+            setTempDescription("");
+            return;
+        }
+
+        setPaymentMethods(prev =>
+            prev.map(pm =>
+                pm.id === addingDescriptionFor && !pm.descriptions.includes(tempDescription.trim())
+                    ? { ...pm, descriptions: [...pm.descriptions, tempDescription.trim()] }
                     : pm
             )
         );
-    };
 
-    // Ajouter une nouvelle description via input
-    const handleSaveNewDescription = (methodId: string) => {
-        if (!tempDescription.trim()) return;
-        setPaymentMethods((prev) =>
-            prev.map((pm) =>
-                pm.id === methodId
-                    ? { ...pm, descriptions: [...pm.descriptions, tempDescription.trim()], selectedDescription: tempDescription.trim() }
-                    : pm
-            )
-        );
-        setTempDescription("");
+        if (selectedId === addingDescriptionFor) {
+            setSelectedDescription(tempDescription.trim());
+            const method = paymentMethods.find(m => m.id === addingDescriptionFor);
+            if (method) {
+                onChange(buildExistingModePaiementPlayload(method, tempDescription.trim()));
+            }
+        }
         setAddingDescriptionFor(null);
+        setTempDescription("");
     };
 
-    // Ajouter un nouveau mode de paiement
+    const startAddNewMethod = () => {
+        setSelectedId("");
+        setSelectedDescription("");
+        setIsAddingMethod(true);
+        onChange(null);
+    };
+
     const handleSaveNewPaymentMethod = () => {
         if (!newName.trim()) return;
-
-        const newId = `PAYM${paymentMethods.length + 1}`;
-        setPaymentMethods((prev) => [
-            ...prev,
-            { id: newId, nom: newName.trim(), descriptions: newDescription ? [newDescription.trim()] : [], selectedDescription: newDescription ? newDescription.trim() : null },
-        ]);
-
-        setNewName("");
-        setNewDescription("");
+        const payload = buildNewModePaiementPayload(newName, newDescription, false);
+        onChange(payload);
         setIsAddingMethod(false);
     };
 
     return (
         <div className="order-delivery-cost-container border border-[#cccccc] shadow-sm rounded-md p-4">
-            <h2 className="text-xl font-bold mb-3">Mode de paiement</h2>
+            <h2 className="text-xl font-bold">Mode de paiement</h2>
 
             <div className="grid grid-cols-2 gap-4 mts">
                 {paymentMethods.map((method) => (
@@ -93,22 +105,22 @@ export default function PaymentMethod() {
                         <label className="flex items-center gap-2">
                             <input
                                 type="radio"
-                                name="paymentMethod"       
+                                name="paymentMethod"
                                 value={method.id}
-                                checked={selected === method.id}
-                                onChange={() => setSelected(method.id)}
+                                checked={selectedId === method.id}
+                                onChange={() => setSelectedId(method.id)}
                                 className="accent-[#14446c] cursor-pointer"
                             />
                             <span className="font-semibold">{method.nom}</span>
                         </label>
 
                         {/* Si coché → afficher select et input */}
-                        {selected.includes(method.id) && (
+                        {selectedId.includes(method.id) && (
                             <div className="flex flex-col gap-2 payment-method-select">
                                 <input
                                     list={`desc-list-${method.id}`}
-                                    value={method.selectedDescription || ""}
-                                    onChange={(e) => handleSelectDescription(method.id, e.target.value)}
+                                    value={selectedDescription}
+                                    //onChange={(e) => handleSelectDescription(method.id, e.target.value)}
                                     className="border rounded w-full payment-method-input-p"
                                 />
                                 <datalist id={`desc-list-${method.id}`}>
@@ -128,7 +140,7 @@ export default function PaymentMethod() {
                                             className="border rounded w-full payment-method-input-p"
                                         />
                                         <button
-                                            onClick={() => handleSaveNewDescription(method.id)}
+                                            //onClick={() => handleSaveNewDescription(method.id)}
                                             className="text-[#f14446c] hover:text-[#f18c08] cursor-pointer"
                                             title="Ajouter"
                                         >
@@ -178,7 +190,7 @@ export default function PaymentMethod() {
                         />
                         <div className="flex gap-2">
                             <button
-                                onClick={handleSaveNewPaymentMethod}
+                                //onClick={handleSaveNewPaymentMethod}
                                 className="bg-[#14446c] text-white rounded hover:bg-[#f18c08] cursor-pointer payment-method-input-p"
                             >
                                 Sauvegarder
