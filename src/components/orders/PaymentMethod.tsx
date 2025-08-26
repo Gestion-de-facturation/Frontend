@@ -1,105 +1,122 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from "react";
 import { MdAddBox } from "react-icons/md";
 import { FaCheckSquare } from "react-icons/fa";
 import { MdDisabledByDefault } from "react-icons/md";
-import { PaymentMethodType } from "@/utils/types/order-form/paymentMethod";
-import { fetchPaymentMethods } from "@/utils/services/paymentMethodService";
 import '@/styles/form.css';
 import '@/styles/order.css';
-import { buildExistingModePaiementPlayload, buildNewModePaiementPayload, ModePaiementPayload } from "@/utils/handlers/order-form/buildModePaiementPayload";
+import { fetchPaymentMethods, createPaymentMethod, updateDescription } from "@/utils/services/paymentMethodService";
 
-type Props = {
-    onChange: (payload: ModePaiementPayload | null) => void;
+interface Description {
+    id: string;
+    contenu: string;
 }
 
-export default function PaymentMethod({ onChange }: Props) {
-    const [paymentMethods, setPaymentMethods] = useState<PaymentMethodType[]>([]);
-    const [selectedId, setSelectedId] = useState<string>("");
-    const [selectedDescription, setSelectedDescription] = useState<string>("");
+interface PaymentMethodType {
+    id: string;
+    nom: string;
+    isActive: boolean;
+    descriptions: Description[];
+    selectedDescription?: string | null;
+}
 
+export default function PaymentMethod() {
+    const [paymentMethods, setPaymentMethods] = useState<PaymentMethodType[]>([]);
+    const [selectedMethod, setSelectedMethod] = useState<string>("");
+    const [addingDescriptionFor, setAddingDescriptionFor] = useState<string | null>(null);
+    const [tempDescription, setTempDescription] = useState("");
     const [isAddingMethod, setIsAddingMethod] = useState(false);
     const [newName, setNewName] = useState("");
     const [newDescription, setNewDescription] = useState("");
 
-    const [addingDescriptionFor, setAddingDescriptionFor] = useState<string | null>(null);
-    const [tempDescription, setTempDescription] = useState("");
-
+    // Charger toutes les méthodes de paiement
     useEffect(() => {
-        const load = async () => {
+        const loadPaymentMethods = async () => {
             try {
-                const data = await fetchPaymentMethods();
-                setPaymentMethods(data);
-            } catch (e) {
-                console.error("Impossible de charger les modes de paiement", e);
-            };
-            load();
-        }
+                const data: PaymentMethodType[] = await fetchPaymentMethods();
+                const formatted = data.map(pm => ({ ...pm, selectedDescription: null }));
+                setPaymentMethods(formatted);
+            } catch (error) {
+                console.error("Erreur lors du chargement des modes de paiement", error);
+            }
+        };
+        loadPaymentMethods();
     }, []);
 
-    const handleSelectMethod = (id: string) => {
-        setIsAddingMethod(false);
-        setNewName(""),
-            setNewDescription("");
-
-        setSelectedId(id);
-        setSelectedDescription("");
-
-        const method = paymentMethods.find(m => m.id === id);
-        if (method) {
-            onChange(buildExistingModePaiementPlayload(method, ""));
-        } else {
-            onChange(null);
-        }
-    };
-
-    const handleSaveNewDescription = () => {
-        if (!addingDescriptionFor || !tempDescription.trim()) {
-            setAddingDescriptionFor(null);
-            setTempDescription("");
-            return;
-        }
-
+    // Sélection d'une description pour une méthode
+    const handleSelectDescription = (methodId: string, descValue: string) => {
         setPaymentMethods(prev =>
             prev.map(pm =>
-                pm.id === addingDescriptionFor && !pm.descriptions.includes(tempDescription.trim())
-                    ? { ...pm, descriptions: [...pm.descriptions, tempDescription.trim()] }
-                    : pm
+                pm.id === methodId ? { ...pm, selectedDescription: descValue } : pm
             )
         );
+    };
 
-        if (selectedId === addingDescriptionFor) {
-            setSelectedDescription(tempDescription.trim());
-            const method = paymentMethods.find(m => m.id === addingDescriptionFor);
-            if (method) {
-                onChange(buildExistingModePaiementPlayload(method, tempDescription.trim()));
-            }
+    const handleSaveNewDescription = async (methodId: string, newContent: string) => {
+        const method = paymentMethods.find(m => m.id === methodId);
+        if (!method) return;
+
+        try {
+            // Créer un nouveau tableau de descriptions
+            const updatedDescriptions = [
+                ...method.descriptions, // toutes les descriptions existantes
+                { contenu: newContent } // la nouvelle
+            ];
+
+            // Appel API pour mettre à jour le mode de paiement
+            const updatedMethod = await updateDescription(
+                methodId,
+                method.nom,
+                method.isActive,
+                updatedDescriptions
+            );
+
+            // Mettre à jour l'état local
+            setPaymentMethods(prev =>
+                prev.map(m =>
+                    m.id === methodId
+                        ? {
+                            ...updatedMethod,
+                            selectedDescription: newContent // sélectionner la nouvelle description
+                        }
+                        : m
+                )
+            );
+
+            // Vider le champ input et fermer le formulaire d'ajout
+            setTempDescription("");
+            setAddingDescriptionFor(null);
+
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de la description :", error);
         }
-        setAddingDescriptionFor(null);
-        setTempDescription("");
     };
 
-    const startAddNewMethod = () => {
-        setSelectedId("");
-        setSelectedDescription("");
-        setIsAddingMethod(true);
-        onChange(null);
-    };
 
-    const handleSaveNewPaymentMethod = () => {
+
+    // Ajouter un nouveau mode de paiement
+    const handleSaveNewPaymentMethod = async () => {
         if (!newName.trim()) return;
-        const payload = buildNewModePaiementPayload(newName, newDescription, false);
-        onChange(payload);
-        setIsAddingMethod(false);
+
+        try {
+            const newMethod = await createPaymentMethod(newName, newDescription ? [{ contenu: newDescription }] : []); // <-- Ici
+            setPaymentMethods(prev => [...prev, { ...newMethod, selectedDescription: null }]);
+            setNewName("");
+            setNewDescription("");
+            setIsAddingMethod(false);
+        } catch (error) {
+            console.error("Erreur lors de l'ajout du mode de paiement:", error);
+        }
     };
+
 
     return (
         <div className="order-delivery-cost-container border border-[#cccccc] shadow-sm rounded-md p-4">
-            <h2 className="text-xl font-bold">Mode de paiement</h2>
+            <h2 className="text-xl font-bold mb-3">Mode de paiement</h2>
 
             <div className="grid grid-cols-2 gap-4 mts">
-                {paymentMethods.map((method) => (
+                {paymentMethods.map(method => (
                     <div key={method.id}>
                         {/* Checkbox */}
                         <label className="flex items-center gap-2">
@@ -107,25 +124,26 @@ export default function PaymentMethod({ onChange }: Props) {
                                 type="radio"
                                 name="paymentMethod"
                                 value={method.id}
-                                checked={selectedId === method.id}
-                                onChange={() => setSelectedId(method.id)}
+                                checked={selectedMethod === method.id}
+                                onChange={() => setSelectedMethod(method.id)}
                                 className="accent-[#14446c] cursor-pointer"
                             />
                             <span className="font-semibold">{method.nom}</span>
                         </label>
 
                         {/* Si coché → afficher select et input */}
-                        {selectedId.includes(method.id) && (
+                        {selectedMethod === method.id && (
                             <div className="flex flex-col gap-2 payment-method-select">
                                 <input
                                     list={`desc-list-${method.id}`}
-                                    value={selectedDescription}
-                                    //onChange={(e) => handleSelectDescription(method.id, e.target.value)}
+                                    value={method.selectedDescription || ""}
+                                    onChange={e => handleSelectDescription(method.id, e.target.value)}
                                     className="border rounded w-full payment-method-input-p"
+                                    placeholder="Sélectionnez ou saisissez une description"
                                 />
                                 <datalist id={`desc-list-${method.id}`}>
                                     {method.descriptions.map((desc, index) => (
-                                        <option key={index} value={desc} />
+                                        <option key={`${method.id}-${index}`} value={desc.contenu} />
                                     ))}
                                 </datalist>
 
@@ -136,11 +154,11 @@ export default function PaymentMethod({ onChange }: Props) {
                                             type="text"
                                             placeholder="Nouvelle description"
                                             value={tempDescription}
-                                            onChange={(e) => setTempDescription(e.target.value)}
+                                            onChange={e => setTempDescription(e.target.value)}
                                             className="border rounded w-full payment-method-input-p"
                                         />
                                         <button
-                                            //onClick={() => handleSaveNewDescription(method.id)}
+                                            onClick={() => handleSaveNewDescription(method.id, tempDescription)}
                                             className="text-[#f14446c] hover:text-[#f18c08] cursor-pointer"
                                             title="Ajouter"
                                         >
@@ -167,30 +185,29 @@ export default function PaymentMethod({ onChange }: Props) {
                                 )}
                             </div>
                         )}
-
                     </div>
                 ))}
 
-                {/* Ajout d'un nouveau mode de paiement */}
+                {/* Ajouter un nouveau mode de paiement */}
                 {isAddingMethod ? (
                     <div className="border rounded-md bg-gray-50 flex flex-col gap-2 add-payment-method-container">
                         <input
                             type="text"
                             placeholder="Nom du mode de paiement"
                             value={newName}
-                            onChange={(e) => setNewName(e.target.value)}
+                            onChange={e => setNewName(e.target.value)}
                             className="border rounded payment-method-input-p"
                         />
                         <input
                             type="text"
                             placeholder="Première description (optionnel)"
                             value={newDescription}
-                            onChange={(e) => setNewDescription(e.target.value)}
+                            onChange={e => setNewDescription(e.target.value)}
                             className="border rounded payment-method-input-p"
                         />
                         <div className="flex gap-2">
                             <button
-                                //onClick={handleSaveNewPaymentMethod}
+                                onClick={handleSaveNewPaymentMethod}
                                 className="bg-[#14446c] text-white rounded hover:bg-[#f18c08] cursor-pointer payment-method-input-p"
                             >
                                 Sauvegarder

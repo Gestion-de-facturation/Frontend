@@ -2,20 +2,20 @@ import { PaymentMethodType } from "@/utils/types/order-form/paymentMethod";
 
 export type ModePaiementPayload = {
     nom: string;
-    description: { contenu: string };
+    description?: { contenu: string };
     isActive: boolean;
     id?: string;
 };
 
 export function buildExistingModePaiementPlayload(
     method: PaymentMethodType,
-    selectedDesciption: string
+    selectedDescription: string
 ): ModePaiementPayload {
     return {
-        nom: method.nom,
-        description: { contenu: (selectedDesciption || "").trim() },
-        isActive: method.isActive ?? true,
         id: method.id,
+        nom: method.nom,
+        description: { contenu: (selectedDescription || "").trim() },
+        isActive: method.isActive ?? true,
     };
 }
 
