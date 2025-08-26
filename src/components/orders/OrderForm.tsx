@@ -197,7 +197,7 @@ export default function OrderForm<T extends BaseOrderParams>({
         />
 
         {/* Méthode de paiement */}
-        <PaymentMethod onChange={setModePaiement}/>
+        <PaymentMethod onChange={setModePaiement} value={modePaiement}/>
 
         {/* Frais de livraison */}
         <OrderDeliveryCost

@@ -2,7 +2,7 @@ import { PaymentMethodType } from "@/utils/types/order-form/paymentMethod";
 
 export type ModePaiementPayload = {
     nom: string;
-    description?: { contenu: string };
+    description: { contenu: string };
     isActive: boolean;
     id?: string;
 };

@@ -40,7 +40,13 @@ export const handleSubmitOrder = async ({
     return;
   }
 
-  if (!modePaiement || !modePaiement.nom) {
+  const selectedMode = modePaiement || {
+    nom: "",
+    description: { contenu: "" },
+    isActive: true,
+  };
+
+  if (!selectedMode.nom || selectedMode.nom.trim() === "") {
     toast.error("Veuillez choisir un mode de paiement.");
     return;
   }
@@ -166,11 +172,10 @@ export const handleSubmitOrder = async ({
       produitsNouveaux,
 
       modePaiement: {
-        nom: modePaiement.nom,
-        description: { contenu: modePaiement.description?.contenu || "" },
-        isActive: Boolean(modePaiement.isActive),
-        //id: modePaiement.id//
-      }
+        nom: selectedMode.nom,
+        description: { contenu: selectedMode.description?.contenu || "" },
+        isActive: Boolean(selectedMode.isActive),
+      },
     };
 
     const res = await axios.post(`${API_URL}/orders/order_and_products`, commande);
