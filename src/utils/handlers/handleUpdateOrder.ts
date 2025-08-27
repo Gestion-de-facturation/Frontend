@@ -16,6 +16,7 @@ export const handleUpdateOrder = async ({
   statutLivraison,
   statutPaiement,
   orderType,
+  modePaiement,
   onSuccess,
   setProduits,
   setSuggestions,
@@ -23,12 +24,13 @@ export const handleUpdateOrder = async ({
   setConfirmModal,
   skipConfirmation = false,
 }: UpdateOrderParams & { skipConfirmation?: boolean }) => {
-  if(!adresseLivraison || !adresseFacturation) {
+  if (!adresseLivraison || !adresseFacturation) {
     toast.error("Veuillez remplir les adresses de la commande.");
-    return ;
+    return;
   }
-  
+
   try {
+    // Vérification produits
     const nomsProduits = new Set<string>();
     for (const produit of produits) {
       const nom = produit.nom?.trim().toLowerCase();
@@ -48,6 +50,7 @@ export const handleUpdateOrder = async ({
       nomsProduits.add(nom);
     }
 
+    // Détecter modifications
     const modifications = await detectUpdatedProduct(produits);
 
     if (modifications && !skipConfirmation) {
@@ -56,8 +59,7 @@ export const handleUpdateOrder = async ({
         if (modifNom) parts.push("nom");
         if (modifPrix) parts.push("prix unitaire");
         return `• le ${parts.join(" et ")} du produit "${produit.nom}"`;
-      })
-      .join("\n")}\nConfirmez-vous ces changements ?`;
+      }).join("\n")}\nConfirmez-vous ces changements ?`;
 
       setConfirmModal({
         open: true,
@@ -75,14 +77,13 @@ export const handleUpdateOrder = async ({
             statutLivraison,
             statutPaiement,
             orderType,
+            modePaiement,
             setProduits,
             setSuggestions,
             resetChampsAdresse,
             setConfirmModal,
             skipConfirmation: true,
           });
-
-          console.log(`Bouton appuyé `)
         },
         onCancel: () => {
           setConfirmModal({ open: false, message: '', onConfirm: () => {}, onCancel: () => {} });
@@ -93,7 +94,7 @@ export const handleUpdateOrder = async ({
       return;
     }
 
-    // ✅ Obtenir produits existants ou créer les nouveaux
+    // Préparer les produits existants / nouveaux
     const produitsExistants: { idProduit: string; quantite: number; prix_unitaire?: number }[] = [];
     const produitsNouveaux: {
       nom: string;
@@ -104,47 +105,42 @@ export const handleUpdateOrder = async ({
     }[] = [];
 
     for (const p of produits) {
-      try {
-        const res = await axios.get(`${API_URL}/products/product?name=${encodeURIComponent(p.nom)}`);
-        const existant = Array.isArray(res.data) && res.data.length > 0
-          ? res.data.find((item: any) => item.nom === p.nom)
-          : undefined;
+      const res = await axios.get(`${API_URL}/products/product?name=${encodeURIComponent(p.nom)}`);
+      const existant = Array.isArray(res.data) && res.data.length > 0
+        ? res.data.find((item: any) => item.nom === p.nom)
+        : undefined;
 
-        if (existant) {
-          const prixModifie = parseFloat(p.prixUnitaire) !== existant.prixUnitaire;
-          const nomModifie = p.nom !== existant.nom;
+      if (existant) {
+        const prixModifie = parseFloat(p.prixUnitaire) !== existant.prixUnitaire;
+        const nomModifie = p.nom !== existant.nom;
 
-          if (prixModifie || nomModifie) {
-            await axios.put(`${API_URL}/products/product/${existant.id}`, {
-              nom: p.nom,
-              prixUnitaire: parseFloat(p.prixUnitaire),
-              idFournisseur: "SUP20250723083813",
-              idCategorie: "CAT20250723083722",
-            });
-          }
-
-          produitsExistants.push({
-              idProduit: existant.id,
-              quantite: parseInt(p.quantite),
-              prix_unitaire: parseFloat(p.prixUnitaire), // <-- Ajouté
-            });
-        } else {
-          produitsNouveaux.push({
+        if (prixModifie || nomModifie) {
+          await axios.put(`${API_URL}/products/product/${existant.id}`, {
             nom: p.nom,
-            prix_unitaire: parseFloat(p.prixUnitaire),
+            prixUnitaire: parseFloat(p.prixUnitaire),
             idFournisseur: "SUP20250723083813",
             idCategorie: "CAT20250723083722",
-            quantite: parseInt(p.quantite),
           });
         }
-      } catch (error) {
-        console.error(`Erreur produit "${p.nom}"`, error);
-        toast.error(`Impossible d'enregistrer le produit "${p.nom}"`);
-        return;
+
+        produitsExistants.push({
+          idProduit: existant.id,
+          quantite: parseInt(p.quantite),
+          prix_unitaire: parseFloat(p.prixUnitaire),
+        });
+      } else {
+        produitsNouveaux.push({
+          nom: p.nom,
+          prix_unitaire: parseFloat(p.prixUnitaire),
+          idFournisseur: "SUP20250723083813",
+          idCategorie: "CAT20250723083722",
+          quantite: parseInt(p.quantite),
+        });
       }
     }
 
-    const payload = {
+    // Payload final
+    const payload: any = {
       adresse_livraison: adresseLivraison,
       adresse_facturation: adresseFacturation,
       statut_livraison: statutLivraison,
@@ -154,17 +150,18 @@ export const handleUpdateOrder = async ({
       date,
       produitsExistants,
       produitsNouveaux,
+      modePaiement, // ✅ Inclure le mode de paiement
     };
 
     await axios.put(`${API_URL}/orders/order_and_products/${idCommande}`, payload);
 
     toast.success(`Commande n°${idCommande} mise à jour avec succès !`);
-    if (onSuccess) {
-      onSuccess();
-    }
+    if (onSuccess) onSuccess();
+
     setProduits([{ nom: '', prixUnitaire: '', quantite: '', fromSuggestion: false }]);
     setSuggestions({});
     resetChampsAdresse();
+
   } catch (error) {
     console.error("Erreur lors de la mise à jour de la commande:", error);
     toast.error("Erreur lors de la mise à jour de la commande. Veuillez réessayer.");

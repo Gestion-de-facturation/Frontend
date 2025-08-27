@@ -59,7 +59,7 @@ export default function OrderForm<T extends BaseOrderParams>({
   const title = mode === 'create' ? 'Nouvelle Commande' : 'Modifier une commande';
   const totaux = calculTotalAmount(produits, fraisDeLivraison);
 
-  const [modePaiement, setModePaiement] = useState<ModePaiementPayload | null>(null);
+  const [modePaiement, setModePaiement] = useState<ModePaiementPayload | null>(initialValues.modePaiement || null);
 
   const {
     suggestions,

@@ -2,18 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { handleUpdateOrder } from '@/utils/handlers/handleUpdateOrder';
+import axios from 'axios';
 import OrderForm from './OrderForm';
 import { UpdateOrderParams } from '@/utils/types/UpdateOrderParams';
+import { ModePaiementPayload } from '@/utils/handlers/order-form/buildModePaiementPayload';
+import { handleUpdateOrder } from '@/utils/handlers/handleUpdateOrder';
 import '@/styles/form.css';
 import '@/styles/order.css';
-import axios from 'axios';
 
 type Props = {
   commandeId: string | null;
-}
+};
 
-export default function UpdateOrderForm({ commandeId } : Props) {
+export default function UpdateOrderForm({ commandeId }: Props) {
   const [initialValues, setInitialValues] = useState<Partial<UpdateOrderParams> | null>(null);
   const router = useRouter();
 
@@ -22,7 +23,7 @@ export default function UpdateOrderForm({ commandeId } : Props) {
       ...data,
       onSuccess: () => {
         router.push('/dashboard/invoices');
-      }
+      },
     });
   };
 
@@ -34,7 +35,22 @@ export default function UpdateOrderForm({ commandeId } : Props) {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders/${commandeId}`);
         const commande = res.data;
 
-        // Mise en forme selon la structure attendue par le formulaire
+        // Récupération du mode de paiement existant
+        let existingPayment: ModePaiementPayload | null = null;
+
+        if (commande.paiements && commande.paiements.length > 0) {
+          const firstPaiement = commande.paiements[0];
+
+          existingPayment = {
+            id: firstPaiement.mode.id,
+            nom: firstPaiement.mode.nom,
+            isActive: firstPaiement.mode.isActive,
+            description: {
+              contenu: firstPaiement.descriptionChoisie || firstPaiement.mode.description?.contenu || "",
+            },
+          };
+        }
+
         setInitialValues({
           idCommande: commande.id,
           reference: commande.reference,
@@ -44,12 +60,13 @@ export default function UpdateOrderForm({ commandeId } : Props) {
           statutLivraison: commande.statut_livraison,
           statutPaiement: commande.statut_paiement,
           orderType: commande.order_type,
-          fraisDeLivraison: commande.frais_de_livraison.toString(),
+          fraisDeLivraison: commande.frais_de_livraison?.toString() || '0',
           produits: commande.commandeProduits.map((p: any) => ({
             nom: p.produit.nom,
             prixUnitaire: p.produit.prixUnitaire.toString(),
             quantite: p.quantite.toString(),
           })),
+          modePaiement: existingPayment,
         });
       } catch (error) {
         console.error('Erreur lors du chargement de la commande :', error);
@@ -58,6 +75,7 @@ export default function UpdateOrderForm({ commandeId } : Props) {
 
     fetchCommande();
   }, [commandeId]);
+
 
   if (!initialValues) {
     return <p>Chargement en cours...</p>;
