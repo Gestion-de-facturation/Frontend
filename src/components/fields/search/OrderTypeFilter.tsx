@@ -7,7 +7,7 @@ type Props = {
 
 export const OrderTypeFilter = ({onChange} : Props) => {
     return (
-        <div className="border border-[#cccccc] h-8 mts rounded bg-white status-search">
+        <div className="border border-[#fffffff] h-8 mts rounded bg-[#ffffff] shadow-sm status-search">
             <label htmlFor="order-type" className='font-semibold'>type: </label>
             <select 
             name="order-type" 
