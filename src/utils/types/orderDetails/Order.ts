@@ -1,5 +1,22 @@
 import { ProduitCommande } from "./ProduitCommande";
 
+type ModePaiement = {
+    id: string;
+    nom: string;
+    isActive: boolean;
+    descirption?: {
+        contenu: string;
+    };
+};
+
+export type Paiement = {
+    id: string;
+    idCommande: string;
+    idMode: string;
+    descriptionChoisie?: string;
+    mode:ModePaiement;
+}
+
 export type Order = {
     id: string;
     reference?: string;
@@ -12,4 +29,5 @@ export type Order = {
     order_type: string;
     total: number;
     commandeProduits: ProduitCommande[];
+    paiements?: Paiement[];
 };
