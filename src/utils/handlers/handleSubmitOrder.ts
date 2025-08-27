@@ -179,7 +179,7 @@ export const handleSubmitOrder = async ({
     };
 
     const res = await axios.post(`${API_URL}/orders/order_and_products`, commande);
-    toast.success(`Commande créée avec succès réf: ${res.data.idCommande}`);
+    toast.success(`Commande créée avec succès réf: ${res.data.reference}`);
 
     setProduits([{ nom: "", prixUnitaire: "", quantite: "", fromSuggestion: false }]);
     setSuggestions({});
