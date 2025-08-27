@@ -17,6 +17,7 @@ export const StatusPaymentFilter = ( {onChange} : Props ) => {
                 <option value="">Tous</option>
                 <option value="en_attente">en attente</option>
                 <option value="validé">validé</option>
+                <option value="remboursé">remboursé</option>
                 <option value="annulé">annulé</option>
             </select>
         </div>
