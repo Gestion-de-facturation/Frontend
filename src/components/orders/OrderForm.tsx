@@ -26,7 +26,6 @@ import { ConfirmModalState } from '@/utils/types/ConfirmModalState';
 import '@/styles/form.css';
 import '@/styles/order.css';
 import '@/app/responsive.css';
-import { PaymentMethodType } from '@/utils/types/order-form/paymentMethod';
 
 type OrderFormProps<T extends BaseOrderParams> = {
   onSubmit: (params: T) => void;
@@ -51,6 +50,7 @@ export default function OrderForm<T extends BaseOrderParams>({
   const [statutLivraison, setStatutLivraison] = useState(initialValues.statutLivraison || 'en_cours');
   const [statutPaiement, setStatutPaiement] = useState(initialValues.statutPaiement || 'en_attente');
   const [orderType, setOrderType] = useState(initialValues.orderType || 'devis');
+  const [echeance, setEcheance] = useState(initialValues.echeance || 0);
 
   const [idCommande, setIdCommande] = useState(initialValues?.idCommande || '');
   const [reference, setReference] = useState(initialValues?.reference || '');
@@ -93,6 +93,7 @@ export default function OrderForm<T extends BaseOrderParams>({
         statutLivraison,
         statutPaiement,
         orderType,
+        echeance,
         modePaiement,
         setProduits,
         setSuggestions,
@@ -105,6 +106,7 @@ export default function OrderForm<T extends BaseOrderParams>({
             setStatutLivraison('en_cours');
             setStatutPaiement('en_attente');
             setOrderType('devis');
+            setEcheance(0);
             setModePaiement(null);
           },
         setConfirmModal,
@@ -133,6 +135,7 @@ export default function OrderForm<T extends BaseOrderParams>({
       setStatutLivraison,
       setStatutPaiement,
       setOrderType,
+      setEcheance,
       setFraisDeLivraison,
       setDate
     );
@@ -145,6 +148,7 @@ export default function OrderForm<T extends BaseOrderParams>({
     setStatutLivraison('');
     setStatutPaiement('');
     setOrderType('');
+    setEcheance(0);
     setFraisDeLivraison('');
     setDate('');
     setIdCommande('');
@@ -175,8 +179,11 @@ export default function OrderForm<T extends BaseOrderParams>({
           setStatutLivraison={setStatutLivraison}
           statutPaiement={statutPaiement}
           setStatutPaiement={setStatutPaiement}
+          echeance={echeance}
+          setEcheance={setEcheance}
           optionsLivraison={optionsLivraison}
-          optionsPaiement={optionsPaiement} />
+          optionsPaiement={optionsPaiement} 
+          />
 
         <OrderAddresses
           adresseLivraison={adresseLivraison}

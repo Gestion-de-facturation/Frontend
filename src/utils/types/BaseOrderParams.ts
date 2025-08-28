@@ -10,6 +10,7 @@ export type BaseOrderParams = {
   statutLivraison: string;
   statutPaiement: string;
   orderType: string;
+  echeance: number;
   modePaiement?: ModePaiementPayload | null;
   setProduits: (p: Produit[]) => void;
   setSuggestions: (s: Record<number, any[]>) => void;
