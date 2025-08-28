@@ -63,18 +63,20 @@ export default function OrderStatus({
                     </select>
                 </div>
             </div>
-            <div className="flex gap-2 mts delivery-status-container">
-                <label className="block font-medium status-label">Echéance de paiement: </label>
-                <div className='flex gap-2'>
-                    <input
-                        id='echeance'
-                        type="number"
-                        value={echeance}
-                        onChange={(e) => setEcheance(Number(e.target.value))}
-                        className='border border-[#cccccc] w-24 echeance-input' />
-                    <span className='echeance-span'>jour(s)</span>
+            {statutPaiement === "en_attente" &&
+                <div className="flex gap-2 mts delivery-status-container">
+                    <label className="block font-medium status-label">Echéance de paiement: </label>
+                    <div className='flex gap-2'>
+                        <input
+                            id='echeance'
+                            type="number"
+                            value={echeance}
+                            onChange={(e) => setEcheance(Number(e.target.value))}
+                            className='border border-[#cccccc] w-24 echeance-input' />
+                        <span className='echeance-span'> {echeance > 1 ? `jours` : `jour`} </span>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }
