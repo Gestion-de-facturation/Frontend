@@ -73,6 +73,7 @@ export default function OrderDetails({ orderId, onClose }: Props) {
                 ? `${order.paiements[0].mode.nom} ${order.paiements[0].descriptionChoisie ? `- ${order.paiements[0].descriptionChoisie}` : ''}`
                 : "—"}
             </p>
+            <p><strong>Echéance de paiement: </strong>{order.echeance} {order.echeance > 1 ? `jours` : `jour`} </p>
           </div>
 
           <div className="mb-4 mts">

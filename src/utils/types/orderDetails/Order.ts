@@ -27,6 +27,7 @@ export type Order = {
     statut_livraison: string;
     statut_paiement: string;
     order_type: string;
+    echeance: number;
     total: number;
     commandeProduits: ProduitCommande[];
     paiements?: Paiement[];
