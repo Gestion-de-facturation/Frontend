@@ -9,6 +9,7 @@ import DeliveryStatusSelect from '@/components/buttons/DeliveryStatusSelect';
 import PaymentStatusSelect from '@/components/buttons/PaymentStatusSelect';
 import '@/styles/order.css';
 import Link from 'next/link';
+import InvoiceListDownloadBtn from '@/components/buttons/InvoiceListDownloadBtn';
 
 export const invoiceTableColumnsFn = (
     setSelectedCommandeId: (val: string) => void,
@@ -125,12 +126,9 @@ export const invoiceTableColumnsFn = (
                     >
                         <LiaEdit className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer' />
                     </Link>
-                    <button
-                        title='Télécharger'
-                        onClick={() => handleDownload(row.original.id)}
-                    >
-                        <MdOutlineFileDownload className='h-5 w-5 text-[#f18c08] hover:text-shadow-[#f18c08] cursor-pointer' />
-                    </button>
+
+                    <InvoiceListDownloadBtn orderId={row.original.id} />
+
                     <button
                         title='Archiver'
                         onClick={() => {
