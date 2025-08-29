@@ -2,6 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { detectUpdatedProduct } from "../products/validateUpdatedProduct";
 import { ConfirmModalState } from "../types/ConfirmModalState";
+import { ModePaiementPayload } from "./order-form/buildModePaiementPayload";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -12,11 +13,14 @@ export const handleSubmitOrder = async ({
   statutLivraison,
   statutPaiement,
   orderType,
+  echeance,
   fraisDeLivraison,
+  modePaiement,
   setProduits,
   setSuggestions,
   resetChampsAdresse,
   setConfirmModal,
+  setLoading,
   skipConfirmation = false,
 }: {
   produits: any[];
@@ -25,16 +29,30 @@ export const handleSubmitOrder = async ({
   statutLivraison: string;
   statutPaiement: string;
   orderType: string;
+  echeance: number;
   fraisDeLivraison: string;
+  modePaiement: ModePaiementPayload | null;
   setProduits: (p: any[]) => void;
   setSuggestions: (s: any) => void;
   resetChampsAdresse: () => void;
   setConfirmModal: (modal: ConfirmModalState) => void;
+  setLoading: (value: boolean) => void;
   skipConfirmation?: boolean;
 }) => {
-  if(!adresseLivraison || !adresseFacturation) {
+  if (!adresseLivraison || !adresseFacturation) {
     toast.error("Veuillez remplir les adresses de la commande.");
-    return ;
+    return;
+  }
+
+  const selectedMode = modePaiement || {
+    nom: "",
+    description: { contenu: "" },
+    isActive: true,
+  };
+
+  if (!selectedMode.nom || selectedMode.nom.trim() === "") {
+    toast.error("Veuillez choisir un mode de paiement.");
+    return;
   }
 
   try {
@@ -63,35 +81,44 @@ export const handleSubmitOrder = async ({
 
       if (modifications) {
         const message = `Vous avez modifié :\n${modifications.map(({ produit, modifNom, modifPrix }) => {
-        const parts = [];
-        if (modifNom) parts.push("nom");
-        if (modifPrix) parts.push("prix unitaire");
-        return `• le ${parts.join(" et ")} du produit "${produit.nom}"`;
-    })
-    .join("\n")}\nConfirmez-vous ces changements ?`;
+          const parts = [];
+          if (modifNom) parts.push("nom");
+          if (modifPrix) parts.push("prix unitaire");
+          return `• le ${parts.join(" et ")} du produit "${produit.nom}"`;
+        })
+          .join("\n")}\nConfirmez-vous ces changements ?`;
 
         return setConfirmModal({
           open: true,
           message,
           onConfirm: async () => {
-            setConfirmModal({ open: false, message: "", onConfirm: () => {}, onCancel: () => {} });
-            await handleSubmitOrder({
-              produits,
-              adresseLivraison,
-              adresseFacturation,
-              statutLivraison,
-              statutPaiement,
-              orderType,
-              fraisDeLivraison,
-              setProduits,
-              setSuggestions,
-              resetChampsAdresse,
-              setConfirmModal,
-              skipConfirmation: true,
-            });
+            setConfirmModal({ open: false, message: "", onConfirm: () => { }, onCancel: () => { } });
+            if (setLoading) setLoading(true);
+            try {
+              await handleSubmitOrder({
+                produits,
+                adresseLivraison,
+                adresseFacturation,
+                statutLivraison,
+                statutPaiement,
+                orderType,
+                echeance,
+                fraisDeLivraison,
+                modePaiement,
+                setProduits,
+                setSuggestions,
+                resetChampsAdresse,
+                setConfirmModal,
+                setLoading,
+                skipConfirmation: true,
+              });
+            } finally {
+              if (setLoading) setLoading(false);
+            }
+
           },
           onCancel: () => {
-            setConfirmModal({ open: false, message: "", onConfirm: () => {}, onCancel: () => {} });
+            setConfirmModal({ open: false, message: "", onConfirm: () => { }, onCancel: () => { } });
             toast("Modification annulée");
           },
         });
@@ -152,13 +179,20 @@ export const handleSubmitOrder = async ({
       statut_livraison: statutLivraison,
       statut_paiement: statutPaiement,
       order_type: orderType,
+      echeance: echeance,
       frais_de_livraison: Number(fraisDeLivraison || 0),
       produitsExistants,
       produitsNouveaux,
+
+      modePaiement: {
+        nom: selectedMode.nom,
+        description: { contenu: selectedMode.description?.contenu || "" },
+        isActive: Boolean(selectedMode.isActive),
+      },
     };
 
     const res = await axios.post(`${API_URL}/orders/order_and_products`, commande);
-    toast.success(`Commande créée avec succès réf: ${res.data.idCommande}`);
+    toast.success(`Commande créée avec succès réf: ${res.data.reference}`);
 
     setProduits([{ nom: "", prixUnitaire: "", quantite: "", fromSuggestion: false }]);
     setSuggestions({});

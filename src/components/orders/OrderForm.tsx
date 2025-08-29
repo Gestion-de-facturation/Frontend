@@ -11,6 +11,7 @@ import { addProductFn } from '@/utils/functions/order-form/addProductFn';
 import { calculTotalAmount } from '@/utils/functions/order-form/calculTotalAmount';
 import { handleSearchOrderFn } from '@/utils/handlers/order-form/handleSearchOrderFn';
 import { useLoading } from '@/store/useLoadingStore';
+import { ModePaiementPayload } from '@/utils/handlers/order-form/buildModePaiementPayload';
 import OrderAddresses from './OrderAddresses';
 import OrderDeliveryCost from './OrderDeliveryCost';
 import PaymentMethod from './PaymentMethod';
@@ -49,6 +50,7 @@ export default function OrderForm<T extends BaseOrderParams>({
   const [statutLivraison, setStatutLivraison] = useState(initialValues.statutLivraison || 'en_cours');
   const [statutPaiement, setStatutPaiement] = useState(initialValues.statutPaiement || 'en_attente');
   const [orderType, setOrderType] = useState(initialValues.orderType || 'devis');
+  const [echeance, setEcheance] = useState(initialValues.echeance || 0);
 
   const [idCommande, setIdCommande] = useState(initialValues?.idCommande || '');
   const [reference, setReference] = useState(initialValues?.reference || '');
@@ -56,6 +58,8 @@ export default function OrderForm<T extends BaseOrderParams>({
 
   const title = mode === 'create' ? 'Nouvelle Commande' : 'Modifier une commande';
   const totaux = calculTotalAmount(produits, fraisDeLivraison);
+
+  const [modePaiement, setModePaiement] = useState<ModePaiementPayload | null>(initialValues.modePaiement || null);
 
   const {
     suggestions,
@@ -89,6 +93,8 @@ export default function OrderForm<T extends BaseOrderParams>({
         statutLivraison,
         statutPaiement,
         orderType,
+        echeance,
+        modePaiement,
         setProduits,
         setSuggestions,
         resetChampsAdresse: mode === 'update'
@@ -100,6 +106,8 @@ export default function OrderForm<T extends BaseOrderParams>({
             setStatutLivraison('en_cours');
             setStatutPaiement('en_attente');
             setOrderType('devis');
+            setEcheance(0);
+            setModePaiement(null);
           },
         setConfirmModal,
         ...(mode === 'update' && { idCommande, date })
@@ -127,6 +135,7 @@ export default function OrderForm<T extends BaseOrderParams>({
       setStatutLivraison,
       setStatutPaiement,
       setOrderType,
+      setEcheance,
       setFraisDeLivraison,
       setDate
     );
@@ -139,6 +148,7 @@ export default function OrderForm<T extends BaseOrderParams>({
     setStatutLivraison('');
     setStatutPaiement('');
     setOrderType('');
+    setEcheance(0);
     setFraisDeLivraison('');
     setDate('');
     setIdCommande('');
@@ -169,8 +179,11 @@ export default function OrderForm<T extends BaseOrderParams>({
           setStatutLivraison={setStatutLivraison}
           statutPaiement={statutPaiement}
           setStatutPaiement={setStatutPaiement}
+          echeance={echeance}
+          setEcheance={setEcheance}
           optionsLivraison={optionsLivraison}
-          optionsPaiement={optionsPaiement} />
+          optionsPaiement={optionsPaiement} 
+          />
 
         <OrderAddresses
           adresseLivraison={adresseLivraison}
@@ -190,6 +203,9 @@ export default function OrderForm<T extends BaseOrderParams>({
           addProduct={addProduct}
         />
 
+        {/* Méthode de paiement */}
+        <PaymentMethod onChange={setModePaiement} value={modePaiement}/>
+
         {/* Frais de livraison */}
         <OrderDeliveryCost
           fraisDeLivraison={fraisDeLivraison}
@@ -197,7 +213,7 @@ export default function OrderForm<T extends BaseOrderParams>({
         />
 
         {/* Méthode de paiement */}
-        <PaymentMethod />
+        <PaymentMethod onChange={setModePaiement} value={modePaiement}/>
       </div>
 
       <div>

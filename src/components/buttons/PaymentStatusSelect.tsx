@@ -13,7 +13,7 @@ type Props = {
     statutActuel: string;
 };
 
-const options = ['en_attente', 'validé', 'annulé'];
+const options = ['en_attente', 'validé', 'remboursé', 'annulé'];
 
 export default function PaymentStatusSelect({ idCommande, statutActuel }: Props) {
     const [statut, setStatut] = useState(statutActuel);

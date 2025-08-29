@@ -5,13 +5,14 @@ export const optionsLivraison = [
   { label: 'Annulé', value: 'annulé' },
 ];
 
-export  const optionsPaiement = [
-    { label: 'En attente', value: 'en_attente' },
-    { label: 'Validé', value: 'validé' },
-    { label: 'Annulé', value: 'annulé' },
+export const optionsPaiement = [
+  { label: 'En attente', value: 'en_attente' },
+  { label: 'Validé', value: 'validé' },
+  { label: 'Remboursé', value: 'remboursé' },
+  { label: 'Annulé', value: 'annulé' },
 ];
 
-export  const optionsType = [
-    {label: 'Devis', value: 'devis'},
-    {label: 'Facture', value: 'facture'}
+export const optionsType = [
+  { label: 'Devis', value: 'devis' },
+  { label: 'Facture', value: 'facture' }
 ]

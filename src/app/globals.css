@@ -8,9 +8,9 @@
 :root {
   --second-color: #f18c08;
   --font-color: #14446c;
-  --border-color: #14446c50;
+  --border-color: #14446cc0;
   --test-color:#f18c0852;
-  --bg-white: #ffffffda;
+  --bg-white: #ffffff71;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

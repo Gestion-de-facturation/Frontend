@@ -5,4 +5,5 @@ export type UpdateOrderParams = BaseOrderParams & {
   reference: string;
   date: string;
   onSuccess?: () => void;
+  setLoading?: (value: boolean) => void;
 };

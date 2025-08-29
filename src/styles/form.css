@@ -1,6 +1,7 @@
 .add-form-container {
     margin-left: 1%;
-    padding-block: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
 }
 
 .form-content-mt {
@@ -88,6 +89,14 @@
     padding: 0.25em;
 }
 
+.echeance-input {
+    padding-inline: 0.5rem;
+}
+
+.echeance-span {
+    margin-top: 0.5vh;
+}
+
 .order-type-container {
     padding-block: 0.25rem;
 }
@@ -103,6 +112,27 @@
 
 .form-input-padding-left {
     padding-left: 1vw;
+}
+
+.payment-method-select {
+    margin-top: 0.5vh;
+}
+
+.payment-method-input-p {
+    padding-inline: 0.5rem;
+    padding-block: 0.25em;
+}
+
+.add-new-desc-btn {
+    padding-inline: 0.5rem;
+}
+
+.add-payment-method-container {
+    padding: 0.5rem;
+}
+
+.update-form-spin {
+    margin-top: -70vh;
 }
 
 @media screen and (min-width: 1820px) {

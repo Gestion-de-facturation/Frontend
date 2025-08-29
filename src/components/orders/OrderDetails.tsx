@@ -56,7 +56,7 @@ export default function OrderDetails({ orderId, onClose }: Props) {
                 {displayStatut(order.statut_livraison).statut_title}
               </p>
               <p className={`${displayStatut(order.statut_paiement).statut_bg_color} rounded-xl text-white status-type-details h-8`}>
-                { displayStatut(order.statut_paiement).statut_title }
+                {displayStatut(order.statut_paiement).statut_title}
               </p>
             </div>
           </div>
@@ -67,6 +67,13 @@ export default function OrderDetails({ orderId, onClose }: Props) {
             <p><strong>Type: </strong> {order.order_type} </p>
             <p><strong>Adresse de livraison :</strong> {order.adresse_livraison}</p>
             <p><strong>Adresse de facturation :</strong> {order.adresse_facturation}</p>
+            <p>
+              <strong>Mode de paiement :</strong>{" "}
+              {order.paiements && order.paiements.length > 0
+                ? `${order.paiements[0].mode.nom} ${order.paiements[0].descriptionChoisie ? `- ${order.paiements[0].descriptionChoisie}` : ''}`
+                : "—"}
+            </p>
+            <p><strong>Echéance de paiement: </strong>{order.echeance} {order.echeance > 1 ? `jours` : `jour`} </p>
           </div>
 
           <div className="mb-4 mts">
@@ -92,7 +99,7 @@ export default function OrderDetails({ orderId, onClose }: Props) {
             <p><strong>Total produits :</strong> {totalProduits.toLocaleString()} Ar</p>
             <p><strong>Frais de livraison :</strong> {order.frais_de_livraison.toLocaleString()} Ar</p>
             <p className="text-lg font-bold"><strong>Total général :</strong> {order.total.toLocaleString()} Ar</p>
-            <DownloadInvoiceBtn onClick={() => handleDownload(orderId)}/>
+            <DownloadInvoiceBtn onClick={() => handleDownload(orderId)} />
           </div>
         </div>
       </div>

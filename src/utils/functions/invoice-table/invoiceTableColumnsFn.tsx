@@ -11,8 +11,8 @@ import '@/styles/order.css';
 import Link from 'next/link';
 
 export const invoiceTableColumnsFn = (
-    setSelectedCommandeId: (val: string) => void, 
-    setDeleteId: (val: string) => void, 
+    setSelectedCommandeId: (val: string) => void,
+    setDeleteId: (val: string) => void,
     setShowConfirm: (val: boolean) => void
 ) => {
 
@@ -54,6 +54,18 @@ export const invoiceTableColumnsFn = (
                 return (
                     <p className='whitespace-nowrap'>{total} Ar</p>
                 )
+            }
+        },
+        {
+            header: 'Mode de paiement', accessorKey: 'paiements',
+            cell: ({ row }) => {
+                const paiements = row.getValue('paiements') as any[];
+                if (paiements && paiements.length > 0) {
+                    const mode = paiements[0].mode.nom;
+
+                    return <p>{mode}</p>
+                }
+                return <p>_</p>
             }
         },
         {
