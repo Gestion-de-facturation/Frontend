@@ -18,6 +18,16 @@ type Props = {
 
 export default function OrderDetails({ orderId, onClose }: Props) {
   const [order, setOrder] = useState<Order | null>(null);
+  const [loadingDownload, setLoadingDownload] = useState(false);
+
+  const handleDownloadWithLoader = async () => {
+    try {
+      setLoadingDownload(true);
+      await handleDownload(orderId);
+    } finally {
+      setLoadingDownload(false);
+    }
+  }
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -99,7 +109,10 @@ export default function OrderDetails({ orderId, onClose }: Props) {
             <p><strong>Total produits :</strong> {totalProduits.toLocaleString()} Ar</p>
             <p><strong>Frais de livraison :</strong> {order.frais_de_livraison.toLocaleString()} Ar</p>
             <p className="text-lg font-bold"><strong>Total général :</strong> {order.total.toLocaleString()} Ar</p>
-            <DownloadInvoiceBtn onClick={() => handleDownload(orderId)} />
+            <DownloadInvoiceBtn 
+            onClick={handleDownloadWithLoader} 
+            loading={loadingDownload}
+            />
           </div>
         </div>
       </div>
