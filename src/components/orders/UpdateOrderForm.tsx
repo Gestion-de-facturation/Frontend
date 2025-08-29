@@ -86,14 +86,11 @@ export default function UpdateOrderForm({ commandeId }: Props) {
 
   return (
     <div className="relative">
-      {/* Overlay + spinner */}
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-[#ffffff71] bg-opacity-30 z-50">
           <div className="w-16 h-16 border-4 border-[#f18c08] border-t-transparent rounded-full animate-spin update-form-spin"></div>
         </div>
       )}
-
-      {/* Formulaire */}
       <OrderForm
         onSubmit={handleSubmit}
         mode="update"

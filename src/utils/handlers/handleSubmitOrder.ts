@@ -20,6 +20,7 @@ export const handleSubmitOrder = async ({
   setSuggestions,
   resetChampsAdresse,
   setConfirmModal,
+  setLoading,
   skipConfirmation = false,
 }: {
   produits: any[];
@@ -35,6 +36,7 @@ export const handleSubmitOrder = async ({
   setSuggestions: (s: any) => void;
   resetChampsAdresse: () => void;
   setConfirmModal: (modal: ConfirmModalState) => void;
+  setLoading: (value: boolean) => void;
   skipConfirmation?: boolean;
 }) => {
   if (!adresseLivraison || !adresseFacturation) {
@@ -91,22 +93,29 @@ export const handleSubmitOrder = async ({
           message,
           onConfirm: async () => {
             setConfirmModal({ open: false, message: "", onConfirm: () => { }, onCancel: () => { } });
-            await handleSubmitOrder({
-              produits,
-              adresseLivraison,
-              adresseFacturation,
-              statutLivraison,
-              statutPaiement,
-              orderType,
-              echeance,
-              fraisDeLivraison,
-              modePaiement,
-              setProduits,
-              setSuggestions,
-              resetChampsAdresse,
-              setConfirmModal,
-              skipConfirmation: true,
-            });
+            if (setLoading) setLoading(true);
+            try {
+              await handleSubmitOrder({
+                produits,
+                adresseLivraison,
+                adresseFacturation,
+                statutLivraison,
+                statutPaiement,
+                orderType,
+                echeance,
+                fraisDeLivraison,
+                modePaiement,
+                setProduits,
+                setSuggestions,
+                resetChampsAdresse,
+                setConfirmModal,
+                setLoading,
+                skipConfirmation: true,
+              });
+            } finally {
+              if (setLoading) setLoading(false);
+            }
+
           },
           onCancel: () => {
             setConfirmModal({ open: false, message: "", onConfirm: () => { }, onCancel: () => { } });
