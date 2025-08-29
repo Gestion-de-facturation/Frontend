@@ -72,7 +72,7 @@ export default function OrderStatus({
                             type="number"
                             value={echeance}
                             onChange={(e) => setEcheance(Number(e.target.value))}
-                            className='border border-[#cccccc] w-24 echeance-input' />
+                            className='border rounded border-[#cccccc] w-24 echeance-input' />
                         <span className='echeance-span'> {echeance > 1 ? `jours` : `jour`} </span>
                     </div>
                 </div>
