@@ -5,14 +5,15 @@ type Props = {
     onChange: (value: string) => void
 }
 
-export const StatusPaymentFilter = ( {onChange} : Props ) => {
+export const StatusPaymentFilter = ({ onChange }: Props) => {
     return (
         <div className="border border-[#ffffff] h-8 mts rounded bg-[#ffffff] shadow-sm status-search">
             <label htmlFor="payment-status" className='font-semibold'>paiement: </label>
-            <select 
-            name="payment-status" 
-            id="payment-status"
-            onChange={(e) => onChange(e.target.value)}
+            <select
+                name="payment-status"
+                id="payment-status"
+                onChange={(e) => onChange(e.target.value)}
+                className='cursor-pointer'
             >
                 <option value="">Tous</option>
                 <option value="en_attente">en attente</option>
