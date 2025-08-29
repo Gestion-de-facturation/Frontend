@@ -13,6 +13,7 @@ export const OrderTypeFilter = ({onChange} : Props) => {
             name="order-type" 
             id="order-type"
             onChange={(e) => onChange(e.target.value)}
+            className='cursor-pointer'
             >
                 <option value="">Tous</option>
                 <option value="facture">facture</option>

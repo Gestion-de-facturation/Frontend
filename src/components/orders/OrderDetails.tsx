@@ -18,6 +18,16 @@ type Props = {
 
 export default function OrderDetails({ orderId, onClose }: Props) {
   const [order, setOrder] = useState<Order | null>(null);
+  const [loadingDownload, setLoadingDownload] = useState(false);
+
+  const handleDownloadWithLoader = async () => {
+    try {
+      setLoadingDownload(true);
+      await handleDownload(orderId);
+    } finally {
+      setLoadingDownload(false);
+    }
+  }
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -44,7 +54,8 @@ export default function OrderDetails({ orderId, onClose }: Props) {
         <div className="bg-[#ffffffbe] rounded-lg shadow-lg p-6 w-full max-w-3xl relative details-container max-h-[80vh] overflow-y-auto scrollbar-hide">
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 text-gray-600 hover:text-red-500"
+            className="absolute top-3 right-3 text-gray-600 hover:text-red-500 cursor-pointer"
+            title='fermer'
           >
             <MdClose size={24} />
           </button>
@@ -63,6 +74,7 @@ export default function OrderDetails({ orderId, onClose }: Props) {
 
           <div className="mb-4 space-y-1 mts details-header">
             <p><strong>Référence :</strong> {order.reference}</p>
+            <p><strong>N° facture: </strong> {order.id} </p>
             <p><strong>Date :</strong> {new Date(order.date).toLocaleDateString('fr-FR')}</p>
             <p><strong>Type: </strong> {order.order_type} </p>
             <p><strong>Adresse de livraison :</strong> {order.adresse_livraison}</p>
@@ -99,7 +111,10 @@ export default function OrderDetails({ orderId, onClose }: Props) {
             <p><strong>Total produits :</strong> {totalProduits.toLocaleString()} Ar</p>
             <p><strong>Frais de livraison :</strong> {order.frais_de_livraison.toLocaleString()} Ar</p>
             <p className="text-lg font-bold"><strong>Total général :</strong> {order.total.toLocaleString()} Ar</p>
-            <DownloadInvoiceBtn onClick={() => handleDownload(orderId)} />
+            <DownloadInvoiceBtn
+              onClick={handleDownloadWithLoader}
+              loading={loadingDownload}
+            />
           </div>
         </div>
       </div>

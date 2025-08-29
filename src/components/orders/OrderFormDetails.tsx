@@ -50,7 +50,7 @@ export const OrderFormDetails = ({
                     <label className="block font-medium mb-1">Date de la commande</label>
                     <input
                         type="date"
-                        className="border border-gray-300 h-8 rounded mts form-input-padding-left"
+                        className="border border-gray-300 h-8 rounded mts cursor-pointer form-input-padding-left"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
                     />

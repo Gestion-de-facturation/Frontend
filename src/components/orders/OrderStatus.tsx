@@ -40,7 +40,7 @@ export default function OrderStatus({
                         id="delivery-status"
                         value={statutLivraison}
                         onChange={(e) => setStatutLivraison(e.target.value)}
-                        className='border border-[#cccccc] rounded status-select'>
+                        className='border border-[#cccccc] rounded cursor-pointer status-select'>
                         {optionsLivraison.map((option) => (
                             <option key={option.value} value={option.value}>
                                 {option.label}
@@ -54,7 +54,7 @@ export default function OrderStatus({
                         id="delivery-status"
                         value={statutPaiement}
                         onChange={(e) => setStatutPaiement(e.target.value)}
-                        className='border border-[#cccccc] rounded status-select'>
+                        className='border border-[#cccccc] rounded cursor-pointer status-select'>
                         {optionsPaiement.map((option) => (
                             <option key={option.value} value={option.value}>
                                 {option.label}
@@ -72,7 +72,7 @@ export default function OrderStatus({
                             type="number"
                             value={echeance}
                             onChange={(e) => setEcheance(Number(e.target.value))}
-                            className='border border-[#cccccc] w-24 echeance-input' />
+                            className='border rounded border-[#cccccc] w-24  echeance-input' />
                         <span className='echeance-span'> {echeance > 1 ? `jours` : `jour`} </span>
                     </div>
                 </div>
