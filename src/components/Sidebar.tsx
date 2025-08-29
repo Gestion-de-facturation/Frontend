@@ -63,7 +63,7 @@ export default function Sidebar() {
                 <div className="flex justify-end minimisation-btn">
                     <button
                         onClick={toggleSidebar}
-                        className='text-[#14446c] hover:text-[#f18c08] transition'
+                        className='text-[#14446c] hover:text-[#f18c08] transition cursor-pointer'
                         title={isMinimized ? "Agrandir" : "Réduire"}
                     >
                         {isMinimized ? <ChevronRight /> : <ChevronLeft />}

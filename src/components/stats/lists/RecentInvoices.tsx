@@ -67,14 +67,16 @@ export const RecentInvoices = () => {
                             <LiaEye
                             onClick={() => setSelectedCommandeId(order.id)} 
                             size={20}
-                            className="cursor-pointer"/>
+                            className="cursor-pointer"
+                            title="Voir les détails"/>
                             <LiaEdit 
                             size={20}
                             onClick={() => {
                                 const id = order.id;
                                 router.push(`/dashboard/forms/update-invoice?id=${id}`);
                                 }}
-                            className="cursor-pointer"/>
+                            className="cursor-pointer"
+                            title="Modifier la commande"/>
                         </div>
                     </div>
                 ))}
