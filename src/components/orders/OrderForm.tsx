@@ -213,7 +213,7 @@ export default function OrderForm<T extends BaseOrderParams>({
         />
 
         {/* Méthode de paiement */}
-        <PaymentMethod />
+        <PaymentMethod onChange={setModePaiement} value={modePaiement}/>
       </div>
 
       <div>
