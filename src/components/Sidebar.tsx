@@ -32,8 +32,13 @@ export default function Sidebar() {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        toast.success('Déconnecté avec succès.');
-        router.push('/login');
+        const toastId = toast.loading('Déconnexion...');
+
+        setTimeout(() => {
+            toast.dismiss(toastId);
+            toast.success('Déconnecté');
+            router.push('/login');
+        }, 1000);
     };
 
     return (
