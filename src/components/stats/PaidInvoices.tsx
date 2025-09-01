@@ -75,6 +75,14 @@ export default function PaidInvoices() {
                     grouped[key] = (grouped[key] || 0) + 1;
                 });
 
+                const now = new Date();
+                const currentYear = now.getFullYear();
+                const currentMonth = String(now.getMonth() + 1).padStart(2, "0");
+                const currentKey = `${currentYear}-${currentMonth}`;
+                if (!(currentKey in grouped)) {
+                    grouped[currentKey] = 0;
+                }
+
                 const sortedKeys = Object.keys(grouped).sort(
                     (a, b) => new Date(b).getTime() - new Date(a).getTime()
                 );
