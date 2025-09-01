@@ -41,11 +41,23 @@ export const invoiceTableColumnsFn = (
         },
         {
             header: 'Date', accessorKey: 'date',
-            cell: ({ getValue }) => {
-                const dateStr = getValue<string>();
-                const dateOnly = new Date(dateStr).toLocaleDateString('fr-FR');
+            cell: info => {
+                const date = new Date(info.getValue() as string);
+                return date.toISOString().split('T')[0];
+            },
+            filterFn: (row, columnId, value: { start: string; end: string }) => {
+                const rowDate = new Date(row.getValue(columnId));
+                const startDate = value.start ? new Date(value.start) : null;
+                const endDate = value.end ? new Date(value.end) : null;
 
-                return dateOnly;
+                if (startDate && endDate) {
+                    return rowDate >= startDate && rowDate <= endDate;
+                } else if (startDate) {
+                    return rowDate >= startDate;
+                } else if (endDate) {
+                    return rowDate <= endDate;
+                }
+                return true;
             }
         },
         {
@@ -113,7 +125,7 @@ export const invoiceTableColumnsFn = (
         {
             header: 'Actions',
             cell: ({ row }) => (
-                <div className="flex items-center gap-3 justify-center">
+                <div className="flex items-center gap-2 justify-center">
                     <button
                         onClick={() => setSelectedCommandeId(row.original.id)}
                         title='Voir'

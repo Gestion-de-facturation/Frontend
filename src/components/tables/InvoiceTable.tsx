@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     getCoreRowModel,
     getFilteredRowModel,
@@ -42,14 +42,20 @@ export default function InvoiceTable({
     const [deleteId, setDeleteId] = useState<string | null>(null);
     const [columnFilters, setColumnFilters] = useState<any[]>([]);
 
-    const handleDeleteConfirm = async() => {
-        handleDeleteOrder({deleteId, mutate, setShowConfirm, setDeleteId});
+    const handleDeleteConfirm = async () => {
+        handleDeleteOrder({ deleteId, mutate, setShowConfirm, setDeleteId });
     }
 
     const columns = invoiceTableColumnsFn(setSelectedCommandeId, setDeleteId, setShowConfirm);
 
+    const [dateRange, setDateRange] = useState<{ start: string; end: string }>({
+        start: "",
+        end: "",
+    });
+
+
     const table = useReactTable({
-        data, 
+        data,
         columns,
         state: { globalFilter, pagination, columnFilters },
         onGlobalFilterChange: setGlobalFilter,
@@ -60,30 +66,44 @@ export default function InvoiceTable({
         globalFilterFn: 'includesString',
     });
 
+    useEffect(() => {
+        if (dateRange.start || dateRange.end) {
+            setColumnFilters((prev) => [
+                ...prev.filter(f => f.id !== 'date'),
+                {
+                    id: 'date',
+                    value: dateRange
+                }
+            ]);
+        } else {
+            setColumnFilters((prev) => prev.filter(f => f.id !== 'date'));
+        }
+    }, [dateRange]);
+
     return (
         <div className='invoices'>
             <div className="flex gap-2">
-                <OrderSearch globalFilter={globalFilter} setGlobalFilter={setGlobalFilter}/>
+                <OrderSearch globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} setDateRange={setDateRange} />
                 <StatusDeliveryFilter onChange={(value) => setColumnFilters([
                     ...columnFilters.filter(f => f.id !== 'statut_livraison'),
                     value ? { id: 'statut_livraison', value } : null,
-                ].filter(Boolean))}/>
+                ].filter(Boolean))} />
                 <StatusPaymentFilter onChange={(value) => setColumnFilters([
                     ...columnFilters.filter(f => f.id !== 'statut_paiement'),
                     value ? { id: 'statut_paiement', value } : null,
-                ].filter(Boolean))}/>
+                ].filter(Boolean))} />
                 <OrderTypeFilter onChange={(value) => setColumnFilters([
                     ...columnFilters.filter(f => f.id !== 'order_type'),
                     value ? { id: 'order_type', value } : null,
-                ].filter(Boolean))}/>
+                ].filter(Boolean))} />
             </div>
 
             <table className='border w-full mts h-64'>
                 <thead className='bg-gray'>
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <tr 
-                        key={headerGroup.id}
-                        className='h-8'
+                        <tr
+                            key={headerGroup.id}
+                            className='h-8'
                         >
                             {headerGroup.headers.map((header) => (
                                 <th key={header.id} className='p-2 border'>
@@ -95,18 +115,18 @@ export default function InvoiceTable({
                 </thead>
                 <tbody>
                     {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id}> 
-                        {row.getVisibleCells().map((cell) => (
-                            <td key={cell.id} className='p-2 border table-element-p h-10'>
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </td>
-                        ))}
+                        <tr key={row.id}>
+                            {row.getVisibleCells().map((cell) => (
+                                <td key={cell.id} className='p-2 border table-element-p h-10'>
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </td>
+                            ))}
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            <PaginationBtn table={table}/>
+            <PaginationBtn table={table} />
 
             {selectedCommandeId && (
                 <OrderDetails orderId={selectedCommandeId} onClose={() => setSelectedCommandeId(null)} />
@@ -119,8 +139,8 @@ export default function InvoiceTable({
                     cancelBtn='Annuler'
                     onConfirm={handleDeleteConfirm}
                     onCancel={() => {
-                    setShowConfirm(false);
-                    setDeleteId(null);
+                        setShowConfirm(false);
+                        setDeleteId(null);
                     }}
                 />
             )}

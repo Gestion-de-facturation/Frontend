@@ -100,8 +100,17 @@
     margin-top: 0.75vh;
 }
 
+.invoices table {
+    table-layout: fixed;
+    width: 100%;
+}
+
 .date-search {
-    padding-inline-start: 0.5em;
+    padding-inline: 0.25rem;
+}
+
+.global-search-input {
+    padding-left: 0.5rem;
 }
 
 .dashboard-title {

@@ -143,7 +143,12 @@ export default function PaymentMethod({ value, onChange }: PaymentMethodProps) {
                   onChange({
                     id: method.id,
                     nom: method.nom,
-                    description: { contenu: value?.description.contenu || "" },
+                    description: {
+                      contenu: method.descriptions.length > 0
+                        ? method.descriptions[method.descriptions.length - 1].contenu
+                        : "",
+
+                    },
                     isActive: method.isActive,
                   })
                 }
