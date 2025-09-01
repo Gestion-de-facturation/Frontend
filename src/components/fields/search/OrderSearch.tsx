@@ -30,7 +30,7 @@ export const OrderSearch = ({ globalFilter, setGlobalFilter, setDateRange }: Ord
                     value={globalFilter}
                     onChange={(e) => setGlobalFilter(e.target.value)}
                     placeholder="Rechercher une commande..."
-                    className=' h-8 w-80 rounded'
+                    className=' h-8 w-80 rounded global-search-input'
                 />
             </div>
             <div className="flex items-center border border-gray-300 h-8 rounded bg-white shadow-sm mts date-search px-2">

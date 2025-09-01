@@ -105,6 +105,14 @@
     width: 100%;
 }
 
+.date-search {
+    padding-inline: 0.25rem;
+}
+
+.global-search-input {
+    padding-left: 0.5rem;
+}
+
 .dashboard-title {
     margin-left: 2%;
 }
