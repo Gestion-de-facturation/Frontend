@@ -40,6 +40,14 @@ export default function HighestTotal () {
                     grouped[key].push(order.total);
                 });
 
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, "0");
+                const currentKey = `${year}-${month}`;
+                if (!(currentKey in grouped)) {
+                    grouped[currentKey] = [];
+                }
+
                 const sortedMonths = Object.keys(grouped).sort(
                     (a, b) => new Date(b).getTime() - new Date(a).getTime()
                 );
@@ -51,15 +59,17 @@ export default function HighestTotal () {
                 }
 
                 const currentMonth = sortedMonths[0];
-                const currentMax = Math.max(...grouped[currentMonth]);
+                const currentValues = grouped[currentMonth] ?? [];
+                const currentMax =currentValues.length > 0 ? Math.max(...currentValues) : 0;
 
                 setMaxTotal(currentMax);
 
                 if (sortedMonths.length >= 2) {
                     const prevMonth = sortedMonths[1];
+                    const prevValues = grouped[prevMonth] ?? [];
                     const prevMax = Math.max(...grouped[prevMonth]);
 
-                    if (prevMax !== 0) {
+                    if (prevMax > 0) {
                         const variationValue = ((currentMax - prevMax) * 100) / prevMax;
                         setVariation(variationValue);
                     } else {
@@ -68,6 +78,7 @@ export default function HighestTotal () {
                 } else {
                     setVariation(null);
                 }
+
             } catch (error) {
                 console.error("Erreur lors de la récupération des données");
                 setMaxTotal(null);
