@@ -125,7 +125,7 @@ export const invoiceTableColumnsFn = (
         {
             header: 'Actions',
             cell: ({ row }) => (
-                <div className="flex items-center gap-3 justify-center">
+                <div className="flex items-center gap-2 justify-center">
                     <button
                         onClick={() => setSelectedCommandeId(row.original.id)}
                         title='Voir'
