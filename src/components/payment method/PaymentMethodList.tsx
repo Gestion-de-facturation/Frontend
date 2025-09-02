@@ -59,81 +59,71 @@ export default function PaymentMethodList() {
     }
 
     return (
-        <div className="flex invoice-container border border-[#cccccc] pg rounded-lg shadow-lg payment-method-container">
-            <div className="flex gap-2">
-                <div>
-                    <div className="flex gap-4">
-                        <h2 className="text-2xl font-bold">Liste des modes de paiement</h2>
-                        <button
-                            onClick={() => setShowForm(true)}
-                            className="flex gap-2 border border-[#cccccc] w-32 h-10 text-white rounded font-semibold bg-[#14446c] cursor-pointer add-order-btn hover:bg-[#f18c08]"
-                            title="Ajouter un mode de paiement"
-                        >
-                            <IoAdd size={24} /> Ajouter
-                        </button>
-                    </div>
-
-                    <div className="mts">
-                        {methods.map((method) => (
-                            <div
-                                key={method.id}
-                                className={`flex justify-between rounded-md shadow-sm hover:shadow-md cursor-pointer mts payment-method-content
-                                ${openId === method.id ? "bg-[#14446c] text-white" : "bg-[#ffffff71]"}`}
-                            >
-                                <div className="w-full">
-                                    <div className="flex justify-between items-center cursor-pointer w-full">
-                                        <h3 className='text-xl'>{method.nom}</h3>
-                                        <div className="flex gap-2 justify-between">
-                                            <button
-                                                onClick={() => toggleDescriptions(method.id)}
-                                                className={`cursor-pointer hover:text-[#f18c08]`}
-                                                title="Développer"
-                                            >
-                                                {openId === method.id ? (
-                                                    <IoIosArrowDropup size={24} className="hover:h-8 hover:w-8 text-[#f18c08]" />
-                                                ) : (
-                                                    <IoIosArrowDropdown size={24} className="hover:h-8 hover:w-8" />
-                                                )}
-                                            </button>
-                                            <button
-                                                onClick={() => setSelectedMethod(method)}
-                                                title="Supprimer"
-                                                className="cursor-pointer hover:text-[#f18c08]">
-                                                <LuArchiveX
-                                                    size={23}
-                                                    className="hover:h-8 hover:w-8"
-                                                />
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {openId === method.id && method.descriptions.length > 0 && (
-                                        <ul className="list-disc text-[#ffffff] payments-desc-list">
-                                            {method.descriptions.map((desc) => (
-                                                <>
-                                                    <li
-                                                        key={desc.id}
-                                                        className="flex gap-2"
-                                                    >
-                                                        {desc.contenu}
-                                                        <FiTrash size={20} color="red" className="hover:w-6 hover:h-6" />
-                                                    </li>
-                                                </>
-                                            ))}
-                                        </ul>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+        <div className="flex invoice-container border border-[#cccccc] gap-2 pg w-[44%]  rounded-lg shadow-lg payment-method-container">
+            <div className="w-[40vw] min-w-[35vw]">
+                <div className="flex gap-4">
+                    <h2 className="text-2xl font-bold">Liste des modes de paiement</h2>
+                    <button
+                        onClick={() => setShowForm(true)}
+                        className="flex gap-2 border border-[#cccccc] w-32 h-10 text-white rounded font-semibold bg-[#14446c] cursor-pointer add-order-btn hover:bg-[#f18c08]"
+                        title="Ajouter un mode de paiement"
+                    >
+                        <IoAdd size={24} /> Ajouter
+                    </button>
                 </div>
-                <div>
-                    {showForm && (
-                        <CreatePaymentMethodForm
-                            onClose={() => setShowForm(false)}
-                            onAdd={(newMethod) => setMethods((prev) => [...prev, newMethod])}
-                        />
-                    )}
+
+                <div className="mts  max-h-[90vh] overflow-y-auto">
+                    {methods.map((method) => (
+                        <div
+                            key={method.id}
+                            className={`flex justify-between rounded-md shadow-sm hover:shadow-md cursor-pointer mts payment-method-content
+                                ${openId === method.id ? "bg-[#14446c] text-white" : "bg-[#ffffff71]"}`}
+                        >
+                            <div className="w-full">
+                                <div className="flex justify-between items-center cursor-pointer w-full">
+                                    <h3 className='text-xl'>{method.nom}</h3>
+                                    <div className="flex gap-2 justify-between">
+                                        <button
+                                            onClick={() => toggleDescriptions(method.id)}
+                                            className={`cursor-pointer hover:text-[#f18c08]`}
+                                            title="Développer"
+                                        >
+                                            {openId === method.id ? (
+                                                <IoIosArrowDropup size={24} className="hover:h-8 hover:w-8 text-[#f18c08]" />
+                                            ) : (
+                                                <IoIosArrowDropdown size={24} className="hover:h-8 hover:w-8" />
+                                            )}
+                                        </button>
+                                        <button
+                                            onClick={() => setSelectedMethod(method)}
+                                            title="Supprimer"
+                                            className="cursor-pointer hover:text-[#f18c08]">
+                                            <LuArchiveX
+                                                size={23}
+                                                className="hover:h-8 hover:w-8"
+                                            />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {openId === method.id && method.descriptions.length > 0 && (
+                                    <ul className="list-disc text-[#ffffff] payments-desc-list">
+                                        {method.descriptions.map((desc) => (
+                                            <>
+                                                <li
+                                                    key={desc.id}
+                                                    className="flex gap-2"
+                                                >
+                                                    {desc.contenu}
+                                                    <FiTrash size={20} color="red" className="hover:w-6 hover:h-6" />
+                                                </li>
+                                            </>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+                        </div>
+                    ))}
                 </div>
 
                 {selectedMethod && (
@@ -144,6 +134,15 @@ export default function PaymentMethodList() {
                         cancelBtn="Annuler"
                         onConfirm={() => handleDelete(selectedMethod.id)}
                         onCancel={() => setSelectedMethod(null)}
+                    />
+                )}
+            </div>
+
+            <div>
+                {showForm && (
+                    <CreatePaymentMethodForm
+                        onClose={() => setShowForm(false)}
+                        onAdd={(newMethod) => setMethods((prev) => [...prev, newMethod])}
                     />
                 )}
             </div>
