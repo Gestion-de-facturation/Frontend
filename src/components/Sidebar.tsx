@@ -116,6 +116,18 @@ export default function Sidebar() {
                         </Link>
                     </li>
                 </div>
+                <div className='sidebar-links'>
+                    <li>
+                        <Link
+                            href="/dashboard/payment_methods"
+                            className={`flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08] ${pathname === "/dashboard/payment_methods" ? 'text-[#f18c08]' : 'text-[#14446c]'
+                                }`}
+                            title={isMinimized ? "Modes Paiement" : ""}>
+                            <MdOutlinePayment className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
+                            <span className="sidebar-links-title-mt">{!isMinimized && "Modes Paiement"}</span>
+                        </Link>
+                    </li>
+                </div>
             </ul>
 
             <div className='logout-btn-container'>
