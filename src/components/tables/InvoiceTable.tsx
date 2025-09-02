@@ -82,7 +82,7 @@ export default function InvoiceTable({
 
     return (
         <div className='invoices'>
-            <div className="flex gap-2">
+            <div className="flex gap-2 w-full">
                 <OrderSearch globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} setDateRange={setDateRange} />
                 <StatusDeliveryFilter onChange={(value) => setColumnFilters([
                     ...columnFilters.filter(f => f.id !== 'statut_livraison'),

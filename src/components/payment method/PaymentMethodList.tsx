@@ -57,7 +57,7 @@ export default function PaymentMethodList() {
     }
 
     return (
-        <div className="invoice-container border border-[#cccccc] pg rounded-lg shadow-lg">
+        <div className="invoice-container border border-[#cccccc] pg rounded-lg shadow-lg w-[50%] payment-method-container">
             <div className="flex justify-between">
                 <h2 className="text-2xl font-bold">Liste des modes de paiement</h2>
                 <button
