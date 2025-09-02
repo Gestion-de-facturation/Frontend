@@ -25,6 +25,7 @@ export default function PaymentMethodList() {
     const [openId, setOpenId] = useState<string | null>(null);
     const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
     const [showForm, setShowForm] = useState(false);
+    const [selectedDescription, setSelectedDescription] = useState<{ id: string; contenu: string; idMode: string } | null>(null);
 
     useEffect(() => {
         const fetchPaymentMethods = async () => {
@@ -55,6 +56,26 @@ export default function PaymentMethodList() {
         } catch (error) {
             console.error("Erreur lors de la suppression: ", error);
             toast.error("Erreur lors de la suppression du mode de paiement.")
+        }
+    }
+
+    const handleDeleteDescription = async () => {
+        if (!selectedDescription) return;
+        try {
+            await axios.delete(`${API_URL}/payments/payment/desc/${selectedDescription.idMode}`);
+            toast.success("Description supprimée.");
+
+            setMethods((prev) =>
+                prev.map((m) =>
+                    m.id === selectedDescription.idMode
+                        ? { ...m, descriptions: m.descriptions.filter((d) => d.id !== selectedDescription.id) }
+                        : m)
+            );
+
+            setSelectedDescription(null);
+        } catch (error) {
+            console.error("Erreur lors de la suppression de la description: ", error);
+            toast.error("Erreur lors de la suppression");
         }
     }
 
@@ -115,7 +136,11 @@ export default function PaymentMethodList() {
                                                     className="flex gap-2"
                                                 >
                                                     {desc.contenu}
-                                                    <FiTrash size={20} color="red" className="hover:w-6 hover:h-6" />
+                                                    <FiTrash
+                                                        onClick={() => setSelectedDescription(desc)}
+                                                        size={20}
+                                                        color="red"
+                                                        className="hover:w-6 hover:h-6" />
                                                 </li>
                                             </>
                                         ))}
@@ -134,6 +159,16 @@ export default function PaymentMethodList() {
                         cancelBtn="Annuler"
                         onConfirm={() => handleDelete(selectedMethod.id)}
                         onCancel={() => setSelectedMethod(null)}
+                    />
+                )}
+                {selectedDescription && (
+                    <ConfirmModal
+                        title="Confirmation"
+                        message={`Voulez-vous vraiment supprimer la description: "${selectedDescription.contenu}"?`}
+                        confirmBtn="Supprimer"
+                        cancelBtn="Annuler"
+                        onConfirm={handleDeleteDescription}
+                        onCancel={() => setSelectedDescription(null)}
                     />
                 )}
             </div>
