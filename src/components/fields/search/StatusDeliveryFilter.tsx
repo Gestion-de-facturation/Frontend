@@ -7,7 +7,7 @@ type Props = {
 
 export const StatusDeliveryFilter = ({ onChange }: Props) => {
     return (
-        <div className="border border-[#ffffff] h-8 mts rounded bg-[#ffffff] shadow-sm status-search">
+        <div className="flex border border-[#ffffff] h-8 mts rounded bg-[#ffffff] shadow-sm status-search">
             <label htmlFor="delivery-status" className='font-semibold'>livraison: </label>
             <select
                 name="delivery-status"
