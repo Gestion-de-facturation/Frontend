@@ -135,6 +135,21 @@
     margin-top: -70vh;
 }
 
+.create-payment-method-form {
+    padding-inline: 2rem;
+    padding-block: 1rem;
+}
+
+.create-payment-input {
+    padding-inline: 0.5vw;
+    padding-block: 0.25vh;
+    margin-bottom: 0.5vh;
+}
+
+.create-payment-form-btn {
+    padding: 0.25rem;
+}
+
 @media screen and (min-width: 1820px) {
     .add-form-container {
         margin-left: 0%;

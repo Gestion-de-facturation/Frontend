@@ -15,7 +15,7 @@ type ConfirmModalProps = {
 export default function ConfirmModal({ title, message,confirmBtn, cancelBtn, onConfirm, onCancel }: ConfirmModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-md h-40 modal">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-md h-42 modal">
         {title && <h2 className="text-xl font-semibold text-[#14446c] mb-4 ">{title}</h2>}
         <p className="text-gray-700 mb-6 mts">{message}</p>
         <div className="flex justify-end gap-4 mts modal-btn-container">
