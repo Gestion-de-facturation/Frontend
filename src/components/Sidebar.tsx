@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import { LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { TbClipboardList } from "react-icons/tb";
 import { RxDashboard } from "react-icons/rx";
-import { MdReceiptLong } from "react-icons/md";
+import { MdReceiptLong, MdOutlinePayment } from "react-icons/md";
 import '@/styles/sidebar.css';
 import "@/styles/button.css";
 
@@ -113,6 +113,18 @@ export default function Sidebar() {
                             title={isMinimized ? "Commandes" : ""}>
                             <MdReceiptLong className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
                             <span className="sidebar-links-title-mt">{!isMinimized && "Commandes"}</span>
+                        </Link>
+                    </li>
+                </div>
+                <div className='sidebar-links'>
+                    <li>
+                        <Link
+                            href="/dashboard/payment_methods"
+                            className={`flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08] ${pathname === "/dashboard/payment_methods" ? 'text-[#f18c08]' : 'text-[#14446c]'
+                                }`}
+                            title={isMinimized ? "Modes Paiement" : ""}>
+                            <MdOutlinePayment className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
+                            <span className="sidebar-links-title-mt">{!isMinimized && "Modes Paiement"}</span>
                         </Link>
                     </li>
                 </div>

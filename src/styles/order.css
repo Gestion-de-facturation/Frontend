@@ -63,7 +63,7 @@
     padding-bottom: 2vh;
 }
 
-.order-btn{
+.order-btn {
     margin-left: 80%;
 }
 
@@ -115,4 +115,19 @@
 
 .dashboard-title {
     margin-left: 2%;
+}
+
+.payment-method-content {
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+}
+
+.payment-method-content:hover {
+    background-color: #14446c;
+    color: #ffffff;
+}
+
+.payments-desc-list {
+    margin-top: 2vh;
+    margin-inline: 5vw;
 }
