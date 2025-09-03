@@ -135,18 +135,19 @@
     margin-top: -70vh;
 }
 
-.create-payment-method-form {
+.create-payment-method-form, .update-payment-method-form {
     padding-inline: 2rem;
     padding-block: 1rem;
+    margin-bottom: 1vh;
 }
 
-.create-payment-input {
+.create-payment-input, .update-payment-input {
     padding-inline: 0.5vw;
     padding-block: 0.25vh;
     margin-bottom: 0.5vh;
 }
 
-.create-payment-form-btn {
+.create-payment-form-btn, .update-payment-form-btn {
     padding: 0.25rem;
 }
 

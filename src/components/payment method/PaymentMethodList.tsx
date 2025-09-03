@@ -6,10 +6,12 @@ import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 import { LuArchiveX } from "react-icons/lu";
 import { FiTrash } from "react-icons/fi";
+import { TbPencil } from "react-icons/tb";
 import toast from "react-hot-toast";
 import ConfirmModal from "../modals/ConfirmModal";
 import CreatePaymentMethodForm from "./CreatePaymentMethodForm";
 import '@/styles/order.css';
+import UpdatePaymentMethod from "./UpdatePaymentMethod";
 
 type PaymentMethod = {
     id: string;
@@ -22,10 +24,14 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function PaymentMethodList() {
     const [methods, setMethods] = useState<PaymentMethod[]>([]);
+    const [methodToDelete, setMethodToDelete] = useState<PaymentMethod | null>(null);
+    const [methodToEdit, setMethodToEdit] = useState<PaymentMethod | null>(null);
     const [openId, setOpenId] = useState<string | null>(null);
     const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
     const [showForm, setShowForm] = useState(false);
+    const [showUpdateForm, setShowUpdateForm] = useState(false);
     const [selectedDescription, setSelectedDescription] = useState<{ id: string; contenu: string; idMode: string } | null>(null);
+    const [editId, setEditId] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchPaymentMethods = async () => {
@@ -80,7 +86,7 @@ export default function PaymentMethodList() {
     }
 
     return (
-        <div className="flex invoice-container border border-[#cccccc] gap-2 pg w-[44%]  rounded-lg shadow-lg payment-method-container">
+        <div className="flex gap-6 invoice-container border border-[#cccccc] gap-2 pg w-[44%]  rounded-lg shadow-lg payment-method-container">
             <div className="w-[40vw] min-w-[35vw]">
                 <div className="flex gap-4">
                     <h2 className="text-2xl font-bold">Liste des modes de paiement</h2>
@@ -105,6 +111,16 @@ export default function PaymentMethodList() {
                                     <h3 className='text-xl'>{method.nom}</h3>
                                     <div className="flex gap-2 justify-between">
                                         <button
+                                            onClick={() => {
+                                                setMethodToEdit(method);
+                                                setEditId(method.id);
+                                                setShowUpdateForm(true);
+                                            }}
+                                            className={`cursor-pointer hover:text-[#f18c08]  ${editId === method.id && showUpdateForm === true ? "text-[#f18c08]" : ""}`}
+                                        >
+                                            <TbPencil size={23} className="hover:h-8 hover:w-8" />
+                                        </button>
+                                        <button
                                             onClick={() => toggleDescriptions(method.id)}
                                             className={`cursor-pointer hover:text-[#f18c08]`}
                                             title="Développer"
@@ -116,7 +132,7 @@ export default function PaymentMethodList() {
                                             )}
                                         </button>
                                         <button
-                                            onClick={() => setSelectedMethod(method)}
+                                            onClick={() => setMethodToDelete(method)}
                                             title="Supprimer"
                                             className="cursor-pointer hover:text-[#f18c08]">
                                             <LuArchiveX
@@ -151,13 +167,13 @@ export default function PaymentMethodList() {
                     ))}
                 </div>
 
-                {selectedMethod && (
+                {methodToDelete && (
                     <ConfirmModal
                         title="Confirmation"
-                        message={`Voulez-vous vraiment supprimer le mode paiement "${selectedMethod.nom}"`}
+                        message={`Voulez-vous vraiment supprimer le mode paiement "${methodToDelete.nom}"`}
                         confirmBtn="Supprimer"
                         cancelBtn="Annuler"
-                        onConfirm={() => handleDelete(selectedMethod.id)}
+                        onConfirm={() => handleDelete(methodToDelete.id)}
                         onCancel={() => setSelectedMethod(null)}
                     />
                 )}
@@ -178,6 +194,19 @@ export default function PaymentMethodList() {
                     <CreatePaymentMethodForm
                         onClose={() => setShowForm(false)}
                         onAdd={(newMethod) => setMethods((prev) => [...prev, newMethod])}
+                    />
+                )}
+                {showUpdateForm && methodToEdit && (
+                    <UpdatePaymentMethod
+                        method={methodToEdit}
+                        onClose={() => {
+                            setShowUpdateForm(false)
+                            setSelectedMethod(null);
+                        }}
+                        onUpdate={(updatedMethod) => {
+                            setMethods((prev) =>
+                                prev.map((m) => (m.id === updatedMethod.id ? updatedMethod : m)))
+                        }}
                     />
                 )}
             </div>
