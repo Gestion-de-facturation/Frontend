@@ -132,7 +132,7 @@ export const handleUpdateOrder = async ({
 
             await axios.put(`${API_URL}/orders/order_and_products/${idCommande}`, payload);
 
-            toast.success(`Commande n°${idCommande} mise à jour avec succès !`);
+            toast.success(`Commande n°${reference} mise à jour avec succès !`);
             if (onSuccess) onSuccess();
 
             setProduits([{ nom: '', prixUnitaire: '', quantite: '', fromSuggestion: false }]);
