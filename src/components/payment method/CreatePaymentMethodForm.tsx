@@ -60,7 +60,10 @@ export default function CreatePaymentMethodForm({ onClose, onAdd }: Props) {
 
     return (
         <div className="bg-[#14446c] rounded-md text-white create-payment-method-form">
-            <div className="flex-column">
+            <div>
+                <h3 className="font-semibold text-lg">Ajout d'un mode de paiement</h3>
+            </div>
+            <div className="flex-column mts">
                 <label>Nom du mode de paiement</label>
                 <div>
                     <input
@@ -86,7 +89,7 @@ export default function CreatePaymentMethodForm({ onClose, onAdd }: Props) {
                         {index === descriptions.length - 1 && (
                             <button
                                 type="button"
-                                title="Ajouter un mode de paiement"
+                                title="Ajouter une description"
                                 onClick={addDescription}
                                 className="cursor-pointer">
                                 <IoMdAdd size={20} />
