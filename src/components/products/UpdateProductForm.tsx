@@ -43,8 +43,8 @@ export default function UpdateProductForm({ productId }: UpdateProductFormProps)
         const productToSend = {
             nom: product.nom,
             prixUnitaire: product.prixUnitaire,
-            idCategorie: product.categorie.id,
-            idFournisseur: product.fournisseur.id
+            categorieNom: product.categorie?.nom || "",
+            fournisseurNom: product.fournisseur?.nom || ""
         };
 
         console.log(`Product to send: ${JSON.stringify(productToSend, null, 2)}`);
