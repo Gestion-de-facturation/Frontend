@@ -45,7 +45,7 @@ export default function CategoryList() {
 
     const handleDelete = async (id: string) => {
         try {
-            await axios.patch(`${API_URL}/categories/categorie/delete/soft/${id}`, {
+            await axios.patch(`${API_URL}/categories/category/delete/soft/${id}`, {
                 isActive: false
             });
 
@@ -60,7 +60,7 @@ export default function CategoryList() {
     return (
         <div className="mts flex gap-6 invoice-container border border-[#cccccc] gap-2 pg w-[44%]  rounded-lg shadow-lg category-container">
             <div className="w-[40vw] min-w-[35vw]">
-                <div className="flex gap-4">
+                <div className="flex justify-between gap-4">
                     <h2 className="text-2xl font-bold mts">
                         Catégories
                     </h2>
