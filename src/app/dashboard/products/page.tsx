@@ -3,6 +3,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import ProductsList from '@/components/tables/ProductsList';
 import CategoryList from '@/components/products/categories/CategoryList';
+import SupplierList from '@/components/products/suppliers/SupplierList';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -22,8 +23,9 @@ export default function Dashboard() {
   return (
     <Suspense fallback={<div>Chargement...</div>}>
       <main className="p-6">
-        <ProductsList />
-        <CategoryList />
+          <ProductsList />
+          <CategoryList />
+          <SupplierList />
       </main>
     </Suspense>
   );

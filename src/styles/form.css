@@ -138,7 +138,9 @@
 .create-payment-method-form, 
 .update-payment-method-form,
 .create-category-form,
-.update-category-form {
+.create-supplier-form,
+.update-category-form,
+.update-supplier-form {
     padding-inline: 2rem;
     padding-block: 1rem;
     margin-bottom: 1vh;
@@ -147,7 +149,9 @@
 .create-payment-input, 
 .update-payment-input,
 .create-category-input,
-.update-category-input {
+.create-supplier-input,
+.update-category-input,
+.update-supplier-input {
     padding-inline: 0.5vw;
     padding-block: 0.25vh;
     margin-bottom: 0.5vh;
@@ -156,7 +160,9 @@
 .create-payment-form-btn, 
 .update-payment-form-btn,
 .create-category-form-btn,
-.update-category-form-btn {
+.create-supplier-form-btn,
+.update-category-form-btn,
+.update-supplier-form-btn {
     padding: 0.25rem;
 }
 

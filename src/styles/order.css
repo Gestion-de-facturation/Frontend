@@ -118,7 +118,7 @@
     margin-left: 2%;
 }
 
-.payment-method-content, .category-content {
+.payment-method-content, .category-content, .supplier-content {
     padding-inline: 1rem;
     padding-block: 0.5rem;
 }
@@ -135,6 +135,12 @@
 }
 
 .payment-method-container,
-.category-container {
+.category-container,
+.supplier-container {
     margin-bottom: 5vh;
+}
+
+.category-container,
+.supplier-container {
+    margin-left: 6%;
 }
