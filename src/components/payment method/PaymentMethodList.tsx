@@ -57,7 +57,7 @@ export default function PaymentMethodList() {
             });
 
             setMethods((prev) => prev.filter((m) => m.id !== id));
-            setSelectedMethod(null);
+            setMethodToDelete(null);
             toast.success('Mode paiement ajouté à la corbeille');
         } catch (error) {
             console.error("Erreur lors de la suppression: ", error);
@@ -174,7 +174,7 @@ export default function PaymentMethodList() {
                         confirmBtn="Supprimer"
                         cancelBtn="Annuler"
                         onConfirm={() => handleDelete(methodToDelete.id)}
-                        onCancel={() => setSelectedMethod(null)}
+                        onCancel={() => setMethodToDelete(null)}
                     />
                 )}
                 {selectedDescription && (
