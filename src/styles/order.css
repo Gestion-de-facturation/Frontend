@@ -56,7 +56,8 @@
     margin-left: 1vw;
 }
 
-.productlist-section {
+.productlist-section,
+.category-list-section {
     height: max-content;
     margin-inline: 5%;
     padding-inline: 2vw;
@@ -117,12 +118,13 @@
     margin-left: 2%;
 }
 
-.payment-method-content {
+.payment-method-content, .category-content {
     padding-inline: 1rem;
     padding-block: 0.5rem;
 }
 
-.payment-method-content:hover {
+.payment-method-content:hover,
+.category-content:hover {
     background-color: #14446c;
     color: #ffffff;
 }
@@ -132,6 +134,7 @@
     margin-inline: 5vw;
 }
 
-.payment-method-container {
+.payment-method-container,
+.category-container {
     margin-bottom: 5vh;
 }

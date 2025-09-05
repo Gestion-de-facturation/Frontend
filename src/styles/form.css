@@ -135,19 +135,28 @@
     margin-top: -70vh;
 }
 
-.create-payment-method-form, .update-payment-method-form {
+.create-payment-method-form, 
+.update-payment-method-form,
+.create-category-form,
+.update-category-form {
     padding-inline: 2rem;
     padding-block: 1rem;
     margin-bottom: 1vh;
 }
 
-.create-payment-input, .update-payment-input {
+.create-payment-input, 
+.update-payment-input,
+.create-category-input,
+.update-category-input {
     padding-inline: 0.5vw;
     padding-block: 0.25vh;
     margin-bottom: 0.5vh;
 }
 
-.create-payment-form-btn, .update-payment-form-btn {
+.create-payment-form-btn, 
+.update-payment-form-btn,
+.create-category-form-btn,
+.update-category-form-btn {
     padding: 0.25rem;
 }
 
