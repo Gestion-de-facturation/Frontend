@@ -1,7 +1,7 @@
 'use client'
 
 import InvoicesList from "@/components/tables/InvoicesList";
-import PaymentMethodList from "@/components/payment method/PaymentMethodList";
+import PaymentMethodList from "@/app/payment method/PaymentMethodList";
 
 export default function Invoices() {
     return(

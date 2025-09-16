@@ -13,8 +13,8 @@ export default function ProductDetails({ product, onChange }: Props) {
             <h2 className="text-xl font-bold">Détails du produit</h2>
             <div className="flex justify-between">
                 <ProductDetailsContent name="nom" label="Nom du produit" value={product.nom} onChange={onChange} />
-                <ProductDetailsContent name="categorie" label="Catégorie" value={product.categorie.nom} onChange={onChange} />
-                <ProductDetailsContent name="fournisseur" label="Fournisseur" value={product.fournisseur.nom} onChange={onChange} />
+                <ProductDetailsContent name="categorie.nom" label="Catégorie" value={product.categorie.nom} onChange={onChange} />
+                <ProductDetailsContent name="fournisseur.nom" label="Fournisseur" value={product.fournisseur.nom} onChange={onChange} />
             </div>
             <div>
                 <label className="block font-medium product-modif-content-mt">Prix unitaire</label>

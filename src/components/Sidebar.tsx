@@ -8,7 +8,9 @@ import toast from 'react-hot-toast';
 import { LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { TbClipboardList } from "react-icons/tb";
 import { RxDashboard } from "react-icons/rx";
-import { MdReceiptLong, MdOutlinePayment } from "react-icons/md";
+import { MdReceiptLong } from "react-icons/md";
+import { PiListChecksLight } from "react-icons/pi";
+
 import '@/styles/sidebar.css';
 import "@/styles/button.css";
 
@@ -110,9 +112,21 @@ export default function Sidebar() {
                             href="/dashboard/invoices"
                             className={`flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08] ${pathname === "/dashboard/invoices" ? 'text-[#f18c08]' : 'text-[#14446c]'
                                 }`}
-                            title={isMinimized ? "Commandes" : ""}>
+                            title={isMinimized ? "Devis" : ""}>
                             <MdReceiptLong className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
-                            <span className="sidebar-links-title-mt">{!isMinimized && "Commandes"}</span>
+                            <span className="sidebar-links-title-mt">{!isMinimized && "Devis"}</span>
+                        </Link>
+                    </li>
+                </div>
+                <div className='sidebar-links'>
+                    <li>
+                        <Link
+                            href="/dashboard/bo"
+                            className={`flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08] ${pathname === "/dashboard/bo" ? 'text-[#f18c08]' : 'text-[#14446c]'
+                                }`}
+                            title={isMinimized ? "Commandes BO" : ""}>
+                            <PiListChecksLight className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
+                            <span className="sidebar-links-title-mt">{!isMinimized && "Commandes BO"}</span>
                         </Link>
                     </li>
                 </div>
