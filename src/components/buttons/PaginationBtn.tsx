@@ -1,8 +1,9 @@
 import { Order } from "@/utils/types/orderList";
 import { Table } from "@tanstack/react-table";
+import { PsOrder } from "../prestashop/PsOrder";
 
 type PaginationProps = {
-    table: Table<Order>;
+    table: Table<Order> | Table<PsOrder>;
 }
 
 export const PaginationBtn = ({table} : PaginationProps) => {

@@ -1,4 +1,4 @@
-import PaymentMethodList from "@/components/payment method/PaymentMethodList";
+import PaymentMethodList from "@/app/payment method/PaymentMethodList";
 
 export default function PaymentMethods() {
     return (

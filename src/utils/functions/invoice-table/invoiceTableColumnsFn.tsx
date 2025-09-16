@@ -2,11 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import { Order } from '@/utils/types/orderList';
-import { handleDownload } from '@/utils/handlers/order-list/handleDownload';
 import { LiaEye, LiaEdit } from "react-icons/lia";
-import { MdOutlineFileDownload, MdOutlineDeleteOutline } from "react-icons/md";
-import DeliveryStatusSelect from '@/components/buttons/DeliveryStatusSelect';
-import PaymentStatusSelect from '@/components/buttons/PaymentStatusSelect';
+import {  MdOutlineDeleteOutline } from "react-icons/md";
 import '@/styles/order.css';
 import Link from 'next/link';
 import InvoiceListDownloadBtn from '@/components/buttons/InvoiceListDownloadBtn';
@@ -27,7 +24,8 @@ export const invoiceTableColumnsFn = (
                     return adresseLivraison.substring(0, 51);
                 }
                 return adresseLivraison;
-            }
+            },
+            size: 250
         },
         {
             header: 'Adresse Facturation', accessorKey: 'adresse_facturation',
@@ -37,7 +35,8 @@ export const invoiceTableColumnsFn = (
                     return adresseFacturation.substring(0, 51);
                 }
                 return adresseFacturation;
-            }
+            },
+            size: 250
         },
         {
             header: 'Date', accessorKey: 'date',
@@ -58,7 +57,7 @@ export const invoiceTableColumnsFn = (
                     return rowDate <= endDate;
                 }
                 return true;
-            }
+            },
         },
         {
             header: 'Total', accessorKey: 'total',
@@ -67,7 +66,7 @@ export const invoiceTableColumnsFn = (
                 return (
                     <p className='whitespace-nowrap'>{total} Ar</p>
                 )
-            }
+            },
         },
         {
             header: 'Mode de paiement', accessorKey: 'paiements',
@@ -79,29 +78,7 @@ export const invoiceTableColumnsFn = (
                     return <p>{mode}</p>
                 }
                 return <p>_</p>
-            }
-        },
-        {
-            header: 'Livraison', accessorKey: 'statut_livraison',
-            cell: ({ row }) => {
-                const statut = row.getValue('statut_livraison') as string;
-                const idCommande = row.original.id;
-
-                return (
-                    <DeliveryStatusSelect idCommande={idCommande} statutActuel={statut} />
-                );
-            }
-        },
-        {
-            header: 'Paiement', accessorKey: 'statut_paiement',
-            cell: ({ row }) => {
-                const statut = row.getValue('statut_paiement') as string;
-                const idCommande = row.original.id;
-
-                return (
-                    <PaymentStatusSelect idCommande={idCommande} statutActuel={statut} />
-                )
-            }
+            },
         },
         {
             header: 'Type', accessorKey: 'order_type',
@@ -120,7 +97,7 @@ export const invoiceTableColumnsFn = (
                         </div>
                     )
                 }
-            }
+            },
         },
         {
             header: 'Actions',

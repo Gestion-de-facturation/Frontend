@@ -4,22 +4,20 @@ import { useEffect, useState } from 'react';
 import {
     getCoreRowModel,
     getFilteredRowModel,
+    getSortedRowModel,
     useReactTable,
     getPaginationRowModel,
     flexRender
 } from '@tanstack/react-table';
-import { Order } from '@/utils/types/orderList';
-import { handleDeleteOrder } from '@/utils/handlers/order-list/handleDeleteConfirm';
-import { invoiceTableColumnsFn } from '@/utils/functions/invoice-table/invoiceTableColumnsFn';
 import { OrderSearch } from '../fields/search/OrderSearch';
 import { PaginationBtn } from '../buttons/PaginationBtn';
-import OrderDetails from '../orders/OrderDetails';
-import ConfirmModal from '../modals/ConfirmModal';
-import { OrderTypeFilter } from '../fields/search/OrderTypeFilter';
 import '@/styles/order.css';
+import { PsOrder } from './PsOrder';
+import { psInvoiceTableColumnsFn } from './psInvoiceTableColumnsFn';
+import PsOrderDetails from './PsOrderDetails';
 
 type Props = {
-    data: Order[];
+    data: PsOrder[];
     mutate: () => void;
     globalFilter: string;
     setGlobalFilter: (val: string) => void;
@@ -27,7 +25,7 @@ type Props = {
     setPagination: (val: any) => void;
 };
 
-export default function InvoiceTable({
+export default function PsInvoiceTable({
     data,
     mutate,
     globalFilter,
@@ -36,21 +34,14 @@ export default function InvoiceTable({
     setPagination,
 }: Props) {
     const [selectedCommandeId, setSelectedCommandeId] = useState<string | null>(null);
-    const [showConfirm, setShowConfirm] = useState(false);
-    const [deleteId, setDeleteId] = useState<string | null>(null);
     const [columnFilters, setColumnFilters] = useState<any[]>([]);
 
-    const handleDeleteConfirm = async () => {
-        handleDeleteOrder({ deleteId, mutate, setShowConfirm, setDeleteId });
-    }
-
-    const columns = invoiceTableColumnsFn(setSelectedCommandeId, setDeleteId, setShowConfirm);
+    const columns = psInvoiceTableColumnsFn(setSelectedCommandeId);
 
     const [dateRange, setDateRange] = useState<{ start: string; end: string }>({
         start: "",
         end: "",
     });
-
 
     const table = useReactTable({
         data,
@@ -61,20 +52,24 @@ export default function InvoiceTable({
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
         globalFilterFn: 'includesString',
+        initialState: {
+            sorting: [{id: 'date_add', desc: true}]
+        }
     });
 
     useEffect(() => {
         if (dateRange.start || dateRange.end) {
             setColumnFilters((prev) => [
-                ...prev.filter(f => f.id !== 'date'),
+                ...prev.filter(f => f.id !== 'date_add'),
                 {
-                    id: 'date',
+                    id: 'date_add',
                     value: dateRange
                 }
             ]);
         } else {
-            setColumnFilters((prev) => prev.filter(f => f.id !== 'date'));
+            setColumnFilters((prev) => prev.filter(f => f.id !== 'date_add'));
         }
     }, [dateRange]);
 
@@ -82,10 +77,6 @@ export default function InvoiceTable({
         <div className='invoices'>
             <div className="flex gap-2 w-full">
                 <OrderSearch globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} setDateRange={setDateRange} />
-                <OrderTypeFilter onChange={(value) => setColumnFilters([
-                    ...columnFilters.filter(f => f.id !== 'order_type'),
-                    value ? { id: 'order_type', value } : null,
-                ].filter(Boolean))} />
             </div>
 
             <table className='border w-full mts h-64'>
@@ -119,20 +110,7 @@ export default function InvoiceTable({
             <PaginationBtn table={table} />
 
             {selectedCommandeId && (
-                <OrderDetails orderId={selectedCommandeId} onClose={() => setSelectedCommandeId(null)} />
-            )}
-            {showConfirm && (
-                <ConfirmModal
-                    title="Confirmer l'archivage de la commande"
-                    message="Voulez-vous vraiment archiver cette commande ?"
-                    confirmBtn='Archiver'
-                    cancelBtn='Annuler'
-                    onConfirm={handleDeleteConfirm}
-                    onCancel={() => {
-                        setShowConfirm(false);
-                        setDeleteId(null);
-                    }}
-                />
+                <PsOrderDetails orderId={Number(selectedCommandeId)} onClose={() => setSelectedCommandeId(null)} />
             )}
         </div>
     );

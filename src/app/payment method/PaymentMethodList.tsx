@@ -8,7 +8,7 @@ import { LuArchiveX } from "react-icons/lu";
 import { FiTrash } from "react-icons/fi";
 import { TbPencil } from "react-icons/tb";
 import toast from "react-hot-toast";
-import ConfirmModal from "../modals/ConfirmModal";
+import ConfirmModal from "../../components/modals/ConfirmModal";
 import CreatePaymentMethodForm from "./CreatePaymentMethodForm";
 import '@/styles/order.css';
 import UpdatePaymentMethod from "./UpdatePaymentMethod";
