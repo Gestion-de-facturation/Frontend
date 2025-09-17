@@ -63,6 +63,7 @@ export default function UpdateOrderForm({ commandeId }: Props) {
           statutPaiement: commande.statut_paiement,
           orderType: commande.order_type,
           echeance: commande.echeance,
+          delai: commande.delai,
           fraisDeLivraison: commande.frais_de_livraison?.toString() || '0',
           produits: commande.commandeProduits.map((p: any) => ({
             nom: p.produit.nom,
