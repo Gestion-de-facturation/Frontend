@@ -51,6 +51,7 @@ export default function OrderForm<T extends BaseOrderParams>({
   const [statutPaiement, setStatutPaiement] = useState(initialValues.statutPaiement || 'en_attente');
   const [orderType, setOrderType] = useState(initialValues.orderType || 'devis');
   const [echeance, setEcheance] = useState(initialValues.echeance || 0);
+  const [delai, setDelai] = useState(initialValues.delai || 0);
 
   const [idCommande, setIdCommande] = useState(initialValues?.idCommande || '');
   const [reference, setReference] = useState(initialValues?.reference || '');
@@ -94,6 +95,7 @@ export default function OrderForm<T extends BaseOrderParams>({
         statutPaiement,
         orderType,
         echeance,
+        delai,
         modePaiement,
         setProduits,
         setSuggestions,
@@ -107,6 +109,7 @@ export default function OrderForm<T extends BaseOrderParams>({
             setStatutPaiement('en_attente');
             setOrderType('devis');
             setEcheance(0);
+            setDelai(0);
             setModePaiement(null);
           },
         setConfirmModal,
@@ -136,6 +139,7 @@ export default function OrderForm<T extends BaseOrderParams>({
       setStatutPaiement,
       setOrderType,
       setEcheance,
+      setDelai,
       setFraisDeLivraison,
       setDate
     );
@@ -149,6 +153,7 @@ export default function OrderForm<T extends BaseOrderParams>({
     setStatutPaiement('');
     setOrderType('');
     setEcheance(0);
+    setDelai(0);
     setFraisDeLivraison('');
     setDate('');
     setIdCommande('');
@@ -183,6 +188,9 @@ export default function OrderForm<T extends BaseOrderParams>({
           setEcheance={setEcheance}
           optionsLivraison={optionsLivraison}
           optionsPaiement={optionsPaiement} 
+          orderType={orderType}
+          delai={delai}
+          setDelai={setDelai}
           />
 
         <OrderAddresses
