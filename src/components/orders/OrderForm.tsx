@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Produit } from '@/utils/types/create';
 import { optionsLivraison, optionsPaiement, optionsType } from '@/utils/types/order-form/Options';
 import { BaseOrderParams } from '@/utils/types/BaseOrderParams';
@@ -75,6 +75,60 @@ export default function OrderForm<T extends BaseOrderParams>({
     onCancel: () => { },
   });
 
+  useEffect(() => {
+    const saved = localStorage.getItem("orderFormData");
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.adresseLivraison) setAdresseLivraison(data.adresseLivraison);
+      if (data.adresseFacturation) setAdresseFacturation(data.adresseFacturation);
+      if (data.produits) setProduits(data.produits);
+      if (data.fraisDeLivraison) setFraisDeLivraison(data.fraisDeLivraison);
+      if (data.statutLivraison) setStatutLivraison(data.statutLivraison);
+      if (data.statutPaiement) setStatutPaiement(data.statutPaiement);
+      if (data.orderType) setOrderType(data.orderType);
+      if (data.echeance) setEcheance(data.echeance);
+      if (data.delai) setDelai(data.delai);
+      if (data.modePaiement) setModePaiement(data.modePaiement);
+      if (data.idCommande) setIdCommande(data.idCommande);
+      if (data.reference) setReference(data.reference);
+      if (data.date) setDate(data.date);
+    }
+  }, []);
+
+  useEffect(() => {
+    const data = {
+      adresseLivraison,
+      adresseFacturation,
+      produits,
+      fraisDeLivraison,
+      statutLivraison,
+      statutPaiement,
+      orderType,
+      echeance,
+      delai,
+      modePaiement,
+      idCommande,
+      reference,
+      date
+    };
+    localStorage.setItem("orderFormData", JSON.stringify(data));
+  }, [
+    adresseLivraison,
+    adresseFacturation,
+    produits,
+    fraisDeLivraison,
+    statutLivraison,
+    statutPaiement,
+    orderType,
+    echeance,
+    delai,
+    modePaiement,
+    idCommande,
+    reference,
+    date
+  ]);
+
+
   const addProduct = () => {
     addProductFn(produits, setProduits);
   };
@@ -121,6 +175,8 @@ export default function OrderForm<T extends BaseOrderParams>({
     } finally {
       hide();
     }
+
+    localStorage.removeItem("orderFormData");
   };
 
   const removeProduct = (index: number) => {
@@ -158,6 +214,7 @@ export default function OrderForm<T extends BaseOrderParams>({
     setDate('');
     setIdCommande('');
     setReference('');
+    localStorage.removeItem("orderFormData");
   }
 
   return (
@@ -187,11 +244,11 @@ export default function OrderForm<T extends BaseOrderParams>({
           echeance={echeance}
           setEcheance={setEcheance}
           optionsLivraison={optionsLivraison}
-          optionsPaiement={optionsPaiement} 
+          optionsPaiement={optionsPaiement}
           orderType={orderType}
           delai={delai}
           setDelai={setDelai}
-          />
+        />
 
         <OrderAddresses
           adresseLivraison={adresseLivraison}
@@ -212,7 +269,7 @@ export default function OrderForm<T extends BaseOrderParams>({
         />
 
         {/* Méthode de paiement */}
-        <PaymentMethod onChange={setModePaiement} value={modePaiement}/>
+        <PaymentMethod onChange={setModePaiement} value={modePaiement} />
 
         {/* Frais de livraison */}
         <OrderDeliveryCost
