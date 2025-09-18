@@ -14,7 +14,10 @@ type StatutsProps = {
     setStatutLivraison: (val: string) => void;
     statutPaiement: string;
     echeance: number;
+    orderType: string;
+    delai: number;
     setEcheance: (val: number) => void;
+    setDelai: (val: number) => void;
     setStatutPaiement: (val: string) => void;
     optionsLivraison: Option[];
     optionsPaiement: Option[];
@@ -26,7 +29,10 @@ export default function OrderStatus({
     statutPaiement,
     setStatutPaiement,
     echeance,
+    orderType,
+    delai,
     setEcheance,
+    setDelai,
     optionsLivraison,
     optionsPaiement
 }: StatutsProps) {
@@ -74,6 +80,21 @@ export default function OrderStatus({
                             onChange={(e) => setEcheance(Number(e.target.value))}
                             className='border rounded border-[#cccccc] w-24  echeance-input' />
                         <span className='echeance-span'> {echeance > 1 ? `jours` : `jour`} </span>
+                    </div>
+                </div>
+            }
+            {
+                orderType === "devis" &&
+                <div className="flex gap-2 mts delivery-status-container">
+                    <label className="block font-medium status-label">Délai devis: </label>
+                    <div className='flex gap-2'>
+                        <input
+                            id='delai'
+                            type="number"
+                            value={delai}
+                            onChange={(e) => setDelai(Number(e.target.value))}
+                            className='border rounded border-[#cccccc] w-24  echeance-input' />
+                        <span className='echeance-span'> {delai > 1 ? `jours` : `jour`} </span>
                     </div>
                 </div>
             }

@@ -10,6 +10,7 @@ type SearchOrderResult = {
   statutPaiement: string;
   orderType: string;
   echeance: number;
+  delai: number;
   fraisDeLivrason: string;
   date: string;
 } | null;
@@ -24,6 +25,7 @@ export const handleSearchOrderFn = async (
   setStatutPaiement: (value: string) => void,
   setOrderType: (value: string) => void,
   setEcheance: (value: number) => void,
+  setDelai: (value: number) => void,
   setFraisDeLivraison: (value: string) => void,
   setDate: (value: string) => void
 ) => {
@@ -38,6 +40,7 @@ export const handleSearchOrderFn = async (
     setStatutPaiement(data.statutPaiement);
     setOrderType(data.orderType);
     setEcheance(data.echeance);
+    setDelai(data.delai);
     setFraisDeLivraison(data.fraisDeLivrason);
     setDate(data.date?.split("T")[0] || "");
   } else {

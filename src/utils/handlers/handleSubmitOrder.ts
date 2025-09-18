@@ -14,6 +14,7 @@ export const handleSubmitOrder = async ({
   statutPaiement,
   orderType,
   echeance,
+  delai,
   fraisDeLivraison,
   modePaiement,
   setProduits,
@@ -30,6 +31,7 @@ export const handleSubmitOrder = async ({
   statutPaiement: string;
   orderType: string;
   echeance: number;
+  delai: number;
   fraisDeLivraison: string;
   modePaiement: ModePaiementPayload | null;
   setProduits: (p: any[]) => void;
@@ -103,6 +105,7 @@ export const handleSubmitOrder = async ({
                 statutPaiement,
                 orderType,
                 echeance,
+                delai,
                 fraisDeLivraison,
                 modePaiement,
                 setProduits,
@@ -180,6 +183,7 @@ export const handleSubmitOrder = async ({
       statut_paiement: statutPaiement,
       order_type: orderType,
       echeance: echeance,
+      delai: delai,
       frais_de_livraison: Number(fraisDeLivraison || 0),
       produitsExistants,
       produitsNouveaux,
