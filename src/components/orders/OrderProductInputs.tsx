@@ -66,7 +66,7 @@ export default function OrderProductInputs({
                     <input
                         type="text"
                         placeholder="Prix"
-                        value={formatPrice(p.prixUnitaire)}
+                        value={p.prixUnitaire ? formatPrice(p.prixUnitaire) : ""}
                         onChange={(e) => setProduits((prev) =>
                             prev.map((item, i) => i === index ? { ...item, prixUnitaire: e.target.value.replace(/\s/g, '') } : item)
                         )}
@@ -74,7 +74,7 @@ export default function OrderProductInputs({
                     <input
                         type="text"
                         placeholder="Quantité"
-                        value={formatPrice(p.quantite)}
+                        value={p.quantite ? formatPrice(p.quantite) : ""}
                         onChange={(e) => setProduits((prev) =>
                             prev.map((item, i) => i === index ? { ...item, quantite: e.target.value.replace(/\s/g, '') } : item)
                         )}
