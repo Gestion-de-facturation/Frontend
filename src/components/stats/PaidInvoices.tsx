@@ -117,7 +117,7 @@ export default function PaidInvoices() {
 
     return (
         <StatsCard
-            title={"Factures payées"}
+            title={"Commandes payées"}
             icon={<MdOutlinePaid size={20} />}
             content={total !== null ? `${total}` : 'chargement'}
             percentage={percentage !== null ? `${percentage >= 0 ? "+" : ""}${percentage.toFixed(2)}%` : "chargement..."} />

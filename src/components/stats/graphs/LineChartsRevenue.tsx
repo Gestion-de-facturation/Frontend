@@ -64,7 +64,7 @@ export const LineChartsRevenue = () => {
 
   return (
     <div className='border border-[#cccccc] rounded-md shadow-md hover:shadow-xl line-chart-container'>
-      <h2 className='font-bold text-xl'>Revenue par mois</h2>
+      <h2 className='font-bold text-xl'>Revenu par mois</h2>
       <LineChart
         width={600}
         height={300}
@@ -73,9 +73,9 @@ export const LineChartsRevenue = () => {
         className='mts'
       >
         <CartesianGrid stroke='none' />
-        <Line type="monotone" dataKey="revenue" stroke="#14446c" strokeWidth={2} />
+        <Line type="monotone" dataKey="revenu" stroke="#14446c" strokeWidth={2} />
         <XAxis dataKey="name" />
-        <YAxis width="auto" label={{ value: 'Revenue', position: 'insideLeft', angle: -90 }} />
+        <YAxis width="auto" label={{ value: 'Revenu', position: 'insideLeft', angle: -90 }} />
         <Legend align="right" />
       </LineChart>
     </div>
