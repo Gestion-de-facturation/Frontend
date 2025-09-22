@@ -18,7 +18,7 @@ type Order = {
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export const LineChartsRevenue = () => {
-  const [data, setData] = useState<{ name: string; revenue: number }[]>([]);
+  const [data, setData] = useState<{ name: string; revenu: number }[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,9 +48,9 @@ export const LineChartsRevenue = () => {
         });
 
         // Construire le tableau pour Recharts
-        const chartData = revenueByMonth.map((revenue, index) => ({
+        const chartData = revenueByMonth.map((revenu, index) => ({
           name: monthNames[index],
-          revenue,
+          revenu,
         }));
 
         setData(chartData);
