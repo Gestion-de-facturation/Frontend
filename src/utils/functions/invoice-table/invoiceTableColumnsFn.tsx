@@ -7,6 +7,7 @@ import {  MdOutlineDeleteOutline } from "react-icons/md";
 import '@/styles/order.css';
 import Link from 'next/link';
 import InvoiceListDownloadBtn from '@/components/buttons/InvoiceListDownloadBtn';
+import { formatPrice } from '../formatPrice';
 
 export const invoiceTableColumnsFn = (
     setSelectedCommandeId: (val: string) => void,
@@ -64,7 +65,7 @@ export const invoiceTableColumnsFn = (
             cell: ({ getValue }) => {
                 const total = getValue<number>();
                 return (
-                    <p className='whitespace-nowrap'>{total} Ar</p>
+                    <p className='whitespace-nowrap'>{formatPrice(total)} Ar</p>
                 )
             },
         },

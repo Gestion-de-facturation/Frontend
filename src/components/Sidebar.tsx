@@ -112,9 +112,9 @@ export default function Sidebar() {
                             href="/dashboard/invoices"
                             className={`flex text-[#14446c]  text-lg side-bar-content hover:text-[#f18c08] ${pathname === "/dashboard/invoices" ? 'text-[#f18c08]' : 'text-[#14446c]'
                                 }`}
-                            title={isMinimized ? "Devis" : ""}>
+                            title={isMinimized ? "Factures/Devis" : ""}>
                             <MdReceiptLong className={`${isMinimized ? 'w-9 h-9 minimized-icon' : 'w-5 h-5'} link-icon`} />
-                            <span className="sidebar-links-title-mt">{!isMinimized && "Devis"}</span>
+                            <span className="sidebar-links-title-mt">{!isMinimized && "Factures/Devis"}</span>
                         </Link>
                     </li>
                 </div>
