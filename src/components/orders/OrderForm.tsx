@@ -76,6 +76,21 @@ export default function OrderForm<T extends BaseOrderParams>({
   });
 
   useEffect(() => {
+    if (mode === 'create') {
+      localStorage.removeItem('orderFormData');
+      setProduits([{ nom: '', prixUnitaire: '', quantite: '' }]);
+      setAdresseLivraison('');
+      setAdresseFacturation('');
+      setFraisDeLivraison('');
+      setStatutLivraison('en_cours');
+      setStatutPaiement('en_attente');
+      setOrderType('devis');
+      setEcheance(0);
+      setDelai(0);
+      setModePaiement(null);
+      return;
+    }
+
     const saved = localStorage.getItem("orderFormData");
     if (saved) {
       const data = JSON.parse(saved);
@@ -93,7 +108,7 @@ export default function OrderForm<T extends BaseOrderParams>({
       if (data.reference) setReference(data.reference);
       if (data.date) setDate(data.date);
     }
-  }, []);
+  }, [mode]);
 
   useEffect(() => {
     const data = {
