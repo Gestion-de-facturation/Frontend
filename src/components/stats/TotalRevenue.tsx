@@ -108,7 +108,7 @@ export default function TotalRevenue() {
 
   return (
     <StatsCard
-      title="Revenue totale"
+      title="Revenu total"
       icon={<GiReceiveMoney size={20} />}
       content={total !== null ? `${total.toLocaleString()} Ar` : "chargement..."}
       percentage={percentage !== null ? `${percentage >= 0 ? "+" : ""}${percentage.toFixed(2)}%` : "chargement..."}

@@ -104,7 +104,7 @@ export default function TotalInvoices() {
 
     return (
         <StatsCard
-            title={"Total des factures"}
+            title={"Total des commandes"}
             icon={<LiaFileInvoiceSolid size={20} />}
             content={total !== null ? `${total}` : 'chargement...'}
             percentage={percentage !== null ? `${percentage >= 0 ? "+" : ""}${percentage.toFixed(2)}%` : "chargement..."} />
