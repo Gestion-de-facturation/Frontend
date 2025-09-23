@@ -66,7 +66,7 @@ export default function OrderProductInputs({
                     <input
                         type="text"
                         placeholder="Prix"
-                        value={p.prixUnitaire ? formatPrice(p.prixUnitaire) : ""}
+                        value={p.prixUnitaire !== undefined && p.prixUnitaire !== null ? formatPrice(p.prixUnitaire) : ""}
                         onChange={(e) => setProduits((prev) =>
                             prev.map((item, i) => i === index ? { ...item, prixUnitaire: e.target.value.replace(/\s/g, '') } : item)
                         )}

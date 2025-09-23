@@ -76,42 +76,77 @@ export default function OrderForm<T extends BaseOrderParams>({
   });
 
   useEffect(() => {
-    const saved = localStorage.getItem("orderFormData");
-    if (saved) {
-      const data = JSON.parse(saved);
-      if (data.adresseLivraison) setAdresseLivraison(data.adresseLivraison);
-      if (data.adresseFacturation) setAdresseFacturation(data.adresseFacturation);
-      if (data.produits) setProduits(data.produits);
-      if (data.fraisDeLivraison) setFraisDeLivraison(data.fraisDeLivraison);
-      if (data.statutLivraison) setStatutLivraison(data.statutLivraison);
-      if (data.statutPaiement) setStatutPaiement(data.statutPaiement);
-      if (data.orderType) setOrderType(data.orderType);
-      if (data.echeance) setEcheance(data.echeance);
-      if (data.delai) setDelai(data.delai);
-      if (data.modePaiement) setModePaiement(data.modePaiement);
-      if (data.idCommande) setIdCommande(data.idCommande);
-      if (data.reference) setReference(data.reference);
-      if (data.date) setDate(data.date);
+    if (mode === 'update' && initialValues.produits) {
+      setProduits(initialValues.produits);
+      setAdresseLivraison(initialValues.adresseLivraison || '');
+      setAdresseFacturation(initialValues.adresseFacturation || '');
+      setFraisDeLivraison(initialValues.fraisDeLivraison || '');
+      setStatutLivraison(initialValues.statutLivraison || 'en_cours');
+      setStatutPaiement(initialValues.statutPaiement || 'en_attente');
+      setOrderType(initialValues.orderType || 'devis');
+      setEcheance(initialValues.echeance || 0);
+      setDelai(initialValues.delai || 0);
+      setModePaiement(initialValues.modePaiement || null);
+      setIdCommande(initialValues.idCommande || '');
+      setReference(initialValues.reference || '');
+      setDate(initialValues.date?.split('T')[0] ?? '');
+    } else {
+      const saved = localStorage.getItem("orderFormData");
+      if (saved) {
+        const data = JSON.parse(saved);
+        setProduits(data.produits || [{ nom: '', prixUnitaire: '', quantite: '' }]);
+        setAdresseLivraison(data.adresseLivraison || '');
+        setAdresseFacturation(data.adresseFacturation || '');
+        setFraisDeLivraison(data.fraisDeLivraison || '');
+        setStatutLivraison(data.statutLivraison || 'en_cours');
+        setStatutPaiement(data.statutPaiement || 'en_attente');
+        setOrderType(data.orderType || 'devis');
+        setEcheance(data.echeance || 0);
+        setDelai(data.delai || 0);
+        setModePaiement(data.modePaiement || null);
+        setIdCommande(data.idCommande || '');
+        setReference(data.reference || '');
+        setDate(data.date || '');
+      }
     }
-  }, []);
+  }, [
+    mode,
+    initialValues.produits,
+    initialValues.adresseLivraison,
+    initialValues.adresseFacturation,
+    initialValues.fraisDeLivraison,
+    initialValues.statutLivraison,
+    initialValues.statutPaiement,
+    initialValues.orderType,
+    initialValues.echeance,
+    initialValues.delai,
+    initialValues.modePaiement,
+    initialValues.idCommande,
+    initialValues.reference,
+    initialValues.date
+  ]);
 
+
+  // --- Sauvegarde automatique dans localStorage pour formulaire non enregistré ---
   useEffect(() => {
-    const data = {
-      adresseLivraison,
-      adresseFacturation,
-      produits,
-      fraisDeLivraison,
-      statutLivraison,
-      statutPaiement,
-      orderType,
-      echeance,
-      delai,
-      modePaiement,
-      idCommande,
-      reference,
-      date
-    };
-    localStorage.setItem("orderFormData", JSON.stringify(data));
+    if (mode === 'create') {
+      const data = {
+        adresseLivraison,
+        adresseFacturation,
+        produits,
+        fraisDeLivraison,
+        statutLivraison,
+        statutPaiement,
+        orderType,
+        echeance,
+        delai,
+        modePaiement,
+        idCommande,
+        reference,
+        date
+      };
+      localStorage.setItem("orderFormData", JSON.stringify(data));
+    }
   }, [
     adresseLivraison,
     adresseFacturation,
@@ -125,9 +160,9 @@ export default function OrderForm<T extends BaseOrderParams>({
     modePaiement,
     idCommande,
     reference,
-    date
+    date,
+    mode
   ]);
-
 
   const addProduct = () => {
     addProductFn(produits, setProduits);
